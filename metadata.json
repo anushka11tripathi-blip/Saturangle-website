@@ -1,0 +1,6 @@
+{
+  "name": "Saturangle - GLA Debate Club",
+  "description": "Where Opinions Are Challenged and Perspectives Are Refined. The official debate club of GLA University featuring interactive 3D debate arena, events, team roster, and registrations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
