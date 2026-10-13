@@ -19,6 +19,9 @@ import {
   Send,
   Sparkles,
   ChevronRight,
+  ChevronLeft,
+  ChevronDown,
+  ChevronUp,
   Sun,
   Moon,
   Mic,
@@ -27,50 +30,67 @@ import {
   Flame,
   Volume2,
   VolumeX,
-  Compass
+  Compass,
+  Filter,
+  GraduationCap,
+  ExternalLink,
+  User,
+  Quote,
+  PenTool,
+  CalendarCheck,
+  Code,
+  BookOpen,
+  Camera
 } from 'lucide-react';
 
-// --- DATA STRUCTURES ---
-interface EventItem {
+// --- DATA STRUCTURES & SCHEMAS ---
+
+export interface EventItem {
   id: number;
-  type: string;
+  status: 'upcoming' | 'past';
+  category: 'Parliamentary' | 'Workshop' | 'Town Hall' | 'Turncoat';
+  year: '2026' | '2025';
   title: string;
+  tagline: string;
   date: string;
   time: string;
   loc: string;
-  active: boolean;
-  tagline: string;
   desc: string;
   format: string;
-  seatsRemaining: number;
+  poster: string;
+  seatsRemaining?: number;
+  registrationOpen: boolean;
+  learnMoreUrl?: string;
 }
 
-interface Achievement {
-  year: string;
+export interface AchievementItem {
+  id: string;
+  category: string;
   title: string;
-  org: string;
-  desc: string;
+  period: string;
+  summary: string;
+  highlights: string[];
+  image: string;
+  badge: string;
 }
 
-interface Member {
+export interface MentorProfile {
+  name: string;
+  role: string;
+  department: string;
+  quote: string;
+  bio: string;
+}
+
+export interface Member {
   name: string;
   role: string;
   tag: string;
-  img: string;
-  bio: string;
   dept: string;
+  bio: string;
 }
 
-interface CouncilMember {
-  name: string;
-  designation: string;
-  mandate: string;
-  badge: string;
-  img: string;
-  quote: string;
-}
-
-interface GalleryItem {
+export interface GalleryItem {
   id: number;
   title: string;
   category: string;
@@ -79,206 +99,942 @@ interface GalleryItem {
   spanClass: string;
 }
 
+// 9-item navigation matching requested final section order
 const NAV_LINKS = [
   { name: 'Home', href: '#hero' },
   { name: 'About', href: '#about' },
-  { name: 'Sparring Arena', href: '#sparring-arena' },
   { name: 'Events', href: '#events' },
   { name: 'Achievements', href: '#achievements' },
   { name: 'Our Team', href: '#team' },
   { name: 'Core Council', href: '#core-council' },
+  { name: 'Our Teams', href: '#our-teams' },
   { name: 'Gallery', href: '#gallery' },
+  { name: 'Behind the Platform', href: '#platform-team' },
 ];
 
+// Exactly 4 editable event cards with names written exactly as requested:
+// 1. Youth Parliament, 2. Parley, 3. Battle of Bits, 4. Samvad
 const EVENTS_DATA: EventItem[] = [
   {
     id: 1,
-    type: 'Parliamentary Debate',
-    title: 'The Fallacy of Free Will',
-    date: 'Oct 24, 2026',
-    time: '2:30 PM – 5:45 PM',
-    loc: 'Auditorium Block A, GLA Campus',
-    active: true,
-    tagline: 'Determinism, Moral Accountability, and Artificial Decision-making in Modern Law',
-    desc: 'Our flagship inter-departmental parliamentary showdown dissecting whether human autonomy is an empirical reality or an evolutionary illusion.',
-    format: '3v3 Asian Parliamentary format (7-min constructive speeches, POIs active from min 1 to 6).',
-    seatsRemaining: 18,
+    status: 'upcoming',
+    category: 'Parliamentary',
+    year: '2026',
+    title: 'Youth Parliament',
+    tagline: 'Simulated Parliamentary Session & Youth Policy Discourse',
+    date: 'Upcoming • Schedule TBA',
+    time: 'Session Briefing TBA',
+    loc: 'GLA University Campus, Mathura',
+    desc: 'Placeholder description for Youth Parliament. A simulated legislative assembly focusing on policy drafting, constructive debate, and parliamentary procedures.',
+    format: 'Parliamentary simulation & moderated caucus debate format.',
+    poster: 'https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?auto=format&fit=crop&q=80&w=800',
+    seatsRemaining: 30,
+    registrationOpen: true,
   },
   {
     id: 2,
-    type: 'Masterclass Workshop',
-    title: 'Rhetoric & Rebuttal Techniques',
-    date: 'Nov 02, 2026',
-    time: '3:30 PM – 6:00 PM',
-    loc: 'Seminar Hall 3, Central Wing',
-    active: false,
-    tagline: 'Deconstructing Sophistry, Toulmin Argumentation & High-Pressure Cross-Examination',
-    desc: 'An intensive masterclass taught by national circuit adjudicators on detecting logical fallacies in real-time and executing surgically precise rebuttals.',
-    format: 'Interactive lecture followed by live 60-second turncoat rapid drills with instant feedback.',
-    seatsRemaining: 32,
+    status: 'upcoming',
+    category: 'Turncoat',
+    year: '2026',
+    title: 'Parley',
+    tagline: 'Bilateral Discourse & High-Energy Dialectic Duel',
+    date: 'Upcoming • Schedule TBA',
+    time: 'Session Briefing TBA',
+    loc: 'Academic Block Auditorium',
+    desc: 'Placeholder description for Parley. A high-energy bilateral debating face-off testing spontaneous argumentation, sharp rebuttals, and stage poise.',
+    format: '1v1 & 2v2 structured debate sparring format.',
+    poster: 'https://images.unsplash.com/photo-1475721025505-c31ebfa9b11c?auto=format&fit=crop&q=80&w=800',
+    seatsRemaining: 24,
+    registrationOpen: true,
   },
   {
     id: 3,
-    type: 'Open Floor Dialogue',
-    title: 'Perspectives: Unplugged',
-    date: 'Nov 15, 2026',
-    time: '4:00 PM – 6:30 PM',
-    loc: 'Student Central Amphitheatre',
-    active: false,
-    tagline: 'Unfiltered, Student-Led Discourse on Contemporary Culture & Society',
-    desc: 'An informal town-hall style gathering where motions are proposed live by the audience and debated spontaneously without pre-prepared briefs.',
-    format: 'Town-hall moderation with open floor microphones and 3-minute rotational speaking rounds.',
-    seatsRemaining: 45,
-  },
-];
-
-const ACHIEVEMENTS_DATA: Achievement[] = [
-  {
+    status: 'past',
+    category: 'Workshop',
     year: '2025',
-    title: 'National Parliamentary Debate Champions',
-    org: 'Debate Council of India',
-    desc: 'Secured first place among 120 participating universities in the prestigious National Inter-Collegiate Parliamentary Championship.',
-  },
-  {
-    year: '2025',
-    title: 'Best Adjudicator Award',
-    org: 'Asian Debate Summit',
-    desc: 'Awarded to our senior council member for exceptional objectivity, feedback clarity, and speaker scoring rigor.',
-  },
-  {
-    year: '2024',
-    title: 'Runners Up - Model UN',
-    org: 'Global Youth Forum',
-    desc: 'Outstanding delegation award in the simulated UN Security Council crisis committee after 18 hours of round-the-clock diplomacy.',
-  },
-  {
-    year: '2024',
-    title: 'Best Orator - State Level',
-    org: 'Inter-University LitFest',
-    desc: 'Highest cumulative individual speaker points secured by our club president against 80+ regional competitors.',
-  },
-];
-
-const TEAM_MEMBERS: Member[] = [
-  {
-    name: 'Aarav Sharma',
-    role: 'Parliamentary Debate Lead',
-    tag: 'Lead Speaker',
-    dept: 'Computer Science, Final Year',
-    img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600',
-    bio: '14+ national podium finishes in 3v3 Asian Parliamentary formats. Trains novices on matter loading and rebuttal speed.',
-  },
-  {
-    name: 'Ananya Deshmukh',
-    role: 'Rhetoric & Research Lead',
-    tag: 'Motion Curator',
-    dept: 'Electronics & Comm., 3rd Year',
-    img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600',
-    bio: 'Curates weekly debate dossiers on international law, technology ethics, and constitutional jurisprudence.',
-  },
-  {
-    name: 'Rohan Verma',
-    role: 'Turncoat & Extempore Lead',
-    tag: 'Rapid Rebuttal',
-    dept: 'Mechanical Engg., Final Year',
-    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600',
-    bio: 'Specialist in impromptu framing and spontaneous perspective shifts under high-pressure debate bells.',
-  },
-  {
-    name: 'Ishita Kapoor',
-    role: 'Adjudication & Training Head',
-    tag: 'Certified Adjudicator',
-    dept: 'Management (BBA), 3rd Year',
-    img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600',
-    bio: 'Standardizes adjudication rubrics, speaker score weighting, and constructive feedback across weekly sessions.',
-  },
-];
-
-const CORE_COUNCIL_MEMBERS: CouncilMember[] = [
-  {
-    name: 'Devansh Tandon',
-    designation: 'President',
-    mandate: 'Executive governance, inter-university delegations & institutional policy',
-    badge: 'Executive Board',
-    img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600',
-    quote: '“True debate is not about triumphing over a rival; it is about refining the search for truth together.”',
-  },
-  {
-    name: 'Suhani Mathur',
-    designation: 'Vice President',
-    mandate: 'Academic curriculum, speaker training & national circuit tournament teams',
-    badge: 'Executive Board',
-    img: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600',
-    quote: '“When you dismantle your own prejudice with logic, you unlock genuine intellectual freedom.”',
-  },
-  {
-    name: 'Pranav Joshi',
-    designation: 'General Secretary',
-    mandate: 'Administration, motion room logistics & parliamentary minutes',
-    badge: 'Secretariat',
-    img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600',
-    quote: '“Precision in language breeds unstoppable clarity in thought.”',
-  },
-  {
-    name: 'Ritika Sen',
-    designation: 'Treasurer & Operations',
-    mandate: 'Fiscal budgeting, tournament sponsorships & operational infrastructure',
-    badge: 'Finance & Ops',
-    img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600',
-    quote: '“Operational rigor fuels intellectual ambition on the national stage.”',
-  },
-  {
-    name: 'Aditya Khurana',
-    designation: 'Head of Adjudication',
-    mandate: 'Fair adjudication standards, tournament judges pool & rulebooks',
-    badge: 'Adjudication',
-    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600',
-    quote: '“Impartiality and analytical depth form the bedrock of honorable contest.”',
-  },
-];
-
-const GALLERY_DATA: GalleryItem[] = [
-  {
-    id: 1,
-    title: 'Annual Debate Championship Final',
-    category: 'National Circuit',
-    caption: 'Teams locking horns on constitutional ethics under simulated parliamentary pressure.',
-    img: 'https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?auto=format&fit=crop&q=80&w=1200',
-    spanClass: 'col-span-2 md:col-span-2 aspect-video',
-  },
-  {
-    id: 2,
-    title: 'Rhetoric & Rebuttal Workshop',
-    category: 'Masterclass',
-    caption: 'Senior adjudicators deconstructing fallacies and framing rebuttal architectures.',
-    img: 'https://images.unsplash.com/photo-1475721025505-c31ebfa9b11c?auto=format&fit=crop&q=80&w=800',
-    spanClass: 'col-span-2 md:col-span-1 aspect-square md:aspect-auto',
-  },
-  {
-    id: 3,
-    title: 'Speaker on Stage',
-    category: 'Intra-GLA',
-    caption: 'Orator commanding the floor during the final 60-second summary speech.',
-    img: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=800',
-    spanClass: 'aspect-square',
+    title: 'Battle of Bits',
+    tagline: 'Technology Policy, Cyber Ethics & Digital Governance Clash',
+    date: 'Past Edition Archive',
+    time: 'Concluded Session',
+    loc: 'Conference Hall, GLA Campus',
+    desc: 'Placeholder description for Battle of Bits. An interdisciplinary debate exploring the intersection of emerging computer technologies, artificial intelligence, and legal ethics.',
+    format: 'Motion deliberation & moderated floor debate.',
+    poster: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800',
+    seatsRemaining: 0,
+    registrationOpen: false,
   },
   {
     id: 4,
-    title: 'Audience Cross-Examination',
-    category: 'Campus Town Hall',
-    caption: 'Students pressing panelists with sharp Points of Information from the gallery.',
-    img: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80&w=800',
-    spanClass: 'aspect-square',
+    status: 'past',
+    category: 'Town Hall',
+    year: '2025',
+    title: 'Samvad',
+    tagline: 'Campus Dialogue & Open Forum Rhetoric Exchange',
+    date: 'Past Edition Archive',
+    time: 'Concluded Session',
+    loc: 'Central Student Amphitheatre',
+    desc: 'Placeholder description for Samvad. An open campus dialogue session encouraging spontaneous intellectual discourse, civil disagreement, and diverse perspective sharing.',
+    format: 'Open floor dialogue & moderated queries.',
+    poster: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&q=80&w=800',
+    seatsRemaining: 0,
+    registrationOpen: false,
+  },
+];
+
+// Faculty Mentor — Divya Gupta Ma’am (No photograph, no invented biography)
+const MENTOR_INFO = {
+  name: 'Divya Gupta Ma’am',
+  role: 'Faculty Mentor, SATURANGLE',
+  affiliation: 'GLA University • Mathura',
+  initials: 'DG',
+};
+
+// Student Core Council: Exactly 18 positions in strict specified order.
+// Only Alumni Coordinator (Nakshatra Chaudhary) & Deputy Alumni Coordinator (Anushka Tripathi) are named;
+// All other positions use professional "To be announced" / "Council Member" placeholders without invented names.
+export interface CouncilMember {
+  id: number;
+  position: string;
+  name: string;
+  isConfirmed: boolean;
+  initials: string;
+  wing: string;
+  mandate: string;
+}
+
+const CORE_COUNCIL_MEMBERS: CouncilMember[] = [
+  {
+    id: 1,
+    position: 'Advisor',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'AD',
+    wing: 'Advisory Board',
+    mandate: 'Strategic guidance on university protocol, tournament compliance, and society stewardship.',
+  },
+  {
+    id: 2,
+    position: 'President',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'PR',
+    wing: 'Executive Board',
+    mandate: 'Overall executive leadership, institutional representation, and strategic society direction.',
+  },
+  {
+    id: 3,
+    position: 'Vice President (VP-1)',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'VP',
+    wing: 'Executive Board',
+    mandate: 'Assisting presidential leadership and overseeing parliamentary debating standards.',
+  },
+  {
+    id: 4,
+    position: 'Vice President (VP-2)',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'VP',
+    wing: 'Executive Board',
+    mandate: 'Supervising internal club affairs, member welfare, and session coordination.',
   },
   {
     id: 5,
-    title: 'Award Ceremony & Honors',
-    category: 'Championship',
-    caption: 'GLA delegation receiving the Overall Best Delegation Trophy at the Inter-University Summit.',
-    img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800',
-    spanClass: 'col-span-2 md:col-span-1 aspect-square',
+    position: 'General Secretary (GS-1)',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'GS',
+    wing: 'Secretariat',
+    mandate: 'Documentation of meeting minutes, society dockets, and official student notifications.',
+  },
+  {
+    id: 6,
+    position: 'General Secretary (GS-2)',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'GS',
+    wing: 'Secretariat',
+    mandate: 'Inter-departmental alignment, attendance archives, and operational reporting.',
+  },
+  {
+    id: 7,
+    position: 'Alumni Coordinator',
+    name: 'Nakshatra Chaudhary',
+    isConfirmed: true,
+    initials: 'NC',
+    wing: 'Alumni Affairs',
+    mandate: 'Fostering lifelong relationships with graduated debaters and coordinating mentorship sessions.',
+  },
+  {
+    id: 8,
+    position: 'Deputy Alumni Coordinator',
+    name: 'Anushka Tripathi',
+    isConfirmed: true,
+    initials: 'AT',
+    wing: 'Alumni Affairs',
+    mandate: 'Assisting alumni outreach, graduate debate panels, and career networking symposia.',
+  },
+  {
+    id: 9,
+    position: 'Treasurer',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'TR',
+    wing: 'Finance Wing',
+    mandate: 'Fiscal management, tournament budgeting, expenditure audits, and institutional sponsorship allocation.',
+  },
+  {
+    id: 10,
+    position: 'Deputy Treasurer',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'DT',
+    wing: 'Finance Wing',
+    mandate: 'Assisting cash flow management, receipts reconciliation, and logistics requisition processing.',
+  },
+  {
+    id: 11,
+    position: 'Event Management Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'EH',
+    wing: 'Event Operations',
+    mandate: 'Directing stage production, venue acoustics, floor operations, and tournament schedules.',
+  },
+  {
+    id: 12,
+    position: 'Deputy Event Management Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'DH',
+    wing: 'Event Operations',
+    mandate: 'On-ground stage supervision, adjudicator hospitality, and delegate seating arrangements.',
+  },
+  {
+    id: 13,
+    position: 'Content & Creative Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'CH',
+    wing: 'Creative & Editorial',
+    mandate: 'Supervising motion formulation, visual aesthetics, editorial bulletins, and social creative assets.',
+  },
+  {
+    id: 14,
+    position: 'Deputy Content & Creative Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'DC',
+    wing: 'Creative & Editorial',
+    mandate: 'Assisting digital design, promotional poster artwork, and parliamentary motion dossiers.',
+  },
+  {
+    id: 15,
+    position: 'Technical Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'TH',
+    wing: 'Technical Operations',
+    mandate: 'Leading web infrastructure, tabulation systems, stage AV setups, and digital tools.',
+  },
+  {
+    id: 16,
+    position: 'Deputy Technical Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'DT',
+    wing: 'Technical Operations',
+    mandate: 'Supporting website maintenance, scoring software configuration, and live stream setups.',
+  },
+  {
+    id: 17,
+    position: 'Public Relations (PR) Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'PH',
+    wing: 'Public Relations',
+    mandate: 'Managing external society communications, collegiate invitations, press releases, and media presence.',
+  },
+  {
+    id: 18,
+    position: 'Deputy Public Relations (PR) Head',
+    name: 'To be announced',
+    isConfirmed: false,
+    initials: 'DP',
+    wing: 'Public Relations',
+    mandate: 'Assisting delegate communications, campus announcements, and university media coordination.',
   },
 ];
+
+// Our Teams: Highlighting the club's 5 departments
+export interface DepartmentTeamItem {
+  id: number;
+  name: string;
+  tagline: string;
+  description: string;
+  iconName: 'PenTool' | 'CalendarCheck' | 'Users' | 'Code' | 'BookOpen';
+  responsibilities: string[];
+}
+
+const CLUB_DEPARTMENTS: DepartmentTeamItem[] = [
+  {
+    id: 1,
+    name: 'Content & Creative',
+    tagline: 'Motion Curation & Visual Rhetoric',
+    description: 'Formulates nuanced debate motions across geopolitics, law, and culture while designing distinctive visual identities and editorial journals for the society.',
+    iconName: 'PenTool',
+    responsibilities: [
+      'Motion dockets & background research briefs',
+      'Society bulletins, essays & editorial copy',
+      'Visual identity, print flyers & digital artwork',
+      'Brand guidelines & social visual media',
+    ],
+  },
+  {
+    id: 2,
+    name: 'Event Management',
+    tagline: 'Tournament Staging & Floor Logistics',
+    description: 'Executes parliamentary rounds and annual flagship conclaves with seamless venue orchestration, timekeeping precision, and adjudicator hosting.',
+    iconName: 'CalendarCheck',
+    responsibilities: [
+      'Auditorium staging & podium technical setup',
+      'Delegate hospitality & venue access logistics',
+      'Adjudication docket distribution & timekeeping',
+      'Flagship festival & symposium coordination',
+    ],
+  },
+  {
+    id: 3,
+    name: 'Public Relations (PR)',
+    tagline: 'External Circuit Outreach & Media',
+    description: 'Expands SATURANGLE’s voice across the Indian collegiate circuit, fostering institutional collaborations, media releases, and audience engagement.',
+    iconName: 'Users',
+    responsibilities: [
+      'Inter-university invitations & circuit relations',
+      'Press notices & university communications',
+      'Official social media campaigns & announcements',
+      'Audience moderation & cohort outreach',
+    ],
+  },
+  {
+    id: 4,
+    name: 'Technical',
+    tagline: 'Digital Infrastructure & Tabulation Systems',
+    description: 'Architects and maintains the official SATURANGLE web experience, digital registration pipelines, and tournament tabulation algorithms.',
+    iconName: 'Code',
+    responsibilities: [
+      'Full-stack website engineering & maintenance',
+      'Debate adjudication & tabulation software',
+      'Registration databases & attendee check-in tools',
+      'Audiovisual systems & multimedia coordination',
+    ],
+  },
+  {
+    id: 5,
+    name: 'Research & Debating',
+    tagline: 'Policy Deep-Dives & Sparring Clinics',
+    description: 'Grounds the club’s speakers in robust empirical argumentation through policy archives, analytical workshops, and weekly sparring clinics.',
+    iconName: 'BookOpen',
+    responsibilities: [
+      'Policy dossiers & motion fact-checking kits',
+      'Weekly sparring sessions & mock debates',
+      'Adjudication training & rebuttal workshops',
+      'Mentorship for novice and junior debaters',
+    ],
+  },
+];
+
+// People Behind the Platform: 2 equal text-based profiles recognizing student developers
+const PLATFORM_TEAM = [
+  {
+    name: 'Anushka Tripathi',
+    role: 'Website Architecture & Engineering',
+    tagline: 'Frontend system architecture, 3D interactive stage implementation, and interface design.',
+    initials: 'AT',
+  },
+  {
+    name: 'Nakshatra Chaudhary',
+    role: 'Digital Strategy & Platform Architecture',
+    tagline: 'Platform structuring, content workflow design, and digital systems coordination.',
+    initials: 'NC',
+  },
+];
+
+// --- 3D DEBATE THEATRE INTERFACES & BUILDERS ---
+
+interface DebaterActor {
+  root: THREE.Group;
+  headGroup: THREE.Group;
+  headMesh: THREE.Mesh;
+  hairMesh: THREE.Mesh;
+  chestMesh: THREE.Mesh;
+  jacketMat: THREE.MeshStandardMaterial;
+  trousersMat: THREE.MeshStandardMaterial;
+  armR: THREE.Group;
+  forearmR: THREE.Group;
+  handR: THREE.Mesh;
+  armL: THREE.Group;
+  forearmL: THREE.Group;
+  handL: THREE.Mesh;
+  torsoGroup: THREE.Group;
+  isFor: boolean;
+}
+
+interface PodiumActor {
+  root: THREE.Group;
+  columnMesh: THREE.Mesh;
+  shelfMesh: THREE.Mesh;
+  plaqueMesh: THREE.Mesh;
+  micStem: THREE.Group;
+  micLed: THREE.Mesh;
+  micLight: THREE.PointLight;
+}
+
+function createPodiumPlaqueTexture(text: 'FOR' | 'AGAINST', isDark: boolean): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 240;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return new THREE.CanvasTexture(canvas);
+
+  // Background gradient: dark titanium / smoked obsidian
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, 240);
+  if (isDark) {
+    bgGrad.addColorStop(0, '#1E1D22');
+    bgGrad.addColorStop(0.5, '#141317');
+    bgGrad.addColorStop(1, '#0C0B0E');
+  } else {
+    bgGrad.addColorStop(0, '#1D1C20');
+    bgGrad.addColorStop(0.5, '#151418');
+    bgGrad.addColorStop(1, '#0E0D10');
+  }
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, 512, 240);
+
+  // Outer Crimson Bezel Border
+  ctx.strokeStyle = '#9F1239';
+  ctx.lineWidth = 8;
+  ctx.strokeRect(8, 8, 496, 224);
+
+  // Inner Subtle Metallic Hairline
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(16, 16, 480, 208);
+
+  // Corner Brass / Silver Mounting Rivets
+  const rivets = [
+    [26, 26],
+    [486, 26],
+    [26, 214],
+    [486, 214],
+  ];
+  ctx.fillStyle = '#CBD5E1';
+  rivets.forEach(([rx, ry]) => {
+    ctx.beginPath();
+    ctx.arc(rx, ry, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#64748B';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Subtitle Kicker (PROPOSITION / OPPOSITION)
+  ctx.fillStyle = text === 'FOR' ? '#F43F5E' : '#E11D48';
+  ctx.font = 'bold 22px system-ui, -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const subtitle = text === 'FOR' ? 'PROPOSITION · 1ST AFFIRMATIVE' : 'OPPOSITION · 1ST NEGATIVE';
+  ctx.fillText(subtitle, 256, 68);
+
+  // Main Plaque Heading (FOR / AGAINST)
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 94px "Playfair Display", Georgia, serif';
+  ctx.shadowColor = 'rgba(0,0,0,0.85)';
+  ctx.shadowBlur = 8;
+  ctx.fillText(text, 256, 150);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.anisotropy = 4;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function createDebater(options: {
+  isFor: boolean;
+  skinColor: string;
+  hairColor: string;
+  suitColor: string;
+  shirtColor: string;
+  tieColor: string;
+  isDark: boolean;
+}): DebaterActor {
+  const { isFor, skinColor, hairColor, suitColor, shirtColor, tieColor } = options;
+  const root = new THREE.Group();
+
+  const skinMat = new THREE.MeshStandardMaterial({
+    color: skinColor,
+    roughness: 0.65,
+    metalness: 0.05,
+  });
+
+  const hairMat = new THREE.MeshStandardMaterial({
+    color: hairColor,
+    roughness: 0.82,
+    metalness: 0.1,
+  });
+
+  const jacketMat = new THREE.MeshStandardMaterial({
+    color: suitColor,
+    roughness: 0.72,
+    metalness: 0.12,
+  });
+
+  const shirtMat = new THREE.MeshStandardMaterial({
+    color: shirtColor,
+    roughness: 0.55,
+    metalness: 0.05,
+  });
+
+  const tieMat = new THREE.MeshStandardMaterial({
+    color: tieColor,
+    roughness: 0.45,
+    metalness: 0.25,
+  });
+
+  const trousersMat = new THREE.MeshStandardMaterial({
+    color: isFor ? '#16171E' : '#1D1C22',
+    roughness: 0.78,
+    metalness: 0.08,
+  });
+
+  const shoeMat = new THREE.MeshStandardMaterial({
+    color: '#0D0D10',
+    roughness: 0.3,
+    metalness: 0.35,
+  });
+
+  // --- LOWER BODY (Behind Podium) ---
+  const legGeo = new THREE.CapsuleGeometry(0.2, 1.45, 12, 16);
+  const leftLeg = new THREE.Mesh(legGeo, trousersMat);
+  leftLeg.position.set(-0.25, 1.25, 0);
+  leftLeg.castShadow = true;
+  root.add(leftLeg);
+
+  const rightLeg = new THREE.Mesh(legGeo, trousersMat);
+  rightLeg.position.set(0.25, 1.25, 0);
+  rightLeg.castShadow = true;
+  root.add(rightLeg);
+
+  const shoeGeo = new THREE.BoxGeometry(0.28, 0.16, 0.62);
+  const leftShoe = new THREE.Mesh(shoeGeo, shoeMat);
+  leftShoe.position.set(-0.25, 0.18, 0.1);
+  leftShoe.castShadow = true;
+  root.add(leftShoe);
+
+  const rightShoe = new THREE.Mesh(shoeGeo, shoeMat);
+  rightShoe.position.set(0.25, 0.18, 0.1);
+  rightShoe.castShadow = true;
+  root.add(rightShoe);
+
+  // --- TORSO GROUP ---
+  const torsoGroup = new THREE.Group();
+  torsoGroup.position.set(0, 2.7, 0);
+  root.add(torsoGroup);
+
+  // Shirt / Chest Core
+  const shirtCore = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.95, 0.48), shirtMat);
+  shirtCore.position.y = 0.15;
+  shirtCore.castShadow = true;
+  torsoGroup.add(shirtCore);
+
+  // Tailored Suit Jacket (Fitted Chest & Waist)
+  const chestMesh = new THREE.Mesh(new THREE.BoxGeometry(0.96, 1.28, 0.6), jacketMat);
+  chestMesh.position.y = 0.05;
+  chestMesh.castShadow = true;
+  chestMesh.receiveShadow = true;
+  torsoGroup.add(chestMesh);
+
+  // Suit Lapels (Angled architectural panels framing V-neck)
+  const lapelGeo = new THREE.BoxGeometry(0.18, 0.85, 0.08);
+  const leftLapel = new THREE.Mesh(lapelGeo, jacketMat);
+  leftLapel.position.set(-0.22, 0.22, 0.32);
+  leftLapel.rotation.z = -0.15;
+  leftLapel.castShadow = true;
+  torsoGroup.add(leftLapel);
+
+  const rightLapel = new THREE.Mesh(lapelGeo, jacketMat);
+  rightLapel.position.set(0.22, 0.22, 0.32);
+  rightLapel.rotation.z = 0.15;
+  rightLapel.castShadow = true;
+  torsoGroup.add(rightLapel);
+
+  // Silk Necktie
+  const tieGeo = new THREE.BoxGeometry(0.11, 0.76, 0.06);
+  const tie = new THREE.Mesh(tieGeo, tieMat);
+  tie.position.set(0, 0.15, 0.32);
+  tie.castShadow = true;
+  torsoGroup.add(tie);
+
+  // Shoulder Broadeners (Natural tailoring silhouette)
+  const shoulderGeo = new THREE.SphereGeometry(0.22, 12, 12);
+  const shoulderL = new THREE.Mesh(shoulderGeo, jacketMat);
+  shoulderL.position.set(-0.55, 0.52, 0);
+  torsoGroup.add(shoulderL);
+
+  const shoulderR = new THREE.Mesh(shoulderGeo, jacketMat);
+  shoulderR.position.set(0.55, 0.52, 0);
+  torsoGroup.add(shoulderR);
+
+  // --- HEAD & NECK ---
+  const neckGeo = new THREE.CylinderGeometry(0.16, 0.19, 0.42, 16);
+  const neckMesh = new THREE.Mesh(neckGeo, skinMat);
+  neckMesh.position.set(0, 3.5, 0);
+  neckMesh.castShadow = true;
+  root.add(neckMesh);
+
+  const headGroup = new THREE.Group();
+  headGroup.position.set(0, 3.92, 0);
+  root.add(headGroup);
+
+  // Sculpted Cranium & Facial Planes
+  const craniumGeo = new THREE.SphereGeometry(0.36, 24, 24);
+  craniumGeo.scale(0.92, 1.05, 0.95);
+  const headMesh = new THREE.Mesh(craniumGeo, skinMat);
+  headMesh.castShadow = true;
+  headGroup.add(headMesh);
+
+  // Defined Chin & Jawline
+  const jawGeo = new THREE.CylinderGeometry(0.22, 0.16, 0.28, 16);
+  const jaw = new THREE.Mesh(jawGeo, skinMat);
+  jaw.position.set(0, -0.16, 0.08);
+  headGroup.add(jaw);
+
+  // Ears
+  const earGeo = new THREE.SphereGeometry(0.08, 10, 10);
+  const earL = new THREE.Mesh(earGeo, skinMat);
+  earL.position.set(-0.35, 0, 0);
+  headGroup.add(earL);
+
+  const earR = new THREE.Mesh(earGeo, skinMat);
+  earR.position.set(0.35, 0, 0);
+  headGroup.add(earR);
+
+  // Styled Hair Sculpt (Distinct silhouette for each debater)
+  let hairMesh: THREE.Mesh;
+  if (isFor) {
+    // Executive side-parted styled hair
+    const hairGeo = new THREE.SphereGeometry(0.39, 20, 20);
+    hairGeo.scale(0.96, 0.95, 1.05);
+    hairMesh = new THREE.Mesh(hairGeo, hairMat);
+    hairMesh.position.set(0.02, 0.12, -0.04);
+  } else {
+    // Modern textured swept wave hair
+    const hairGeo = new THREE.SphereGeometry(0.4, 20, 20);
+    hairGeo.scale(1.02, 1.06, 0.98);
+    hairMesh = new THREE.Mesh(hairGeo, hairMat);
+    hairMesh.position.set(-0.02, 0.14, -0.02);
+  }
+  hairMesh.castShadow = true;
+  headGroup.add(hairMesh);
+
+  // --- ARMS & HANDS (Natural debate gestures & resting positions) ---
+  const upperArmGeo = new THREE.CylinderGeometry(0.15, 0.13, 0.82, 16);
+  const forearmGeo = new THREE.CylinderGeometry(0.13, 0.11, 0.8, 16);
+  const cuffGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.08, 16);
+  const handGeo = new THREE.BoxGeometry(0.15, 0.08, 0.26);
+
+  // Right Arm (Articulated Rhetorical / Notes Arm)
+  const armR = new THREE.Group();
+  armR.position.set(0.55, 3.25, 0);
+  root.add(armR);
+
+  const upperR = new THREE.Mesh(upperArmGeo, jacketMat);
+  upperR.position.y = -0.4;
+  upperR.castShadow = true;
+  armR.add(upperR);
+
+  const forearmR = new THREE.Group();
+  forearmR.position.set(0, -0.8, 0);
+  armR.add(forearmR);
+
+  const lowerR = new THREE.Mesh(forearmGeo, jacketMat);
+  lowerR.position.y = -0.38;
+  lowerR.castShadow = true;
+  forearmR.add(lowerR);
+
+  const cuffR = new THREE.Mesh(cuffGeo, shirtMat);
+  cuffR.position.y = -0.74;
+  forearmR.add(cuffR);
+
+  const handR = new THREE.Mesh(handGeo, skinMat);
+  handR.position.set(0, -0.88, 0.06);
+  handR.castShadow = true;
+  forearmR.add(handR);
+
+  // Left Arm (Articulated Rhetorical / Notes Arm)
+  const armL = new THREE.Group();
+  armL.position.set(-0.55, 3.25, 0);
+  root.add(armL);
+
+  const upperL = new THREE.Mesh(upperArmGeo, jacketMat);
+  upperL.position.y = -0.4;
+  upperL.castShadow = true;
+  armL.add(upperL);
+
+  const forearmL = new THREE.Group();
+  forearmL.position.set(0, -0.8, 0);
+  armL.add(forearmL);
+
+  const lowerL = new THREE.Mesh(forearmGeo, jacketMat);
+  lowerL.position.y = -0.38;
+  lowerL.castShadow = true;
+  forearmL.add(lowerL);
+
+  const cuffL = new THREE.Mesh(cuffGeo, shirtMat);
+  cuffL.position.y = -0.74;
+  forearmL.add(cuffL);
+
+  const handL = new THREE.Mesh(handGeo, skinMat);
+  handL.position.set(0, -0.88, 0.06);
+  handL.castShadow = true;
+  forearmL.add(handL);
+
+  // Initial Natural Poses:
+  if (isFor) {
+    // FOR Debater: Left hand resting naturally on podium ledge; Right arm poised to articulate
+    armL.rotation.x = -0.65;
+    armL.rotation.z = -0.15;
+    forearmL.rotation.x = -0.7;
+    forearmL.rotation.y = 0.25;
+
+    armR.rotation.x = -0.55;
+    armR.rotation.z = 0.2;
+    forearmR.rotation.x = -0.6;
+    forearmR.rotation.y = -0.2;
+  } else {
+    // AGAINST Debater: Right hand resting on podium notes; Left arm poised for counter-rebuttal
+    armR.rotation.x = -0.65;
+    armR.rotation.z = 0.15;
+    forearmR.rotation.x = -0.7;
+    forearmR.rotation.y = -0.25;
+
+    armL.rotation.x = -0.55;
+    armL.rotation.z = -0.2;
+    forearmL.rotation.x = -0.6;
+    forearmL.rotation.y = 0.2;
+  }
+
+  return {
+    root,
+    headGroup,
+    headMesh,
+    hairMesh,
+    chestMesh,
+    jacketMat,
+    trousersMat,
+    armR,
+    forearmR,
+    handR,
+    armL,
+    forearmL,
+    handL,
+    torsoGroup,
+    isFor,
+  };
+}
+
+function createPodium(isFor: boolean, isDark: boolean): PodiumActor {
+  const root = new THREE.Group();
+
+  const woodMat = new THREE.MeshStandardMaterial({
+    color: isDark ? '#1C1917' : '#221E1B',
+    roughness: 0.45,
+    metalness: 0.15,
+  });
+
+  const trimMat = new THREE.MeshStandardMaterial({
+    color: '#9F1239',
+    emissive: '#9F1239',
+    emissiveIntensity: 0.35,
+    roughness: 0.35,
+    metalness: 0.5,
+  });
+
+  const metalMat = new THREE.MeshStandardMaterial({
+    color: '#28282C',
+    roughness: 0.3,
+    metalness: 0.8,
+  });
+
+  // 1. Stepped Plinth Base
+  const base1 = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.55, 0.18, 32), woodMat);
+  base1.position.y = 0.09;
+  base1.castShadow = true;
+  base1.receiveShadow = true;
+  root.add(base1);
+
+  const base2 = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.35, 0.14, 32), woodMat);
+  base2.position.y = 0.24;
+  base2.castShadow = true;
+  root.add(base2);
+
+  // Crimson accent ring around podium plinth
+  const plinthRing = new THREE.Mesh(new THREE.TorusGeometry(1.28, 0.025, 8, 32), trimMat);
+  plinthRing.rotation.x = Math.PI / 2;
+  plinthRing.position.y = 0.31;
+  root.add(plinthRing);
+
+  // 2. Main Architectural Pedestal Column
+  const columnMesh = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.05, 1.05), woodMat);
+  columnMesh.position.y = 1.32;
+  columnMesh.castShadow = true;
+  columnMesh.receiveShadow = true;
+  root.add(columnMesh);
+
+  // Front Recessed Panel
+  const alcoveMesh = new THREE.Mesh(
+    new THREE.BoxGeometry(1.2, 1.7, 0.06),
+    new THREE.MeshStandardMaterial({ color: isDark ? '#141316' : '#19181B', roughness: 0.6 })
+  );
+  alcoveMesh.position.set(0, 1.32, 0.53);
+  root.add(alcoveMesh);
+
+  // 3. Front Face Plaque (FOR / AGAINST with High-Res Texture)
+  const plaqueMat = new THREE.MeshBasicMaterial({
+    map: createPodiumPlaqueTexture(isFor ? 'FOR' : 'AGAINST', isDark),
+  });
+  const plaqueMesh = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.64, 0.04), plaqueMat);
+  plaqueMesh.position.set(0, 1.35, 0.58);
+  plaqueMesh.castShadow = true;
+  root.add(plaqueMesh);
+
+  // Plaque Stand-off Mounts (4 metallic corner pins)
+  [
+    [-0.62, 0.27],
+    [0.62, 0.27],
+    [-0.62, -0.27],
+    [0.62, -0.27],
+  ].forEach(([px, py]) => {
+    const pin = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.06, 12), metalMat);
+    pin.rotation.x = Math.PI / 2;
+    pin.position.set(px, 1.35 + py, 0.61);
+    root.add(pin);
+  });
+
+  // 4. Angled Speaker Desktop Shelf (Slanted toward debater)
+  const shelfGroup = new THREE.Group();
+  shelfGroup.position.set(0, 2.38, 0);
+  shelfGroup.rotation.x = -0.26; // Slanted ~15°
+  root.add(shelfGroup);
+
+  const shelfMesh = new THREE.Mesh(new THREE.BoxGeometry(1.75, 0.12, 1.35), woodMat);
+  shelfMesh.castShadow = true;
+  shelfMesh.receiveShadow = true;
+  shelfGroup.add(shelfMesh);
+
+  // Retaining lip at bottom edge to hold speech notes
+  const lipMesh = new THREE.Mesh(new THREE.BoxGeometry(1.76, 0.08, 0.05), trimMat);
+  lipMesh.position.set(0, 0.08, 0.66);
+  shelfGroup.add(lipMesh);
+
+  // Collegiate Debate Brief / Notes Sheets on Desktop
+  const paperMat = new THREE.MeshStandardMaterial({
+    color: '#FAF8F5',
+    roughness: 0.9,
+    metalness: 0.02,
+  });
+  const dossier1 = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.015, 0.85), paperMat);
+  dossier1.position.set(-0.25, 0.07, 0.05);
+  dossier1.rotation.y = 0.06;
+  dossier1.castShadow = true;
+  shelfGroup.add(dossier1);
+
+  const dossier2 = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.015, 0.82), paperMat);
+  dossier2.position.set(0.28, 0.075, 0.08);
+  dossier2.rotation.y = -0.05;
+  dossier2.castShadow = true;
+  shelfGroup.add(dossier2);
+
+  // Crimson ribbon / bookmark on debater brief
+  const ribbon = new THREE.Mesh(
+    new THREE.BoxGeometry(0.08, 0.018, 0.88),
+    new THREE.MeshBasicMaterial({ color: '#9F1239' })
+  );
+  ribbon.position.set(-0.24, 0.08, 0.05);
+  shelfGroup.add(ribbon);
+
+  // 5. Professional Gooseneck Microphone
+  const micStem = new THREE.Group();
+  micStem.position.set(isFor ? 0.42 : -0.42, 0.08, 0.12);
+  shelfGroup.add(micStem);
+
+  // Mic Base Collar
+  const micBase = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.12, 0.05, 16), metalMat);
+  micBase.castShadow = true;
+  micStem.add(micBase);
+
+  // Gooseneck Stem Segment 1 (Angling up and toward debater's mouth)
+  const stem1Geo = new THREE.CylinderGeometry(0.02, 0.02, 0.45, 12);
+  const stem1 = new THREE.Mesh(stem1Geo, metalMat);
+  stem1.position.set(0, 0.22, -0.08);
+  stem1.rotation.x = -0.4;
+  stem1.castShadow = true;
+  micStem.add(stem1);
+
+  // Flexible knuckle joint
+  const knuckle = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 12), metalMat);
+  knuckle.position.set(0, 0.4, -0.17);
+  micStem.add(knuckle);
+
+  // Stem Segment 2 (Curving horizontally toward debater)
+  const stem2Geo = new THREE.CylinderGeometry(0.018, 0.018, 0.38, 12);
+  const stem2 = new THREE.Mesh(stem2Geo, metalMat);
+  stem2.position.set(0, 0.55, -0.28);
+  stem2.rotation.x = -0.7;
+  stem2.castShadow = true;
+  micStem.add(stem2);
+
+  // Microphone Capsule Head
+  const capsuleGeo = new THREE.CylinderGeometry(0.042, 0.038, 0.16, 16);
+  const capsuleMat = new THREE.MeshStandardMaterial({
+    color: '#151518',
+    roughness: 0.3,
+    metalness: 0.7,
+  });
+  const capsule = new THREE.Mesh(capsuleGeo, capsuleMat);
+  capsule.position.set(0, 0.69, -0.39);
+  capsule.rotation.x = -0.7;
+  capsule.castShadow = true;
+  micStem.add(capsule);
+
+  // Active Microphone LED Indicator Ring (Glows when participant has the floor)
+  const ledGeo = new THREE.TorusGeometry(0.04, 0.008, 8, 16);
+  const ledMat = new THREE.MeshStandardMaterial({
+    color: '#E11D48',
+    emissive: '#E11D48',
+    emissiveIntensity: 1.8,
+    roughness: 0.2,
+  });
+  const micLed = new THREE.Mesh(ledGeo, ledMat);
+  micLed.position.set(0, 0.64, -0.34);
+  micLed.rotation.x = -0.7;
+  micStem.add(micLed);
+
+  const micLight = new THREE.PointLight('#E11D48', 0.6, 1.8);
+  micLight.position.set(0, 0.65, -0.35);
+  micStem.add(micLight);
+
+  return {
+    root,
+    columnMesh,
+    shelfMesh,
+    plaqueMesh,
+    micStem,
+    micLed,
+    micLight,
+  };
+}
 
 // --- 3D DEBATE THEATRE ARENA CLASS ---
 class DebateArena {
@@ -293,7 +1049,7 @@ class DebateArena {
   targetMouse: THREE.Vector2;
   scrollPos: number;
   targetScroll: number;
-  baseCameraZ: number = 21.8;
+  baseCameraZ: number = 22.2;
   baseCameraY: number = 5.2;
   animationFrameId: number | null = null;
 
@@ -305,9 +1061,12 @@ class DebateArena {
   stageSurfaceMesh?: THREE.Mesh;
   stageOuterRimMesh?: THREE.Mesh;
   stageCrimsonRingMesh?: THREE.Mesh;
+  stageInlayRing1?: THREE.Mesh;
+  stageInlayRing2?: THREE.Mesh;
+  stageInlayRing3?: THREE.Mesh;
   titleDividerMesh?: THREE.Mesh;
 
-  // Spotlights & Fixtures
+  // Spotlights, Fixtures & Ambient/Rim Lights
   leftSpotLight?: THREE.SpotLight;
   rightSpotLight?: THREE.SpotLight;
   leftSpotTarget: THREE.Object3D;
@@ -318,38 +1077,27 @@ class DebateArena {
   rightBeamMesh?: THREE.Mesh;
   ambientLight?: THREE.AmbientLight;
   keyDirLight?: THREE.DirectionalLight;
+  rimBackLight?: THREE.DirectionalLight;
+  floorBounceLight?: THREE.PointLight;
 
-  // Stage Actors
-  charFor?: {
-    root: THREE.Group;
-    armR: THREE.Group;
-    armL: THREE.Group;
-    head: THREE.Mesh;
-    torso: THREE.Mesh;
-  };
-  charAgainst?: {
-    root: THREE.Group;
-    armR: THREE.Group;
-    armL: THREE.Group;
-    head: THREE.Mesh;
-    torso: THREE.Mesh;
-  };
-  tableGroup?: THREE.Group;
-  ballMesh?: THREE.Mesh;
-  ballLight?: THREE.PointLight;
+  // Stage Actors (Debaters & Podiums)
+  debaterFor?: DebaterActor;
+  debaterAgainst?: DebaterActor;
+  podiumFor?: PodiumActor;
+  podiumAgainst?: PodiumActor;
 
   constructor(container: HTMLElement, isDark: boolean = false) {
     this.container = container;
     this.isDark = isDark;
     this.scene = new THREE.Scene();
 
-    const bgCol = isDark ? '#121212' : '#FAF9F6';
+    const bgCol = isDark ? '#121214' : '#FAF9F6';
     this.scene.background = new THREE.Color(bgCol);
-    this.scene.fog = new THREE.FogExp2(bgCol, isDark ? 0.016 : 0.012);
+    this.scene.fog = new THREE.FogExp2(bgCol, isDark ? 0.015 : 0.011);
 
     const aspect = (this.container.clientWidth || window.innerWidth) / (this.container.clientHeight || window.innerHeight);
     this.camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 100);
-    this.cameraTarget = new THREE.Vector3(0, 1.8, 0);
+    this.cameraTarget = new THREE.Vector3(0, 2.2, 0);
     this.updateCameraPosition();
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -358,7 +1106,7 @@ class DebateArena {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = isDark ? 1.25 : 1.1;
+    this.renderer.toneMappingExposure = isDark ? 1.25 : 1.12;
     this.container.appendChild(this.renderer.domElement);
 
     this.clock = new THREE.Clock();
@@ -367,9 +1115,9 @@ class DebateArena {
     this.scrollPos = 0;
     this.targetScroll = 0;
 
-    // Groups - Lower the stageGroup down slightly (y = -0.9) to provide generous breathing room below title
+    // Groups - Lower the stageGroup down slightly (y = -1.0) to provide generous breathing room below 3D title
     this.stageGroup = new THREE.Group();
-    this.stageGroup.position.set(0, -0.9, 0);
+    this.stageGroup.position.set(0, -1.0, 0);
     this.scene.add(this.stageGroup);
 
     this.titleGroup = new THREE.Group();
@@ -387,9 +1135,7 @@ class DebateArena {
     this.initEnvironment();
     this.initCircularStage();
     this.initOverheadRigAndSpotlights();
-    this.initTable();
-    this.initCharacters();
-    this.initBall();
+    this.initDebateTheatre();
     this.init3DTitle();
 
     this.onWindowResize = this.onWindowResize.bind(this);
@@ -407,17 +1153,20 @@ class DebateArena {
   updateCameraPosition() {
     const w = this.container?.clientWidth || window.innerWidth;
     if (w < 640) {
-      // Mobile framing: step back to ensure complete stage, table, and debaters fit without clipping
-      this.baseCameraZ = 30.5;
-      this.baseCameraY = 6.2;
+      // Mobile framing: step back to ensure both podiums, both debaters, microphones, and labels fit comfortably
+      this.baseCameraZ = 31.0;
+      this.baseCameraY = 6.4;
+      this.cameraTarget.set(0, 2.0, 0);
     } else if (w < 1024) {
       // Tablet framing
-      this.baseCameraZ = 25.5;
+      this.baseCameraZ = 26.0;
       this.baseCameraY = 5.6;
+      this.cameraTarget.set(0, 2.1, 0);
     } else {
       // Desktop / Laptop framing
-      this.baseCameraZ = 21.8;
-      this.baseCameraY = 5.1;
+      this.baseCameraZ = 22.2;
+      this.baseCameraY = 5.2;
+      this.cameraTarget.set(0, 2.2, 0);
     }
     this.camera.position.set(0, this.baseCameraY, this.baseCameraZ);
   }
@@ -425,108 +1174,135 @@ class DebateArena {
   initEnvironment() {
     const floorGeo = new THREE.PlaneGeometry(160, 160);
     const floorMat = new THREE.MeshStandardMaterial({
-      color: this.isDark ? '#101010' : '#FAF9F6',
+      color: this.isDark ? '#101012' : '#FAF9F6',
       roughness: 0.95,
       metalness: 0.05,
     });
     this.floorMesh = new THREE.Mesh(floorGeo, floorMat);
     this.floorMesh.rotation.x = -Math.PI / 2;
-    this.floorMesh.position.y = -0.95;
+    this.floorMesh.position.y = -1.05;
     this.floorMesh.receiveShadow = true;
     this.scene.add(this.floorMesh);
 
-    this.ambientLight = new THREE.AmbientLight(this.isDark ? '#504a55' : '#ffffff', this.isDark ? 0.45 : 0.72);
+    // Ambient Illumination (Calibrated so neither character or podium vanishes into darkness)
+    this.ambientLight = new THREE.AmbientLight(
+      this.isDark ? '#645C72' : '#FFF9F2',
+      this.isDark ? 0.65 : 0.76
+    );
     this.scene.add(this.ambientLight);
 
-    this.keyDirLight = new THREE.DirectionalLight('#ffffff', this.isDark ? 0.35 : 0.6);
-    this.keyDirLight.position.set(0, 22, 12);
+    // Directional Key Studio Light with Soft Shadows
+    this.keyDirLight = new THREE.DirectionalLight('#FFFFFF', this.isDark ? 0.45 : 0.68);
+    this.keyDirLight.position.set(0, 24, 14);
     this.keyDirLight.castShadow = true;
     this.keyDirLight.shadow.mapSize.width = 2048;
     this.keyDirLight.shadow.mapSize.height = 2048;
     this.keyDirLight.shadow.camera.near = 0.5;
-    this.keyDirLight.shadow.camera.far = 45;
-    this.keyDirLight.shadow.camera.left = -12;
-    this.keyDirLight.shadow.camera.right = 12;
+    this.keyDirLight.shadow.camera.far = 48;
+    this.keyDirLight.shadow.camera.left = -14;
+    this.keyDirLight.shadow.camera.right = 14;
     this.keyDirLight.shadow.bias = -0.0004;
     this.scene.add(this.keyDirLight);
+
+    // Directional Crimson Rim Light (Subtle red rim lighting on theatre installation)
+    this.rimBackLight = new THREE.DirectionalLight('#9F1239', this.isDark ? 0.85 : 0.48);
+    this.rimBackLight.position.set(0, 9, -10);
+    this.scene.add(this.rimBackLight);
+
+    // Floor Bounce Point Light (Subtle warm underglow)
+    this.floorBounceLight = new THREE.PointLight('#9F1239', this.isDark ? 0.7 : 0.35, 18);
+    this.floorBounceLight.position.set(0, 0.4, 0);
+    this.stageGroup.add(this.floorBounceLight);
   }
 
   initCircularStage() {
-    // 1. Broad Outer Black Edge Platform
-    const rimRadius = 9.3;
-    const rimGeo = new THREE.CylinderGeometry(rimRadius, rimRadius + 0.35, 0.42, 64);
+    // 1. Broad Outer Obsidian Edge Platform
+    const rimRadius = 9.4;
+    const rimGeo = new THREE.CylinderGeometry(rimRadius, rimRadius + 0.38, 0.44, 64);
     const rimMat = new THREE.MeshStandardMaterial({
-      color: '#111111',
-      roughness: 0.4,
-      metalness: 0.25,
+      color: '#121214',
+      roughness: 0.38,
+      metalness: 0.28,
     });
     this.stageOuterRimMesh = new THREE.Mesh(rimGeo, rimMat);
-    this.stageOuterRimMesh.position.y = 0.21;
+    this.stageOuterRimMesh.position.y = 0.22;
     this.stageOuterRimMesh.receiveShadow = true;
     this.stageOuterRimMesh.castShadow = true;
     this.stageGroup.add(this.stageOuterRimMesh);
 
-    // 2. Crimson Accent Ring
-    const crimsonRingGeo = new THREE.TorusGeometry(8.95, 0.08, 16, 64);
+    // 2. Luminous Crimson Accent Ring
+    const crimsonRingGeo = new THREE.TorusGeometry(9.05, 0.08, 16, 64);
     const crimsonRingMat = new THREE.MeshStandardMaterial({
       color: '#9F1239',
       emissive: '#9F1239',
-      emissiveIntensity: 0.35,
-      roughness: 0.3,
-      metalness: 0.5,
+      emissiveIntensity: 0.45,
+      roughness: 0.28,
+      metalness: 0.55,
     });
     this.stageCrimsonRingMesh = new THREE.Mesh(crimsonRingGeo, crimsonRingMat);
     this.stageCrimsonRingMesh.rotation.x = Math.PI / 2;
-    this.stageCrimsonRingMesh.position.y = 0.44;
+    this.stageCrimsonRingMesh.position.y = 0.46;
     this.stageCrimsonRingMesh.castShadow = true;
     this.stageGroup.add(this.stageCrimsonRingMesh);
 
-    // 3. Inner Arena Stage Surface
-    const surfaceRadius = 8.85;
+    // 3. Inner Arena Stage Surface (Alabaster stone in light, deep slate in night)
+    const surfaceRadius = 8.95;
     const surfaceGeo = new THREE.CylinderGeometry(surfaceRadius, surfaceRadius, 0.44, 64);
     const surfaceMat = new THREE.MeshStandardMaterial({
-      color: this.isDark ? '#1C1C1E' : '#F0ECE6',
-      roughness: 0.75,
-      metalness: 0.1,
+      color: this.isDark ? '#202026' : '#EFEBE4',
+      roughness: 0.65,
+      metalness: 0.12,
     });
     this.stageSurfaceMesh = new THREE.Mesh(surfaceGeo, surfaceMat);
-    this.stageSurfaceMesh.position.y = 0.22;
+    this.stageSurfaceMesh.position.y = 0.23;
     this.stageSurfaceMesh.receiveShadow = true;
     this.stageGroup.add(this.stageSurfaceMesh);
 
-    // 4. Concentric Floor Zoning Ring
-    const innerZoningGeo = new THREE.TorusGeometry(5.7, 0.025, 12, 64);
-    const innerZoningMat = new THREE.MeshStandardMaterial({
-      color: this.isDark ? '#9F1239' : '#888888',
+    // 4. Concentric Floor Zoning Inlays
+    const inlayMat = new THREE.MeshStandardMaterial({
+      color: this.isDark ? '#9F1239' : '#887B75',
       transparent: true,
-      opacity: this.isDark ? 0.45 : 0.3,
-      roughness: 0.5,
+      opacity: this.isDark ? 0.5 : 0.35,
+      roughness: 0.4,
     });
-    const innerZoning = new THREE.Mesh(innerZoningGeo, innerZoningMat);
-    innerZoning.rotation.x = Math.PI / 2;
-    innerZoning.position.y = 0.45;
-    this.stageGroup.add(innerZoning);
+    const mainInlayGeo = new THREE.TorusGeometry(5.8, 0.025, 12, 64);
+    this.stageInlayRing1 = new THREE.Mesh(mainInlayGeo, inlayMat);
+    this.stageInlayRing1.rotation.x = Math.PI / 2;
+    this.stageInlayRing1.position.y = 0.46;
+    this.stageGroup.add(this.stageInlayRing1);
+
+    // Sub-inlays designating each podium's sparring sector
+    const sectorInlayGeo = new THREE.TorusGeometry(1.8, 0.02, 12, 48);
+    this.stageInlayRing2 = new THREE.Mesh(sectorInlayGeo, inlayMat);
+    this.stageInlayRing2.rotation.x = Math.PI / 2;
+    this.stageInlayRing2.position.set(-4.0, 0.46, 0.2);
+    this.stageGroup.add(this.stageInlayRing2);
+
+    this.stageInlayRing3 = new THREE.Mesh(sectorInlayGeo, inlayMat);
+    this.stageInlayRing3.rotation.x = Math.PI / 2;
+    this.stageInlayRing3.position.set(4.0, 0.46, 0.2);
+    this.stageGroup.add(this.stageInlayRing3);
 
     // 5. Contact Soft Shadow Disc underneath the platform
-    const shadowDiscGeo = new THREE.CircleGeometry(10.2, 48);
+    const shadowDiscGeo = new THREE.CircleGeometry(10.4, 48);
     const shadowDiscMat = new THREE.MeshBasicMaterial({
       color: '#000000',
       transparent: true,
-      opacity: this.isDark ? 0.55 : 0.22,
+      opacity: this.isDark ? 0.55 : 0.2,
       depthWrite: false,
     });
     const shadowDisc = new THREE.Mesh(shadowDiscGeo, shadowDiscMat);
     shadowDisc.rotation.x = -Math.PI / 2;
-    shadowDisc.position.y = -0.89;
+    shadowDisc.position.y = -0.99;
     this.scene.add(shadowDisc);
   }
 
   initOverheadRigAndSpotlights() {
-    const trussY = 14.8;
-    const trussZ = 4.2;
+    const trussY = 15.0;
+    const trussZ = 4.4;
 
     const pipeGeo = new THREE.CylinderGeometry(0.12, 0.12, 28, 24);
-    const pipeMat = new THREE.MeshStandardMaterial({ color: '#252525', metalness: 0.8, roughness: 0.3 });
+    const pipeMat = new THREE.MeshStandardMaterial({ color: '#252528', metalness: 0.8, roughness: 0.3 });
     const mainPipe = new THREE.Mesh(pipeGeo, pipeMat);
     mainPipe.rotation.z = Math.PI / 2;
     mainPipe.position.set(0, trussY, trussZ);
@@ -544,7 +1320,7 @@ class DebateArena {
       this.lightingRigGroup.add(cable);
     });
 
-    const createTheatreFixture = (xPos: number, isCrimson: boolean) => {
+    const createTheatreFixture = (xPos: number, isCrimsonBeam: boolean) => {
       const fixtureGroup = new THREE.Group();
       fixtureGroup.position.set(xPos, trussY, trussZ);
 
@@ -564,9 +1340,9 @@ class DebateArena {
 
       const housingGeo = new THREE.CylinderGeometry(0.58, 0.45, 1.6, 24);
       const housingMat = new THREE.MeshStandardMaterial({
-        color: '#151515',
-        metalness: 0.6,
-        roughness: 0.35,
+        color: '#151518',
+        metalness: 0.65,
+        roughness: 0.32,
       });
       const housing = new THREE.Mesh(housingGeo, housingMat);
       housing.castShadow = true;
@@ -578,24 +1354,25 @@ class DebateArena {
       bezel.position.y = -0.8;
       housingGroup.add(bezel);
 
+      // Barn-door flaps
       [-0.45, 0.45].forEach((offset) => {
         const flapGeo = new THREE.BoxGeometry(0.8, 0.02, 0.35);
         const flap1 = new THREE.Mesh(flapGeo, pipeMat);
         flap1.position.set(0, -0.9, offset);
-        flap1.rotation.x = (offset > 0 ? 0.35 : -0.35);
+        flap1.rotation.x = offset > 0 ? 0.35 : -0.35;
         housingGroup.add(flap1);
 
         const flap2 = new THREE.Mesh(flapGeo, pipeMat);
         flap2.rotation.y = Math.PI / 2;
         flap2.position.set(offset, -0.9, 0);
-        flap2.rotation.z = (offset > 0 ? -0.35 : 0.35);
+        flap2.rotation.z = offset > 0 ? -0.35 : 0.35;
         housingGroup.add(flap2);
       });
 
       const lensGeo = new THREE.CircleGeometry(0.44, 24);
       const lensMat = new THREE.MeshStandardMaterial({
-        color: isCrimson ? '#9F1239' : '#FFFFFF',
-        emissive: isCrimson ? '#9F1239' : '#FFFFFF',
+        color: isCrimsonBeam ? '#FF3366' : '#FFFFFF',
+        emissive: isCrimsonBeam ? '#FF3366' : '#FFFFFF',
         emissiveIntensity: 1.5,
         roughness: 0.1,
       });
@@ -606,26 +1383,26 @@ class DebateArena {
 
       fixtureGroup.add(housingGroup);
 
-      const targetX = isCrimson ? 4.5 : -4.5;
-      housingGroup.lookAt(targetX, 1.5, 0);
+      const targetX = xPos < 0 ? -4.0 : 4.0;
+      housingGroup.lookAt(targetX, 1.8, 0.2);
       housingGroup.rotation.x += Math.PI / 2;
 
       return { fixtureGroup, lens, housingGroup };
     };
 
-    // Left Spotlight (Aiming at lowered stage FOR character)
-    const leftX = -7.2;
+    // Left Spotlight (Aiming at FOR Debater & Podium)
+    const leftX = -7.0;
     const leftFixture = createTheatreFixture(leftX, false);
     this.lightingRigGroup.add(leftFixture.fixtureGroup);
     this.leftLensMesh = leftFixture.lens;
 
-    this.leftSpotTarget.position.set(-4.2, 1.35, 0);
-    this.leftSpotLight = new THREE.SpotLight('#FFFFFF', 480);
+    this.leftSpotTarget.position.set(-4.0, 2.0, 0.2);
+    this.leftSpotLight = new THREE.SpotLight('#FFFFFF', 520);
     this.leftSpotLight.position.set(leftX, trussY - 1.6, trussZ);
     this.leftSpotLight.target = this.leftSpotTarget;
-    this.leftSpotLight.angle = Math.PI / 5.2;
+    this.leftSpotLight.angle = Math.PI / 5.0;
     this.leftSpotLight.penumbra = 0.55;
-    this.leftSpotLight.decay = 1.65;
+    this.leftSpotLight.decay = 1.6;
     this.leftSpotLight.distance = 42;
     this.leftSpotLight.castShadow = true;
     this.leftSpotLight.shadow.mapSize.width = 1024;
@@ -634,35 +1411,36 @@ class DebateArena {
     this.scene.add(this.leftSpotLight);
 
     const beamHeight = 15;
-    const beamGeo = new THREE.CylinderGeometry(0.45, 3.8, beamHeight, 32, 1, true);
+    const beamGeo = new THREE.CylinderGeometry(0.45, 3.9, beamHeight, 32, 1, true);
     beamGeo.translate(0, -beamHeight / 2, 0);
+
     const leftBeamMat = new THREE.MeshBasicMaterial({
       color: '#FFFFFF',
       transparent: true,
-      opacity: 0.18,
+      opacity: 0.16,
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
       depthWrite: false,
     });
     this.leftBeamMesh = new THREE.Mesh(beamGeo, leftBeamMat);
     this.leftBeamMesh.position.set(leftX, trussY - 1.6, trussZ);
-    this.leftBeamMesh.lookAt(-4.2, 1.35, 0);
+    this.leftBeamMesh.lookAt(-4.0, 1.8, 0.2);
     this.leftBeamMesh.rotation.x += Math.PI / 2;
     this.scene.add(this.leftBeamMesh);
 
-    // Right Spotlight (Aiming at lowered stage AGAINST character)
-    const rightX = 7.2;
+    // Right Spotlight (Aiming at AGAINST Debater & Podium)
+    const rightX = 7.0;
     const rightFixture = createTheatreFixture(rightX, true);
     this.lightingRigGroup.add(rightFixture.fixtureGroup);
     this.rightLensMesh = rightFixture.lens;
 
-    this.rightSpotTarget.position.set(4.2, 1.35, 0);
-    this.rightSpotLight = new THREE.SpotLight('#9F1239', 420);
+    this.rightSpotTarget.position.set(4.0, 2.0, 0.2);
+    this.rightSpotLight = new THREE.SpotLight('#FF4D6D', 480);
     this.rightSpotLight.position.set(rightX, trussY - 1.6, trussZ);
     this.rightSpotLight.target = this.rightSpotTarget;
-    this.rightSpotLight.angle = Math.PI / 5.2;
+    this.rightSpotLight.angle = Math.PI / 5.0;
     this.rightSpotLight.penumbra = 0.55;
-    this.rightSpotLight.decay = 1.65;
+    this.rightSpotLight.decay = 1.6;
     this.rightSpotLight.distance = 42;
     this.rightSpotLight.castShadow = true;
     this.rightSpotLight.shadow.mapSize.width = 1024;
@@ -673,199 +1451,60 @@ class DebateArena {
     const rightBeamMat = new THREE.MeshBasicMaterial({
       color: '#9F1239',
       transparent: true,
-      opacity: 0.22,
+      opacity: 0.2,
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
       depthWrite: false,
     });
     this.rightBeamMesh = new THREE.Mesh(beamGeo, rightBeamMat);
     this.rightBeamMesh.position.set(rightX, trussY - 1.6, trussZ);
-    this.rightBeamMesh.lookAt(4.2, 1.35, 0);
+    this.rightBeamMesh.lookAt(4.0, 1.8, 0.2);
     this.rightBeamMesh.rotation.x += Math.PI / 2;
     this.scene.add(this.rightBeamMesh);
   }
 
-  initTable() {
-    this.tableGroup = new THREE.Group();
+  initDebateTheatre() {
+    // 1. FOR Podium & Debater (Left Stage: angled inward ~20° toward opponent and audience)
+    this.podiumFor = createPodium(true, this.isDark);
+    this.podiumFor.root.position.set(-4.0, 0.44, 0.2);
+    this.podiumFor.root.rotation.y = 0.34;
+    this.stageGroup.add(this.podiumFor.root);
 
-    // Table Top (Dark Charcoal)
-    const topGeo = new THREE.BoxGeometry(7, 0.15, 4);
-    const topMat = new THREE.MeshStandardMaterial({ color: '#252525', roughness: 0.35, metalness: 0.2 });
-    const top = new THREE.Mesh(topGeo, topMat);
-    top.position.y = 2.45;
-    top.castShadow = true;
-    top.receiveShadow = true;
-    this.tableGroup.add(top);
-
-    // White Outer Boundary Lines
-    const lineGeo = new THREE.BoxGeometry(7.04, 0.16, 4.04);
-    const lineMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.2 });
-    const lines = new THREE.Mesh(lineGeo, lineMat);
-    lines.position.y = 2.45;
-    this.tableGroup.add(lines);
-
-    // White Center Line
-    const centerLineGeo = new THREE.BoxGeometry(7.02, 0.162, 0.05);
-    const centerLine = new THREE.Mesh(centerLineGeo, lineMat);
-    centerLine.position.y = 2.45;
-    this.tableGroup.add(centerLine);
-
-    // Crimson Net (Wireframe translucent)
-    const netGeo = new THREE.BoxGeometry(0.04, 0.46, 4.3);
-    const netMat = new THREE.MeshStandardMaterial({
-      color: '#9F1239',
-      transparent: true,
-      opacity: 0.85,
-      wireframe: true,
+    this.debaterFor = createDebater({
+      isFor: true,
+      skinColor: '#C88865',
+      hairColor: '#1A1513',
+      suitColor: this.isDark ? '#1C1D24' : '#181920',
+      shirtColor: '#F5F5FA',
+      tieColor: '#9F1239',
+      isDark: this.isDark,
     });
-    const net = new THREE.Mesh(netGeo, netMat);
-    net.position.y = 2.76;
-    net.castShadow = true;
-    this.tableGroup.add(net);
+    this.debaterFor.root.position.set(-4.0, 0.44, -0.6);
+    this.debaterFor.root.rotation.y = 0.34;
+    this.stageGroup.add(this.debaterFor.root);
 
-    // Net Posts
-    const postGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.6);
-    const postMat = new THREE.MeshStandardMaterial({ color: '#111111', metalness: 0.7, roughness: 0.2 });
-    const post1 = new THREE.Mesh(postGeo, postMat);
-    post1.position.set(0, 2.7, 2.15);
-    const post2 = new THREE.Mesh(postGeo, postMat);
-    post2.position.set(0, 2.7, -2.15);
-    this.tableGroup.add(post1, post2);
+    // 2. AGAINST Podium & Debater (Right Stage: angled inward ~20° toward opponent and audience)
+    this.podiumAgainst = createPodium(false, this.isDark);
+    this.podiumAgainst.root.position.set(4.0, 0.44, 0.2);
+    this.podiumAgainst.root.rotation.y = -0.34;
+    this.stageGroup.add(this.podiumAgainst.root);
 
-    // Metallic Table Legs anchored to stage
-    const legGeo = new THREE.CylinderGeometry(0.06, 0.05, 2.05);
-    const legMat = new THREE.MeshStandardMaterial({ color: '#555555', metalness: 0.8, roughness: 0.25 });
-    const positions = [
-      [-3.1, -1.75],
-      [3.1, -1.75],
-      [-3.1, 1.75],
-      [3.1, 1.75],
-    ];
-
-    positions.forEach((pos) => {
-      const leg = new THREE.Mesh(legGeo, legMat);
-      leg.position.set(pos[0], 1.42, pos[1]);
-      leg.castShadow = true;
-      leg.receiveShadow = true;
-      this.tableGroup!.add(leg);
+    this.debaterAgainst = createDebater({
+      isFor: false,
+      skinColor: '#E2AF8E',
+      hairColor: '#322018',
+      suitColor: this.isDark ? '#261F25' : '#221B20',
+      shirtColor: '#ECE8E1',
+      tieColor: '#4A1220',
+      isDark: this.isDark,
     });
-
-    this.stageGroup.add(this.tableGroup);
-  }
-
-  initCharacters() {
-    const createMannequin = (color: string, isLeft: boolean) => {
-      const group = new THREE.Group();
-      const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.25, metalness: 0.15 });
-
-      // Head
-      const head = new THREE.Mesh(new THREE.SphereGeometry(0.45, 32, 32), mat);
-      head.position.y = 4.3;
-      head.castShadow = true;
-      group.add(head);
-
-      // Torso / Body Capsule
-      const torsoGeo = new THREE.CapsuleGeometry(0.5, 1.2, 16, 16);
-      const torso = new THREE.Mesh(torsoGeo, mat);
-      torso.position.y = 2.75;
-      torso.castShadow = true;
-      group.add(torso);
-
-      // Arms
-      const armGeo = new THREE.CapsuleGeometry(0.12, 0.9, 8, 8);
-
-      const leftArmGroup = new THREE.Group();
-      leftArmGroup.position.set(isLeft ? 0.65 : -0.65, 3.4, 0);
-      const leftArm = new THREE.Mesh(armGeo, mat);
-      leftArm.position.y = -0.45;
-      leftArm.castShadow = true;
-      leftArmGroup.add(leftArm);
-      group.add(leftArmGroup);
-
-      const rightArmGroup = new THREE.Group();
-      rightArmGroup.position.set(isLeft ? -0.65 : 0.65, 3.4, 0);
-      const rightArm = new THREE.Mesh(armGeo, mat);
-      rightArm.position.y = -0.45;
-      rightArm.castShadow = true;
-      rightArmGroup.add(rightArm);
-      group.add(rightArmGroup);
-
-      // Debate Paddle
-      const paddleGroup = new THREE.Group();
-      const handle = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.04, 0.04, 0.4),
-        new THREE.MeshStandardMaterial({ color: '#252525' })
-      );
-      const face = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.25, 0.25, 0.04),
-        new THREE.MeshStandardMaterial({ color: isLeft ? '#9F1239' : '#111111' })
-      );
-      face.rotation.x = Math.PI / 2;
-      face.position.y = 0.3;
-      paddleGroup.add(handle, face);
-      paddleGroup.position.y = -0.9;
-
-      if (isLeft) {
-        rightArmGroup.add(paddleGroup);
-        rightArmGroup.rotation.x = -0.5;
-      } else {
-        leftArmGroup.add(paddleGroup);
-        leftArmGroup.rotation.x = -0.5;
-      }
-
-      // 3D Dialectic Badge Plaque above character
-      const badgePlaqueGeo = new THREE.BoxGeometry(1.6, 0.4, 0.08);
-      const badgePlaqueMat = new THREE.MeshStandardMaterial({
-        color: isLeft ? '#111111' : '#2A2A2A',
-        roughness: 0.3,
-        metalness: 0.4,
-      });
-      const badgePlaque = new THREE.Mesh(badgePlaqueGeo, badgePlaqueMat);
-      badgePlaque.position.set(0, 5.2, 0);
-      badgePlaque.castShadow = true;
-      group.add(badgePlaque);
-
-      // Crimson Accent Border on Badge
-      const badgeAccentGeo = new THREE.BoxGeometry(1.64, 0.06, 0.09);
-      const badgeAccentMat = new THREE.MeshBasicMaterial({ color: '#9F1239' });
-      const badgeAccent = new THREE.Mesh(badgeAccentGeo, badgeAccentMat);
-      badgeAccent.position.set(0, 5.0, 0);
-      group.add(badgeAccent);
-
-      return { root: group, armR: rightArmGroup, armL: leftArmGroup, head, torso };
-    };
-
-    // FOR Character (Left / Black Mannequin)
-    this.charFor = createMannequin('#111111', true);
-    this.charFor.root.position.set(-5.1, 0.2, 0);
-    this.charFor.root.rotation.y = Math.PI / 6;
-    this.stageGroup.add(this.charFor.root);
-
-    // AGAINST Character (Right / Off-white Mannequin)
-    this.charAgainst = createMannequin('#E5E2DC', false);
-    this.charAgainst.root.position.set(5.1, 0.2, 0);
-    this.charAgainst.root.rotation.y = -Math.PI / 6;
-    this.stageGroup.add(this.charAgainst.root);
-  }
-
-  initBall() {
-    const geo = new THREE.SphereGeometry(0.13, 32, 32);
-    const mat = new THREE.MeshStandardMaterial({
-      color: '#FFFFFF',
-      emissive: '#9F1239',
-      emissiveIntensity: 0.5,
-      roughness: 0.1,
-    });
-    this.ballMesh = new THREE.Mesh(geo, mat);
-    this.ballMesh.castShadow = true;
-    this.stageGroup.add(this.ballMesh);
-
-    this.ballLight = new THREE.PointLight('#9F1239', 1.4, 4.5);
-    this.stageGroup.add(this.ballLight);
+    this.debaterAgainst.root.position.set(4.0, 0.44, -0.6);
+    this.debaterAgainst.root.rotation.y = -0.34;
+    this.stageGroup.add(this.debaterAgainst.root);
   }
 
   init3DTitle() {
-    this.titleGroup.position.set(0, 7.5, -3.2);
+    this.titleGroup.position.set(0, 7.6, -3.2);
 
     const loader = new FontLoader();
     loader.load(
@@ -942,25 +1581,51 @@ class DebateArena {
 
   setTheme(isDark: boolean) {
     this.isDark = isDark;
-    const bgCol = isDark ? '#121212' : '#FAF9F6';
+    const bgCol = isDark ? '#121214' : '#FAF9F6';
     this.scene.background = new THREE.Color(bgCol);
     if (this.scene.fog) {
       this.scene.fog.color = new THREE.Color(bgCol);
-      (this.scene.fog as THREE.FogExp2).density = isDark ? 0.016 : 0.012;
+      (this.scene.fog as THREE.FogExp2).density = isDark ? 0.015 : 0.011;
     }
 
     if (this.floorMesh) {
-      (this.floorMesh.material as THREE.MeshStandardMaterial).color.set(isDark ? '#101010' : '#FAF9F6');
+      (this.floorMesh.material as THREE.MeshStandardMaterial).color.set(isDark ? '#101012' : '#FAF9F6');
     }
     if (this.stageSurfaceMesh) {
-      (this.stageSurfaceMesh.material as THREE.MeshStandardMaterial).color.set(isDark ? '#1C1C1E' : '#F0ECE6');
+      (this.stageSurfaceMesh.material as THREE.MeshStandardMaterial).color.set(isDark ? '#202026' : '#EFEBE4');
     }
     if (this.ambientLight) {
-      this.ambientLight.color.set(isDark ? '#504a55' : '#ffffff');
-      this.ambientLight.intensity = isDark ? 0.45 : 0.72;
+      this.ambientLight.color.set(isDark ? '#645C72' : '#FFF9F2');
+      this.ambientLight.intensity = isDark ? 0.65 : 0.76;
     }
     if (this.keyDirLight) {
-      this.keyDirLight.intensity = isDark ? 0.35 : 0.6;
+      this.keyDirLight.intensity = isDark ? 0.45 : 0.68;
+    }
+    if (this.rimBackLight) {
+      this.rimBackLight.intensity = isDark ? 0.85 : 0.48;
+    }
+    if (this.floorBounceLight) {
+      this.floorBounceLight.intensity = isDark ? 0.7 : 0.35;
+    }
+
+    // Refresh Debater Attire materials for optimum contrast in night/light mode
+    if (this.debaterFor) {
+      this.debaterFor.jacketMat.color.set(isDark ? '#1C1D24' : '#181920');
+      this.debaterFor.trousersMat.color.set(isDark ? '#14141A' : '#181920');
+    }
+    if (this.debaterAgainst) {
+      this.debaterAgainst.jacketMat.color.set(isDark ? '#261F25' : '#221B20');
+      this.debaterAgainst.trousersMat.color.set(isDark ? '#18161B' : '#1E1B20');
+    }
+
+    // Refresh podium plaque textures
+    if (this.podiumFor) {
+      ((this.podiumFor.plaqueMesh.material as THREE.MeshBasicMaterial).map as THREE.CanvasTexture).dispose();
+      (this.podiumFor.plaqueMesh.material as THREE.MeshBasicMaterial).map = createPodiumPlaqueTexture('FOR', isDark);
+    }
+    if (this.podiumAgainst) {
+      ((this.podiumAgainst.plaqueMesh.material as THREE.MeshBasicMaterial).map as THREE.CanvasTexture).dispose();
+      (this.podiumAgainst.plaqueMesh.material as THREE.MeshBasicMaterial).map = createPodiumPlaqueTexture('AGAINST', isDark);
     }
 
     this.init3DTitle();
@@ -999,88 +1664,167 @@ class DebateArena {
     this.camera.position.z = this.baseCameraZ + scrollEffect * 2;
     this.camera.lookAt(this.cameraTarget);
 
-    // Continuous subtle revolving motion
-    const stageYaw = Math.sin(time * 0.35) * 0.22;
+    // Continuous subtle revolving motion of the debate stage
+    const stageYaw = Math.sin(time * 0.32) * 0.2;
     this.stageGroup.rotation.y = stageYaw;
-    this.stageGroup.rotation.x = this.mouse.y * 0.04;
+    this.stageGroup.rotation.x = this.mouse.y * 0.035;
 
-    // 4-Phase Spotlight sequence
-    const cycleTime = time % 6.5;
-    let leftFactor = 0;
-    let rightFactor = 0;
+    // --- CINEMATIC 3-PHASE SPOTLIGHT SEQUENCE ---
+    // Total cycle duration = 10.5 seconds
+    // Phase 1 (0.0s - 3.5s): FOR Participant speech (Left spotlight highlighted)
+    // Phase 2 (3.5s - 4.5s transition -> 4.5s - 7.5s): AGAINST Participant speech (Right spotlight highlighted)
+    // Phase 3 (7.5s - 8.3s transition -> 8.3s - 9.7s): Balanced Cross-Examination Stage Illumination
+    // (9.7s - 10.5s transition back to Phase 1)
+    const cyclePeriod = 10.5;
+    const t = time % cyclePeriod;
 
-    if (cycleTime < 2.6) {
+    let leftFactor = 0.28;
+    let rightFactor = 0.28;
+    let forSpeaking = false;
+    let againstSpeaking = false;
+    let balancedClash = false;
+
+    if (t < 3.5) {
+      // Phase 1: FOR Debater Commands Floor
       leftFactor = 1.0;
-      rightFactor = 0.12;
-    } else if (cycleTime < 3.25) {
-      const t = (cycleTime - 2.6) / 0.65;
-      const smooth = (1 - Math.cos(t * Math.PI)) / 2;
-      leftFactor = 1.0 - smooth * 0.88;
-      rightFactor = 0.12 + smooth * 0.88;
-    } else if (cycleTime < 5.85) {
-      leftFactor = 0.12;
+      rightFactor = 0.28;
+      forSpeaking = true;
+    } else if (t < 4.5) {
+      // Transition from FOR to AGAINST
+      const p = (t - 3.5) / 1.0;
+      const ease = (1 - Math.cos(p * Math.PI)) / 2;
+      leftFactor = 1.0 - ease * 0.72;
+      rightFactor = 0.28 + ease * 0.72;
+      forSpeaking = p < 0.4;
+      againstSpeaking = p >= 0.6;
+    } else if (t < 7.5) {
+      // Phase 2: AGAINST Debater Counter-Rebuttal
+      leftFactor = 0.28;
       rightFactor = 1.0;
+      againstSpeaking = true;
+    } else if (t < 8.3) {
+      // Transition from AGAINST to Balanced Clash
+      const p = (t - 7.5) / 0.8;
+      const ease = (1 - Math.cos(p * Math.PI)) / 2;
+      leftFactor = 0.28 + ease * 0.47;
+      rightFactor = 1.0 - ease * 0.25;
+      againstSpeaking = p < 0.4;
+      balancedClash = p >= 0.6;
+    } else if (t < 9.7) {
+      // Phase 3: Balanced Intellectual Clash / Equal Illumination
+      leftFactor = 0.75;
+      rightFactor = 0.75;
+      balancedClash = true;
     } else {
-      const t = (cycleTime - 5.85) / 0.65;
-      const smooth = (1 - Math.cos(t * Math.PI)) / 2;
-      leftFactor = 0.12 + smooth * 0.88;
-      rightFactor = 1.0 - smooth * 0.88;
+      // Transition back to Phase 1
+      const p = (t - 9.7) / 0.8;
+      const ease = (1 - Math.cos(p * Math.PI)) / 2;
+      leftFactor = 0.75 + ease * 0.25;
+      rightFactor = 0.75 - ease * 0.47;
+      balancedClash = p < 0.4;
+      forSpeaking = p >= 0.6;
     }
 
+    // SpotLight actual directional 3D intensities
     if (this.leftSpotLight) {
-      this.leftSpotLight.intensity = 55 + leftFactor * 460;
+      this.leftSpotLight.intensity = 130 + leftFactor * 460;
     }
     if (this.rightSpotLight) {
-      this.rightSpotLight.intensity = 50 + rightFactor * 420;
+      this.rightSpotLight.intensity = 120 + rightFactor * 430;
     }
 
+    // Fixture Lens Emissive Highlights
     if (this.leftLensMesh) {
-      (this.leftLensMesh.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.3 + leftFactor * 2.2;
+      (this.leftLensMesh.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.4 + leftFactor * 2.2;
     }
     if (this.rightLensMesh) {
-      (this.rightLensMesh.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.3 + rightFactor * 2.2;
+      (this.rightLensMesh.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.4 + rightFactor * 2.2;
     }
 
+    // Visible Volumetric Light Beams (Soft, additive, realistic)
     if (this.leftBeamMesh) {
-      (this.leftBeamMesh.material as THREE.MeshBasicMaterial).opacity = 0.03 + leftFactor * 0.22;
+      (this.leftBeamMesh.material as THREE.MeshBasicMaterial).opacity = 0.04 + leftFactor * 0.18;
     }
     if (this.rightBeamMesh) {
-      (this.rightBeamMesh.material as THREE.MeshBasicMaterial).opacity = 0.04 + rightFactor * 0.24;
+      (this.rightBeamMesh.material as THREE.MeshBasicMaterial).opacity = 0.05 + rightFactor * 0.21;
     }
 
-    if (this.titleGroup) {
-      this.titleGroup.position.y = 7.5 + Math.sin(time * 0.8) * 0.12;
-      this.titleGroup.rotation.y = Math.sin(time * 0.3) * 0.11 + this.mouse.x * 0.1;
-      this.titleGroup.rotation.x = this.mouse.y * 0.08;
+    // Active Microphone LED Indicator Pulses
+    if (this.podiumFor) {
+      const pulse = forSpeaking || balancedClash ? 1.0 + Math.sin(time * 6) * 0.4 : 0.25;
+      (this.podiumFor.micLed.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.5 + pulse * 1.8;
+      this.podiumFor.micLight.intensity = 0.2 + pulse * 0.7;
+    }
+    if (this.podiumAgainst) {
+      const pulse = againstSpeaking || balancedClash ? 1.0 + Math.sin(time * 6) * 0.4 : 0.25;
+      (this.podiumAgainst.micLed.material as THREE.MeshStandardMaterial).emissiveIntensity = 0.5 + pulse * 1.8;
+      this.podiumAgainst.micLight.intensity = 0.2 + pulse * 0.7;
     }
 
-    const rallySpeed = 2.8;
-    const pathX = Math.sin(time * rallySpeed) * 3.8;
-    const pathY = 2.65 + Math.abs(Math.cos(time * rallySpeed)) * 1.85;
-    const pathZ = Math.sin(time * rallySpeed * 0.4) * 1.1;
+    // --- NATURAL DEBATER BODY MOVEMENTS & GESTURES ---
+    const breath = Math.sin(time * 2.2) * 0.015;
 
-    if (this.ballMesh) {
-      this.ballMesh.position.set(pathX, pathY, pathZ);
-      if (this.ballLight) {
-        this.ballLight.position.copy(this.ballMesh.position);
+    // 1. FOR Debater Articulation
+    if (this.debaterFor) {
+      this.debaterFor.chestMesh.position.y = 0.05 + breath;
+
+      if (forSpeaking) {
+        // Active oration: expressive right arm gestures with rhetoric cadence
+        const speechCadence = Math.sin(time * 2.8) * 0.24 + Math.cos(time * 4.6) * 0.12;
+        this.debaterFor.armR.rotation.x = -0.55 + speechCadence * 1.1;
+        this.debaterFor.armR.rotation.z = 0.25 + speechCadence * 0.4;
+        this.debaterFor.forearmR.rotation.x = -0.65 - speechCadence * 0.6;
+        this.debaterFor.headGroup.rotation.y = Math.sin(time * 1.2) * 0.14 + 0.05;
+        this.debaterFor.headGroup.rotation.x = -0.05 + Math.sin(time * 2.8) * 0.05;
+      } else if (balancedClash) {
+        // Cross-examination engagement
+        const clashGesture = Math.sin(time * 3.4) * 0.15;
+        this.debaterFor.armR.rotation.x = -0.45 + clashGesture * 0.6;
+        this.debaterFor.forearmR.rotation.x = -0.7 - clashGesture * 0.4;
+        this.debaterFor.headGroup.rotation.y = 0.18 + Math.sin(time * 0.8) * 0.08;
+      } else {
+        // Attentive listening / resting pose on podium
+        this.debaterFor.armR.rotation.x = -0.58 + Math.sin(time * 0.6) * 0.04;
+        this.debaterFor.armR.rotation.z = 0.2;
+        this.debaterFor.forearmR.rotation.x = -0.62;
+        this.debaterFor.headGroup.rotation.y = 0.22 + Math.sin(time * 0.5) * 0.04; // Looking toward opponent
+        this.debaterFor.headGroup.rotation.x = 0;
       }
     }
 
-    if (this.charFor && this.charAgainst) {
-      const swingL = Math.max(0, -pathX) * 0.35;
-      const swingR = Math.max(0, pathX) * 0.35;
+    // 2. AGAINST Debater Articulation
+    if (this.debaterAgainst) {
+      this.debaterAgainst.chestMesh.position.y = 0.05 + breath;
 
-      this.charFor.armR.rotation.x = -0.5 - swingL * 1.5;
-      this.charFor.armR.rotation.z = swingL * 0.7;
-      this.charFor.head.rotation.y = pathX * 0.12;
-      this.charFor.head.rotation.x = (pathY - 2.5) * 0.08;
-      this.charFor.torso.rotation.y = swingL * 0.25;
+      if (againstSpeaking) {
+        // Active counter-rebuttal: analytical left arm gestures
+        const rebuttalCadence = Math.sin(time * 3.0) * 0.25 + Math.cos(time * 4.4) * 0.1;
+        this.debaterAgainst.armL.rotation.x = -0.55 + rebuttalCadence * 1.1;
+        this.debaterAgainst.armL.rotation.z = -0.25 - rebuttalCadence * 0.4;
+        this.debaterAgainst.forearmL.rotation.x = -0.65 - rebuttalCadence * 0.6;
+        this.debaterAgainst.headGroup.rotation.y = Math.sin(time * 1.2) * 0.14 - 0.05;
+        this.debaterAgainst.headGroup.rotation.x = -0.05 + Math.sin(time * 3.0) * 0.05;
+      } else if (balancedClash) {
+        // Cross-examination rebuttal engagement
+        const clashGesture = Math.cos(time * 3.4) * 0.15;
+        this.debaterAgainst.armL.rotation.x = -0.45 + clashGesture * 0.6;
+        this.debaterAgainst.forearmL.rotation.x = -0.7 - clashGesture * 0.4;
+        this.debaterAgainst.headGroup.rotation.y = -0.18 - Math.sin(time * 0.8) * 0.08;
+      } else {
+        // Attentive listening / resting pose on podium
+        this.debaterAgainst.armL.rotation.x = -0.58 + Math.sin(time * 0.6) * 0.04;
+        this.debaterAgainst.armL.rotation.z = -0.2;
+        this.debaterAgainst.forearmL.rotation.x = -0.62;
+        this.debaterAgainst.headGroup.rotation.y = -0.22 - Math.sin(time * 0.5) * 0.04; // Looking toward opponent
+        this.debaterAgainst.headGroup.rotation.x = 0;
+      }
+    }
 
-      this.charAgainst.armL.rotation.x = -0.5 - swingR * 1.5;
-      this.charAgainst.armL.rotation.z = -swingR * 0.7;
-      this.charAgainst.head.rotation.y = pathX * 0.12;
-      this.charAgainst.head.rotation.x = (pathY - 2.5) * 0.08;
-      this.charAgainst.torso.rotation.y = -swingR * 0.25;
+    // 3D SATURANGLE Title Floating Motion
+    if (this.titleGroup) {
+      this.titleGroup.position.y = 7.6 + Math.sin(time * 0.8) * 0.12;
+      this.titleGroup.rotation.y = Math.sin(time * 0.3) * 0.09 + this.mouse.x * 0.08;
+      this.titleGroup.rotation.x = this.mouse.y * 0.06;
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -1119,12 +1863,13 @@ const Header: React.FC<{
       const sections = [
         { id: 'hero', name: 'Home' },
         { id: 'about', name: 'About' },
-        { id: 'sparring-arena', name: 'Sparring Arena' },
         { id: 'events', name: 'Events' },
         { id: 'achievements', name: 'Achievements' },
         { id: 'team', name: 'Our Team' },
         { id: 'core-council', name: 'Core Council' },
+        { id: 'our-teams', name: 'Our Teams' },
         { id: 'gallery', name: 'Gallery' },
+        { id: 'platform-team', name: 'Behind the Platform' },
       ];
 
       const curPos = window.scrollY + 220;
@@ -1297,12 +2042,21 @@ const Hero: React.FC<{ isDark: boolean; onOpenJoin: () => void }> = ({ isDark, o
     <section
       id="hero"
       className={`relative w-full overflow-hidden transition-colors duration-500 pt-28 md:pt-32 ${
-        isDark ? 'bg-[#121212]' : 'bg-[#FAF9F6]'
+        isDark ? 'bg-[#121214]' : 'bg-[#FAF9F6]'
       }`}
     >
+      {/* Restrained Crimson Gradient Ambient Accent around the Stage */}
+      <div
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
+          isDark
+            ? 'opacity-90 bg-[radial-gradient(ellipse_75%_55%_at_50%_42%,rgba(159,18,57,0.16),rgba(18,18,20,0))]'
+            : 'opacity-70 bg-[radial-gradient(ellipse_75%_55%_at_50%_42%,rgba(159,18,57,0.04),rgba(250,249,246,0))]'
+        }`}
+      />
+
       {/* 2. Hero Introduction Label — EXACT TEXT REQUIRED: "INTRODUCING THE OFFICIAL DEBATE CLUB" */}
       <div className="w-full text-center relative z-20 mb-3 px-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#9F1239]/35 bg-[#9F1239]/10 backdrop-blur-sm shadow-xs max-w-full">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#9F1239]/30 bg-gradient-to-r from-[#9F1239]/10 via-[#9F1239]/5 to-[#9F1239]/10 backdrop-blur-sm shadow-xs max-w-full">
           <Sparkles size={13} className="text-[#9F1239] flex-shrink-0" />
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] sm:tracking-[0.25em] text-[#9F1239] uppercase">
             INTRODUCING THE OFFICIAL DEBATE CLUB
@@ -1318,21 +2072,55 @@ const Hero: React.FC<{ isDark: boolean; onOpenJoin: () => void }> = ({ isDark, o
         {/* Lateral Dialectic Badges (Floating on sides away from central arena) */}
         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 max-w-7xl mx-auto px-6 hidden md:flex justify-between items-center pointer-events-none z-10">
           {/* FOR Indicator */}
-          <div className="pointer-events-auto group cursor-help max-w-[210px]">
-            <div className="bg-[#111111] text-white px-3.5 py-1.5 text-[11px] font-bold tracking-widest border-l-4 border-[#9F1239] shadow-xl inline-block">
-              PROPOSITION • FOR
+          <div className="pointer-events-auto group cursor-help max-w-[230px]">
+            <div
+              className={`px-4 py-2 text-[11px] font-bold tracking-widest shadow-lg inline-block border backdrop-blur-md transition-all ${
+                isDark
+                  ? 'bg-[#16161C]/90 text-white border-white/10 hover:border-[#9F1239]/60'
+                  : 'bg-white/95 text-[#111111] border-[#E7E3DF] hover:border-[#9F1239]/50'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#9F1239]" />
+                <span>PROPOSITION</span>
+                <span className="text-[#9F1239]">·</span>
+                <span className="text-[#9F1239]">FOR</span>
+              </div>
             </div>
-            <div className="mt-2 text-[11px] leading-relaxed p-2.5 rounded bg-black/80 text-gray-200 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 border border-white/10">
+            <div
+              className={`mt-2 text-[11px] leading-relaxed p-3 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 border ${
+                isDark
+                  ? 'bg-[#181820]/95 text-gray-300 border-white/10'
+                  : 'bg-white/95 text-[#555555] border-[#E7E3DF] shadow-md'
+              }`}
+            >
               Under the spotlight: Proposing the motion, structuring empirical frameworks, and setting the debate burden.
             </div>
           </div>
 
           {/* AGAINST Indicator */}
-          <div className="pointer-events-auto group cursor-help max-w-[210px] text-right">
-            <div className="bg-[#111111] text-white px-3.5 py-1.5 text-[11px] font-bold tracking-widest border-r-4 border-[#9F1239] shadow-xl inline-block">
-              OPPOSITION • AGAINST
+          <div className="pointer-events-auto group cursor-help max-w-[230px] text-right">
+            <div
+              className={`px-4 py-2 text-[11px] font-bold tracking-widest shadow-lg inline-block border backdrop-blur-md transition-all ${
+                isDark
+                  ? 'bg-[#16161C]/90 text-white border-white/10 hover:border-[#9F1239]/60'
+                  : 'bg-white/95 text-[#111111] border-[#E7E3DF] hover:border-[#9F1239]/50'
+              }`}
+            >
+              <div className="flex items-center gap-2 justify-end">
+                <span className="text-[#9F1239]">AGAINST</span>
+                <span className="text-[#9F1239]">·</span>
+                <span>OPPOSITION</span>
+                <span className="w-1.5 h-1.5 bg-[#9F1239]" />
+              </div>
             </div>
-            <div className="mt-2 text-[11px] leading-relaxed p-2.5 rounded bg-black/80 text-gray-200 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 border border-white/10 text-left">
+            <div
+              className={`mt-2 text-[11px] leading-relaxed p-3 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 border text-left ${
+                isDark
+                  ? 'bg-[#181820]/95 text-gray-300 border-white/10'
+                  : 'bg-white/95 text-[#555555] border-[#E7E3DF] shadow-md'
+              }`}
+            >
               Under the spotlight: Questioning premises, presenting counter-mechanisms, and testing logical integrity.
             </div>
           </div>
@@ -1468,131 +2256,580 @@ const AboutSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
   </section>
 );
 
-// 4. SPARRING ARENA SECTION
-const SparringArenaSection: React.FC<{ isDark: boolean; onOpenJoin: () => void }> = ({ isDark, onOpenJoin }) => {
-  const [selectedFormat, setSelectedFormat] = useState('Asian Parliamentary');
+// 3. EVENTS SECTION — EXACT 4 EDITABLE EVENT CARDS (IEEE MUJ INSPIRATION)
+const EventsSection: React.FC<{ isDark: boolean; onSelectEvent: (event: EventItem) => void }> = ({
+  isDark,
+  onSelectEvent,
+}) => {
+  const [activeTab, setActiveTab] = useState<'all' | 'upcoming' | 'past'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const formats = [
-    {
-      name: 'Asian Parliamentary (3v3)',
-      team: 'Government vs Opposition',
-      time: '7 mins per speech + 1 min POIs',
-      focus: 'Substantive case building, rapid Points of Information, strategic whips.',
-    },
-    {
-      name: 'British Parliamentary (2v2)',
-      team: 'Opening & Closing Halves',
-      time: '5 mins per speaker',
-      focus: 'Extension mechanisms, nuance differentiation, and rebuttal depth.',
-    },
-    {
-      name: 'Turncoat & Extempore',
-      team: 'Individual Speakers',
-      time: '60s Affirmative + 60s Negative on Bell',
-      focus: 'Spontaneous mental agility and self-negation without losing composure.',
-    },
-  ];
+  const categories = ['All', 'Parliamentary', 'Turncoat', 'Workshop', 'Town Hall'];
+
+  const filteredEvents = EVENTS_DATA.filter((evt) => {
+    const matchesTab = activeTab === 'all' || evt.status === activeTab;
+    const matchesCategory = selectedCategory === 'All' || evt.category === selectedCategory;
+    return matchesTab && matchesCategory;
+  });
+
+  const upcomingCount = EVENTS_DATA.filter((e) => e.status === 'upcoming').length;
+  const pastCount = EVENTS_DATA.filter((e) => e.status === 'past').length;
 
   return (
     <section
-      id="sparring-arena"
-      className={`py-24 border-t transition-colors duration-500 ${
-        isDark ? 'bg-[#141414] border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+      id="events"
+      className={`py-24 border-t transition-colors duration-500 relative z-20 ${
+        isDark ? 'bg-[#121214] border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
       }`}
     >
-      <div className="container mx-auto px-6 max-w-7xl">
-        <SectionHeader
-          isDark={isDark}
-          title="The Sparring Arena"
-          subtitle="Our live weekly practice grounds where collegiate debaters test motions, hone delivery, and receive rigorous adjudication."
-        />
+      <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
+            <span className="w-2 h-2 rounded-full bg-[#9F1239]" />
+            <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+              Schedule &amp; Tournaments
+            </span>
+          </div>
+          <h2
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display ${
+              isDark ? 'text-white' : 'text-[#111111]'
+            }`}
+          >
+            Events
+          </h2>
+          <p
+            className={`text-base md:text-lg max-w-2xl mx-auto leading-relaxed ${
+              isDark ? 'text-gray-400' : 'text-[#686868]'
+            }`}
+          >
+            Explore upcoming and past events organized by SATURANGLE.
+          </p>
+          <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
+        </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-5 space-y-4">
-            <h3 className={`text-xl font-bold font-display ${isDark ? 'text-white' : 'text-[#111111]'}`}>
-              Parliamentary Formats Practiced
-            </h3>
-            <p className={`text-xs leading-relaxed ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
-              Every Saturday at 4:00 PM in Academic Block 1, debaters draw spontaneous motions and engage in full-length moderated rounds under accredited national adjudicators.
-            </p>
-            <div className="space-y-3 pt-2">
-              {formats.map((fmt) => (
-                <div
-                  key={fmt.name}
-                  onClick={() => setSelectedFormat(fmt.name)}
-                  className={`p-4 border cursor-pointer transition-all ${
-                    selectedFormat === fmt.name
-                      ? 'border-[#9F1239] bg-[#9F1239]/10'
-                      : isDark
-                      ? 'border-white/10 bg-[#1A1A1A] hover:border-white/20'
-                      : 'border-[#E7E3DF] bg-white hover:border-gray-400'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-[#111111]'}`}>{fmt.name}</span>
-                    <span className="text-[10px] font-bold text-[#9F1239] uppercase tracking-wider">{fmt.team}</span>
-                  </div>
-                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>{fmt.focus}</p>
-                </div>
-              ))}
-            </div>
+        {/* Tab Switcher & Category Filters — IEEE MUJ Inspired */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 border-b border-gray-500/15 pb-6">
+          <div className="flex items-center p-1 rounded-md border border-gray-500/20 bg-black/5 dark:bg-white/5">
+            <button
+              onClick={() => setActiveTab('all')}
+              className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded transition-all ${
+                activeTab === 'all'
+                  ? 'bg-[#111111] text-white dark:bg-white dark:text-black shadow-sm'
+                  : isDark
+                  ? 'text-gray-300 hover:text-white'
+                  : 'text-[#555555] hover:text-black'
+              }`}
+            >
+              All Events ({EVENTS_DATA.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('upcoming')}
+              className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded transition-all flex items-center gap-2 ${
+                activeTab === 'upcoming'
+                  ? 'bg-[#9F1239] text-white shadow-sm'
+                  : isDark
+                  ? 'text-gray-300 hover:text-white'
+                  : 'text-[#555555] hover:text-black'
+              }`}
+            >
+              Upcoming ({upcomingCount})
+            </button>
+            <button
+              onClick={() => setActiveTab('past')}
+              className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded transition-all flex items-center gap-2 ${
+                activeTab === 'past'
+                  ? 'bg-[#9F1239] text-white shadow-sm'
+                  : isDark
+                  ? 'text-gray-300 hover:text-white'
+                  : 'text-[#555555] hover:text-black'
+              }`}
+            >
+              Past ({pastCount})
+            </button>
           </div>
 
-          <div className="lg:col-span-7">
-            <div
-              className={`p-8 border rounded-xs ${
-                isDark ? 'bg-[#1A1A1A] border-white/10' : 'bg-white border-[#E7E3DF]'
-              } shadow-lg`}
-            >
-              <div className="flex items-center justify-between border-b pb-4 mb-6 border-gray-500/20">
-                <div>
-                  <span className="text-[10px] font-bold text-[#9F1239] uppercase tracking-widest block mb-1">Current Selected Format</span>
-                  <h4 className={`text-2xl font-bold font-display ${isDark ? 'text-white' : 'text-[#111111]'}`}>
-                    {selectedFormat}
-                  </h4>
-                </div>
-                <div className="w-12 h-12 bg-[#9F1239]/15 text-[#9F1239] flex items-center justify-center rounded-xs">
-                  <Mic size={22} />
-                </div>
-              </div>
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <div className="flex items-center gap-1.5 mr-2 text-[#888888]">
+              <Filter size={13} />
+              <span className="text-[11px] font-semibold uppercase tracking-wider">Format:</span>
+            </div>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 text-[11px] font-semibold tracking-wider rounded transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-[#9F1239] text-white'
+                    : isDark
+                    ? 'bg-white/5 text-gray-300 hover:bg-white/10'
+                    : 'bg-white text-[#555555] border border-[#E7E3DF] hover:border-black'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
 
-              <div className="space-y-4 text-xs leading-relaxed mb-6">
-                <div>
-                  <strong className={isDark ? 'text-white' : 'text-[#111111]'}>Round Timing: </strong>
-                  <span className={isDark ? 'text-gray-300' : 'text-[#555555]'}>
-                    {formats.find((f) => f.name === selectedFormat)?.time}
-                  </span>
+        {/* Exactly 4 Editable Event Cards Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredEvents.map((evt) => (
+            <div
+              key={evt.id}
+              onClick={() => onSelectEvent(evt)}
+              className={`border rounded-xs overflow-hidden flex flex-col justify-between group transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1 ${
+                isDark
+                  ? 'bg-[#1A1A1C] border-white/10 hover:border-[#9F1239]'
+                  : 'bg-white border-[#E7E3DF] hover:border-[#9F1239] shadow-xs'
+              }`}
+            >
+              <div>
+                {/* Poster Frame */}
+                <div className="relative aspect-[4/3] overflow-hidden bg-black/40">
+                  <img
+                    src={evt.poster}
+                    alt={evt.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between">
+                    <span className="bg-[#111111]/90 backdrop-blur-md text-white text-[9px] font-bold px-2 py-0.5 rounded-xs tracking-wider uppercase border border-white/15">
+                      {evt.category}
+                    </span>
+                    {evt.status === 'upcoming' ? (
+                      <span className="bg-emerald-600/90 text-white text-[9px] font-bold px-2 py-0.5 rounded-xs tracking-wider uppercase">
+                        Upcoming
+                      </span>
+                    ) : (
+                      <span className="bg-white/20 backdrop-blur-md text-white text-[9px] font-medium px-2 py-0.5 rounded-xs tracking-wider uppercase">
+                        Archive
+                      </span>
+                    )}
+                  </div>
+                  <div className="absolute bottom-2 left-2.5">
+                    <span className="text-[9px] uppercase tracking-wider text-white/75 font-mono">
+                      Poster Placeholder
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <strong className={isDark ? 'text-white' : 'text-[#111111]'}>Adjudication Focus: </strong>
-                  <span className={isDark ? 'text-gray-300' : 'text-[#555555]'}>
-                    {formats.find((f) => f.name === selectedFormat)?.focus}
-                  </span>
-                </div>
-                <div className="p-4 bg-[#9F1239]/5 border-l-2 border-[#9F1239]">
-                  <p className={`text-xs italic ${isDark ? 'text-gray-300' : 'text-[#555555]'}`}>
-                    &ldquo;Debaters are evaluated by certified circuit panelists on Argument Matter (40%), Delivery Manner (40%), and Structural Strategy (20%).&rdquo;
+
+                {/* Body */}
+                <div className="p-5">
+                  <h3
+                    className={`text-lg font-bold font-display leading-tight mb-1 group-hover:text-[#9F1239] transition-colors ${
+                      isDark ? 'text-white' : 'text-[#111111]'
+                    }`}
+                  >
+                    {evt.title}
+                  </h3>
+                  <p className={`text-xs italic mb-3 font-serif line-clamp-1 ${isDark ? 'text-gray-300' : 'text-[#686868]'}`}>
+                    &ldquo;{evt.tagline}&rdquo;
+                  </p>
+                  <p className={`text-xs leading-relaxed line-clamp-3 mb-4 ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
+                    {evt.desc}
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <button
-                  onClick={onOpenJoin}
-                  className="px-6 py-3 bg-[#9F1239] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#BE123C] transition-colors"
-                >
-                  Join Sparring Practice
-                </button>
-                <a
-                  href="#events"
-                  className={`px-6 py-3 border text-xs font-bold uppercase tracking-wider transition-colors text-center ${
-                    isDark ? 'border-white/20 text-white hover:bg-white/10' : 'border-[#111111] text-[#111111] hover:bg-black hover:text-white'
-                  }`}
-                >
-                  View Tournament Dates
-                </a>
+              <div className={`p-5 pt-0 border-t ${isDark ? 'border-white/10' : 'border-[#E7E3DF]'} mt-2 flex items-center justify-between`}>
+                <span className="text-[10px] text-gray-500 font-mono uppercase">{evt.date}</span>
+                <span className="text-xs font-bold text-[#9F1239] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  View Details
+                  <ChevronRight size={13} />
+                </span>
               </div>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// 4. ACHIEVEMENTS SECTION — INTENTIONAL POLISHED EMPTY-STATE GALLERY PLACEHOLDER
+const AchievementsSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
+  <section
+    id="achievements"
+    className={`py-24 border-t transition-colors duration-500 relative z-20 ${
+      isDark ? 'bg-[#151518] border-white/10' : 'bg-white border-[#E7E3DF]'
+    }`}
+  >
+    <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+      {/* Section Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
+          <Award size={13} className="text-[#9F1239]" />
+          <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+            Honors &amp; Milestones
+          </span>
+        </div>
+        <h2
+          className={`text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display ${
+            isDark ? 'text-white' : 'text-[#111111]'
+          }`}
+        >
+          Achievements
+        </h2>
+        <p
+          className={`text-base md:text-lg max-w-2xl mx-auto leading-relaxed ${
+            isDark ? 'text-gray-400' : 'text-[#686868]'
+          }`}
+        >
+          Celebrating our milestones, voices and impact.
+        </p>
+        <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
+      </div>
+
+      {/* Clean, gallery-like placeholder area */}
+      <div
+        className={`border-2 border-dashed rounded-xs p-10 md:p-16 text-center max-w-4xl mx-auto transition-all ${
+          isDark
+            ? 'bg-[#1A1A1E]/80 border-white/15'
+            : 'bg-[#FAF9F6] border-[#E7E3DF]'
+        }`}
+      >
+        <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-[#9F1239]/10 text-[#9F1239] flex items-center justify-center border border-[#9F1239]/30">
+          <Award size={28} />
+        </div>
+        <h3
+          className={`text-xl sm:text-2xl font-bold font-display mb-2 ${
+            isDark ? 'text-white' : 'text-[#111111]'
+          }`}
+        >
+          Official Records &amp; Accolades Pending
+        </h3>
+        <p
+          className={`text-xs sm:text-sm max-w-xl mx-auto leading-relaxed mb-8 ${
+            isDark ? 'text-gray-400' : 'text-[#686868]'
+          }`}
+        >
+          This gallery space is reserved for verified competitive achievements, speaker citations, tournament podium finishes, and institutional honors earned by SATURANGLE debaters across collegiate circuits.
+        </p>
+
+        {/* Gallery-like grid framework outline */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          {['Awards & Recognition', 'Competition Highlights', 'Club Milestones'].map((slot, i) => (
+            <div
+              key={i}
+              className={`p-6 border rounded-xs flex flex-col items-center justify-center ${
+                isDark ? 'bg-white/5 border-white/10' : 'bg-white border-[#E7E3DF]'
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-[#9F1239]/40 mb-2" />
+              <span className="text-xs font-bold font-display uppercase tracking-wider mb-1">
+                {slot}
+              </span>
+              <span className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">
+                Awaiting Verification
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// 5. OUR TEAM — FACULTY MENTOR (Static, clean neutral profile placeholder, no invented biography)
+const TeamSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
+  <section
+    id="team"
+    className={`py-24 border-t transition-colors duration-500 relative z-20 ${
+      isDark ? 'bg-[#121214] border-white/10 text-white' : 'bg-[#FAF9F6] border-[#E7E3DF] text-[#111111]'
+    }`}
+  >
+    <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+      {/* Section Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
+          <GraduationCap size={13} className="text-[#9F1239]" />
+          <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+            Faculty Mentorship
+          </span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display">
+          Our Team
+        </h2>
+        <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
+      </div>
+
+      {/* Static Faculty Mentor Card */}
+      <div className="max-w-2xl mx-auto">
+        <div
+          className={`border-2 rounded-xs p-8 sm:p-10 transition-all shadow-md flex flex-col sm:flex-row items-center gap-8 ${
+            isDark
+              ? 'bg-[#1A1A1E] border-[#9F1239]/40'
+              : 'bg-white border-[#9F1239]/40'
+          }`}
+        >
+          {/* Neutral Profile Placeholder / Abstract Avatar */}
+          <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-dashed border-[#9F1239] bg-[#9F1239]/10 text-[#9F1239] flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
+            <span className="text-2xl font-bold font-display tracking-widest">{MENTOR_INFO.initials}</span>
+            <span className="text-[9px] font-mono uppercase tracking-widest text-gray-500 mt-1">Profile Slot</span>
+          </div>
+
+          <div className="text-center sm:text-left space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#9F1239] px-2.5 py-1 bg-[#9F1239]/10 rounded-xs inline-block">
+              Faculty Mentor
+            </span>
+            <h3
+              className={`text-2xl sm:text-3xl font-bold font-display ${
+                isDark ? 'text-white' : 'text-[#111111]'
+              }`}
+            >
+              {MENTOR_INFO.name}
+            </h3>
+            <p className="text-sm font-semibold text-gray-500">
+              {MENTOR_INFO.role}
+            </p>
+            <p className="text-xs text-gray-400 font-mono uppercase tracking-wider pt-1">
+              {MENTOR_INFO.affiliation}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// 6. CORE COUNCIL CAROUSEL — 18 POSITIONS IN STRICT SPECIFIED SEQUENCE WITH DRAG & ARROW CONTROLS
+const CoreCouncilSection: React.FC<{
+  isDark: boolean;
+  onSelectMember: (member: CouncilMember) => void;
+}> = ({ isDark, onSelectMember }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollStart, setScrollStart] = useState(0);
+
+  const updateScrollState = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    const maxScroll = scrollWidth - clientWidth;
+    const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+    setScrollProgress(progress);
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft < maxScroll - 10);
+  };
+
+  useEffect(() => {
+    updateScrollState();
+    window.addEventListener('resize', updateScrollState);
+    return () => window.removeEventListener('resize', updateScrollState);
+  }, []);
+
+  const handleScrollLeft = () => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({ left: -360, behavior: 'smooth' });
+  };
+
+  const handleScrollRight = () => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({ left: 360, behavior: 'smooth' });
+  };
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollStart(scrollRef.current.scrollLeft);
+  };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollRef.current.scrollLeft = scrollStart - walk;
+  };
+
+  const onMouseUpOrLeave = () => {
+    setIsDragging(false);
+  };
+
+  return (
+    <section
+      id="core-council"
+      className={`py-24 border-t transition-colors duration-500 relative z-20 ${
+        isDark ? 'bg-[#151518] border-white/10 text-white' : 'bg-white border-[#E7E3DF] text-[#111111]'
+      }`}
+    >
+      <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
+              <Shield size={13} className="text-[#9F1239]" />
+              <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+                Student Governance &bull; 18 Key Portfolios
+              </span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight font-display">
+              Core Council
+            </h2>
+            <p className={`text-sm md:text-base max-w-2xl mt-3 ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
+              The elected executive board and secretariat presiding over parliamentary motions, adjudications, and society administration.
+            </p>
+            <div className="w-16 h-1 bg-[#9F1239] mt-5" />
+          </div>
+
+          {/* Navigation Controls */}
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-mono uppercase tracking-wider text-gray-500 mr-2 hidden sm:inline-block">
+              Scroll Portfolios ({CORE_COUNCIL_MEMBERS.length})
+            </span>
+            <button
+              onClick={handleScrollLeft}
+              disabled={!canScrollLeft}
+              className={`p-3 rounded-full border transition-all ${
+                canScrollLeft
+                  ? isDark
+                    ? 'border-white/20 bg-white/5 hover:bg-[#9F1239] text-white hover:border-[#9F1239]'
+                    : 'border-[#111111] bg-white hover:bg-[#9F1239] text-[#111111] hover:text-white shadow-sm'
+                  : 'opacity-35 cursor-not-allowed border-gray-400/20 text-gray-500'
+              }`}
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              onClick={handleScrollRight}
+              disabled={!canScrollRight}
+              className={`p-3 rounded-full border transition-all ${
+                canScrollRight
+                  ? isDark
+                    ? 'border-white/20 bg-white/5 hover:bg-[#9F1239] text-white hover:border-[#9F1239]'
+                    : 'border-[#111111] bg-white hover:bg-[#9F1239] text-[#111111] hover:text-white shadow-sm'
+                  : 'opacity-35 cursor-not-allowed border-gray-400/20 text-gray-500'
+              }`}
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Horizontal Carousel Track with Drag / Touch Gesture Support */}
+        <div
+          ref={scrollRef}
+          onScroll={updateScrollState}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUpOrLeave}
+          onMouseLeave={onMouseUpOrLeave}
+          className={`flex gap-6 overflow-x-auto scrollbar-none pb-6 pt-2 select-none ${
+            isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          }`}
+          style={{ scrollSnapType: isDragging ? 'none' : 'x mandatory' }}
+        >
+          {CORE_COUNCIL_MEMBERS.map((member, index) => (
+            <div
+              key={member.id}
+              onClick={() => onSelectMember(member)}
+              style={{ scrollSnapAlign: 'start' }}
+              className={`flex-shrink-0 w-72 sm:w-80 border rounded-xs p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group cursor-pointer ${
+                isDark
+                  ? 'bg-[#1A1A1E] border-white/10 hover:border-[#9F1239]'
+                  : 'bg-white border-[#E7E3DF] hover:border-[#9F1239] shadow-xs'
+              }`}
+            >
+              {/* Header with sequence badge & wing */}
+              <div>
+                <div className="flex items-center justify-between mb-5">
+                  <span className="text-[10px] font-mono tracking-widest text-[#9F1239] font-bold">
+                    #{String(index + 1).padStart(2, '0')} / 18
+                  </span>
+                  <span
+                    className={`text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-xs border font-medium ${
+                      member.isConfirmed
+                        ? 'border-emerald-500/40 text-emerald-500 bg-emerald-500/10'
+                        : isDark
+                        ? 'border-white/15 text-gray-400 bg-white/5'
+                        : 'border-gray-200 text-gray-500 bg-gray-50'
+                    }`}
+                  >
+                    {member.isConfirmed ? 'Appointed' : 'Designated'}
+                  </span>
+                </div>
+
+                {/* Abstract Avatar / Editable Photo Placeholder Slot */}
+                <div className="flex flex-col items-center mb-6">
+                  <div
+                    className={`w-24 h-24 rounded-full border-2 border-dashed flex flex-col items-center justify-center relative transition-all duration-300 group-hover:scale-105 ${
+                      member.isConfirmed
+                        ? 'border-[#9F1239] bg-[#9F1239]/10 text-[#9F1239]'
+                        : isDark
+                        ? 'border-white/20 bg-white/5 text-gray-400 group-hover:border-[#9F1239] group-hover:text-[#9F1239]'
+                        : 'border-[#E7E3DF] bg-[#FAF9F6] text-gray-500 group-hover:border-[#9F1239] group-hover:text-[#9F1239]'
+                    }`}
+                  >
+                    <span className="text-2xl font-bold font-display tracking-widest">{member.initials}</span>
+                    <div className="absolute -bottom-2 px-2 py-0.5 rounded-full text-[8px] font-mono uppercase bg-[#111111] text-white border border-white/20 flex items-center gap-1">
+                      <Camera size={9} />
+                      <span>Photo Slot</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Position Title & Member Name */}
+                <div className="text-center space-y-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#9F1239] block">
+                    {member.position}
+                  </span>
+                  <h3
+                    className={`text-xl font-bold font-display leading-tight group-hover:text-[#9F1239] transition-colors ${
+                      isDark ? 'text-white' : 'text-[#111111]'
+                    }`}
+                  >
+                    {member.name}
+                  </h3>
+                  <span className="text-[11px] text-gray-500 font-medium block">
+                    {member.wing}
+                  </span>
+                </div>
+
+                {/* Mandate snippet */}
+                <p
+                  className={`text-xs mt-4 leading-relaxed line-clamp-2 text-center ${
+                    isDark ? 'text-gray-400' : 'text-[#686868]'
+                  }`}
+                >
+                  {member.mandate}
+                </p>
+              </div>
+
+              {/* Card Footer / View Docket Button */}
+              <div
+                className={`mt-6 pt-4 border-t flex items-center justify-between text-xs ${
+                  isDark ? 'border-white/10' : 'border-[#E7E3DF]'
+                }`}
+              >
+                <span className="text-[10px] font-mono text-gray-500 uppercase">SATURANGLE COUNCIL</span>
+                <span className="font-bold text-[#9F1239] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  View Mandate
+                  <ChevronRight size={13} />
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Scroll Progress Bar & Position Indicator */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="w-full sm:max-w-md bg-gray-500/20 h-1 rounded-full overflow-hidden">
+            <div
+              className="bg-[#9F1239] h-full transition-all duration-150"
+              style={{ width: `${Math.max(10, scrollProgress)}%` }}
+            />
+          </div>
+          <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
+            <span>Drag horizontally or use arrow buttons</span>
+            <span className="text-[#9F1239] font-bold">18 Core Portfolios</span>
           </div>
         </div>
       </div>
@@ -1600,270 +2837,284 @@ const SparringArenaSection: React.FC<{ isDark: boolean; onOpenJoin: () => void }
   );
 };
 
-// 5. EVENTS CALENDAR SECTION
-const EventsSection: React.FC<{ isDark: boolean; onSelectEvent: (event: EventItem) => void }> = ({
-  isDark,
-  onSelectEvent,
-}) => (
-  <section
-    id="events"
-    className={`py-24 border-t transition-colors duration-500 ${
-      isDark ? 'bg-[#121212] border-white/10' : 'bg-white border-[#E7E3DF]'
-    }`}
-  >
-    <div className="container mx-auto px-6 max-w-7xl">
-      <SectionHeader
-        isDark={isDark}
-        title="Upcoming Events & Tournaments"
-        subtitle="Mark your calendar for our flagship inter-collegiate tournaments, rhetoric workshops, and campus dialogue town halls."
-      />
+// 7. OUR TEAMS SECTION — 5 OPERATIONAL DEPARTMENTAL WINGS OF SATURANGLE
+const OurTeamsSection: React.FC<{ isDark: boolean }> = ({ isDark }) => {
+  const getDepartmentIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'PenTool':
+        return <PenTool size={22} className="text-[#9F1239]" />;
+      case 'CalendarCheck':
+        return <CalendarCheck size={22} className="text-[#9F1239]" />;
+      case 'Users':
+        return <Users size={22} className="text-[#9F1239]" />;
+      case 'Code':
+        return <Code size={22} className="text-[#9F1239]" />;
+      case 'BookOpen':
+        return <BookOpen size={22} className="text-[#9F1239]" />;
+      default:
+        return <Shield size={22} className="text-[#9F1239]" />;
+    }
+  };
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {EVENTS_DATA.map((evt) => (
-          <div
-            key={evt.id}
-            onClick={() => onSelectEvent(evt)}
-            className={`p-8 border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
-              evt.active
-                ? 'bg-[#181818] text-white border-[#9F1239] shadow-2xl transform -translate-y-2'
-                : isDark
-                ? 'bg-[#1A1A1A] border-white/10 text-white hover:border-[#9F1239]'
-                : 'bg-[#FAF9F6] border-[#E7E3DF] hover:border-[#9F1239] hover:shadow-md'
+  return (
+    <section
+      id="our-teams"
+      className={`py-24 border-t transition-colors duration-500 relative z-20 ${
+        isDark ? 'bg-[#121214] border-white/10 text-white' : 'bg-[#FAF9F6] border-[#E7E3DF] text-[#111111]'
+      }`}
+    >
+      <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
+            <Users size={13} className="text-[#9F1239]" />
+            <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+              Departmental Wings
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display">
+            Our Teams
+          </h2>
+          <p
+            className={`text-base md:text-lg max-w-2xl mx-auto leading-relaxed ${
+              isDark ? 'text-gray-400' : 'text-[#686868]'
             }`}
           >
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#9F1239]">{evt.type}</span>
-              <h3 className="text-2xl font-bold mt-4 mb-4 font-display leading-tight">{evt.title}</h3>
-              <p className={`text-xs mb-6 leading-relaxed ${isDark || evt.active ? 'text-gray-300' : 'text-[#686868]'}`}>
-                {evt.tagline}
-              </p>
-              <div className="space-y-3 mb-8">
-                <div className={`flex items-center text-xs ${isDark || evt.active ? 'text-gray-300' : 'text-[#686868]'}`}>
-                  <Calendar className="w-4 h-4 mr-3 text-[#9F1239]" />
-                  {evt.date} • {evt.time}
+            Explore the five specialized operational divisions powering SATURANGLE&rsquo;s intellectual assemblies, competitive tournaments, and digital presence.
+          </p>
+          <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
+        </div>
+
+        {/* 5 Distinct Departmental Cards in Clean Responsive Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {CLUB_DEPARTMENTS.map((dept, index) => (
+            <div
+              key={dept.id}
+              className={`border rounded-xs p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#9F1239] group ${
+                index === 4 ? 'md:col-span-2 lg:col-span-1' : ''
+              } ${
+                isDark ? 'bg-[#18181C] border-white/10' : 'bg-white border-[#E7E3DF]'
+              }`}
+            >
+              <div>
+                {/* Top Graphic Placeholder & Icon */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-12 h-12 rounded-xs bg-[#9F1239]/10 border border-[#9F1239]/30 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    {getDepartmentIcon(dept.iconName)}
+                  </div>
+                  <span className="text-[10px] font-mono tracking-widest text-gray-500 uppercase">
+                    Wing {String(dept.id).padStart(2, '0')}
+                  </span>
                 </div>
-                <div className={`flex items-center text-xs ${isDark || evt.active ? 'text-gray-300' : 'text-[#686868]'}`}>
-                  <MapPin className="w-4 h-4 mr-3 text-[#9F1239]" />
-                  {evt.loc}
+
+                {/* Team Name & Tagline */}
+                <h3
+                  className={`text-2xl font-bold font-display mb-1.5 group-hover:text-[#9F1239] transition-colors ${
+                    isDark ? 'text-white' : 'text-[#111111]'
+                  }`}
+                >
+                  {dept.name}
+                </h3>
+                <span className="text-[11px] font-semibold text-[#9F1239] uppercase tracking-wider block mb-4">
+                  {dept.tagline}
+                </span>
+
+                {/* Neutral Description */}
+                <p
+                  className={`text-xs sm:text-sm leading-relaxed mb-6 ${
+                    isDark ? 'text-gray-300' : 'text-[#555555]'
+                  }`}
+                >
+                  {dept.description}
+                </p>
+
+                {/* Editable Graphic / Visual Placeholder Slot */}
+                <div
+                  className={`border border-dashed rounded-xs p-4 mb-6 text-center ${
+                    isDark ? 'bg-white/5 border-white/15' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+                  }`}
+                >
+                  <div className="flex items-center justify-center gap-2 text-[#9F1239] mb-1">
+                    <Camera size={14} />
+                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                      Department Banner Slot
+                    </span>
+                  </div>
+                  <span className="text-[9px] text-gray-500 font-mono block">
+                    Upload official department poster or team collage
+                  </span>
+                </div>
+
+                {/* Key Responsibilities */}
+                <div>
+                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">
+                    Core Mandates &amp; Activities:
+                  </h4>
+                  <ul className="space-y-2">
+                    {dept.responsibilities.map((resp, rIdx) => (
+                      <li
+                        key={rIdx}
+                        className={`text-xs flex items-start gap-2.5 ${
+                          isDark ? 'text-gray-300' : 'text-[#686868]'
+                        }`}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#9F1239] mt-1.5 flex-shrink-0" />
+                        <span>{resp}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <button
-                className={`w-full font-semibold py-3.5 text-xs tracking-wider uppercase transition-colors flex items-center justify-center gap-2 ${
-                  evt.active
-                    ? 'bg-[#9F1239] hover:bg-white hover:text-[#111111] text-white'
-                    : isDark
-                    ? 'bg-white/10 hover:bg-[#9F1239] text-white'
-                    : 'bg-[#111111] hover:bg-[#9F1239] text-white'
+              {/* Card Footer */}
+              <div
+                className={`mt-8 pt-5 border-t flex items-center justify-between text-xs ${
+                  isDark ? 'border-white/10 text-gray-400' : 'border-[#E7E3DF] text-gray-500'
                 }`}
               >
-                {evt.active ? 'Register Now' : 'View Details & RSVP'}
-                <ChevronRight size={14} />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-// 6. ACHIEVEMENTS SECTION (HALL OF RECORDS)
-const AchievementsSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
-  <section
-    id="achievements"
-    className={`py-24 border-t transition-colors duration-500 ${
-      isDark ? 'bg-[#161616] border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
-    }`}
-  >
-    <div className="container mx-auto px-6 max-w-7xl">
-      <SectionHeader
-        isDark={isDark}
-        title="Hall of Records"
-        subtitle="Recognitions and accolades achieved by our formidable debaters across the national collegiate circuit."
-      />
-
-      <div className="grid md:grid-cols-2 gap-8">
-        {ACHIEVEMENTS_DATA.map((ach, i) => (
-          <div
-            key={i}
-            className={`flex flex-col sm:flex-row gap-6 p-7 border transition-colors ${
-              isDark
-                ? 'bg-[#1A1A1A] border-white/10 hover:bg-[#202020]'
-                : 'bg-white border-[#E7E3DF] hover:bg-[#FDFCFB]'
-            }`}
-          >
-            <div className="sm:w-24 flex-shrink-0">
-              <span className="text-4xl font-display font-bold text-[#9F1239] inline-block border-b-2 border-[#9F1239] pb-1">
-                {ach.year}
-              </span>
-            </div>
-            <div>
-              <h4 className={`text-xl font-bold mb-1 leading-snug ${isDark ? 'text-white' : 'text-[#111111]'}`}>{ach.title}</h4>
-              <p className="text-xs font-bold text-[#9F1239] uppercase tracking-wider mb-3">{ach.org}</p>
-              <p className={`text-sm leading-relaxed ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>{ach.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-// 7. MEET OUR TEAM SECTION
-const TeamSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
-  <section id="team" className={`py-24 border-t transition-colors duration-500 ${isDark ? 'bg-[#111111] text-white border-white/10' : 'bg-white text-[#111111] border-[#E7E3DF]'}`}>
-    <div className="container mx-auto px-6 max-w-7xl">
-      <div className="text-center mb-16">
-        <p className="text-[#9F1239] font-bold tracking-widest text-xs uppercase mb-3">The Debate Squad</p>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display">Meet Our Team</h2>
-        <p className={`text-sm md:text-base max-w-2xl mx-auto ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
-          The debaters, research coordinators, and format coaches heading weekly debate training and national tournament circuit representation.
-        </p>
-        <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {TEAM_MEMBERS.map((member, i) => (
-          <div
-            key={i}
-            className={`border transition-all p-4 flex flex-col group ${
-              isDark ? 'bg-[#1A1A1A] border-white/10 hover:border-[#9F1239]' : 'bg-[#FAF9F6] border-[#E7E3DF] hover:border-[#111111]'
-            }`}
-          >
-            <div className="relative overflow-hidden mb-4 aspect-[4/5] bg-[#252525]">
-              <img
-                src={member.img}
-                alt={member.name}
-                className="w-full h-full object-cover grayscale opacity-85 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                loading="lazy"
-              />
-              <div className="absolute top-3 left-3 bg-[#111111]/85 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 tracking-wider uppercase border border-white/20">
-                {member.tag}
+                <span className="text-[10px] uppercase tracking-widest font-mono">
+                  SATURANGLE OPERATIONS
+                </span>
+                <span className="text-xs font-semibold text-[#9F1239]">
+                  Inductions Open
+                </span>
               </div>
             </div>
-            <h4 className="text-lg font-bold group-hover:text-[#9F1239] transition-colors mb-0.5">
-              {member.name}
-            </h4>
-            <p className="text-[#9F1239] text-xs font-semibold tracking-wider uppercase mb-1">{member.role}</p>
-            <span className={`text-[10px] uppercase tracking-wider block mb-3 ${isDark ? 'text-gray-400' : 'text-[#888888]'}`}>{member.dept}</span>
-            <p className={`text-xs leading-relaxed line-clamp-2 mt-auto ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>{member.bio}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
-// 8. DEDICATED CORE COUNCIL SECTION (Strictly placed near the bottom, before Gallery & Footer)
-const CoreCouncilSection: React.FC<{ isDark: boolean; onSelectCouncil: (m: CouncilMember) => void }> = ({
-  isDark,
-  onSelectCouncil,
-}) => (
-  <section
-    id="core-council"
-    className={`py-24 border-t transition-colors duration-500 ${
-      isDark ? 'bg-[#141414] border-white/10 text-white' : 'bg-[#FAF9F6] border-[#E7E3DF] text-[#111111]'
-    }`}
-  >
-    <div className="container mx-auto px-6 max-w-7xl">
-      <div className="text-center mb-16">
-        <p className="text-[#9F1239] font-bold tracking-widest text-xs uppercase mb-3">Executive Board</p>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display">The Core Council</h2>
-        <p className={`text-sm md:text-base max-w-2xl mx-auto ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
-          The senior leadership entrusted with institutional governance, adjudication ethics, tournament delegations, and strategic direction of Saturangle.
-        </p>
-        <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {CORE_COUNCIL_MEMBERS.map((member, i) => (
-          <div
-            key={i}
-            onClick={() => onSelectCouncil(member)}
-            className={`border transition-all p-6 flex flex-col group cursor-pointer ${
-              isDark
-                ? 'bg-[#1B1B1B] border-white/10 hover:border-[#9F1239] shadow-md'
-                : 'bg-white border-[#E7E3DF] hover:border-[#9F1239] shadow-sm'
-            }`}
-          >
-            <div className="relative overflow-hidden mb-5 aspect-[4/3] bg-[#252525]">
-              <img
-                src={member.img}
-                alt={member.name}
-                className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                loading="lazy"
-              />
-              <div className="absolute top-3 right-3 bg-[#9F1239] text-white text-[10px] font-bold px-2.5 py-0.5 tracking-wider uppercase">
-                {member.badge}
-              </div>
-            </div>
-
-            <h3 className="text-2xl font-bold font-display group-hover:text-[#9F1239] transition-colors mb-1">
-              {member.name}
-            </h3>
-            <p className="text-xs font-bold tracking-widest text-[#9F1239] uppercase mb-4">
-              {member.designation}
-            </p>
-
-            <blockquote className="border-l-2 border-[#9F1239] pl-3 py-1 italic text-xs mb-4 text-gray-500">
-              {member.quote}
-            </blockquote>
-
-            <div className="mt-auto pt-3 border-t border-gray-500/15">
-              <span className={`text-[11px] block leading-relaxed ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
-                <strong>Mandate:</strong> {member.mandate}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-// 9. GALLERY (VISUAL ARCHIVES)
-const GallerySection: React.FC<{ isDark: boolean; onSelectGallery: (item: GalleryItem) => void }> = ({
-  isDark,
-  onSelectGallery,
-}) => (
+// 8. GALLERY SECTION — INTENTIONAL POLISHED PLACEHOLDER FOR FUTURE EDITORIAL COLLAGE
+const GallerySection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
   <section
     id="gallery"
-    className={`py-24 border-t transition-colors duration-500 ${
-      isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-[#E7E3DF]'
+    className={`py-24 border-t transition-colors duration-500 relative z-20 ${
+      isDark ? 'bg-[#151518] border-white/10' : 'bg-white border-[#E7E3DF]'
     }`}
   >
-    <div className="container mx-auto px-6 max-w-7xl">
-      <SectionHeader
-        isDark={isDark}
-        title="Visual Archives"
-        subtitle="Moments from the arena, championship podiums, and weekly training rounds."
-      />
+    <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
+          <Sparkles size={13} className="text-[#9F1239]" />
+          <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+            Visual Archives
+          </span>
+        </div>
+        <h2
+          className={`text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display ${
+            isDark ? 'text-white' : 'text-[#111111]'
+          }`}
+        >
+          Gallery
+        </h2>
+        <p
+          className={`text-base md:text-lg max-w-2xl mx-auto leading-relaxed ${
+            isDark ? 'text-gray-400' : 'text-[#686868]'
+          }`}
+        >
+          Memories, moments and milestones &mdash; coming soon.
+        </p>
+        <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
+      </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-        {GALLERY_DATA.map((item) => (
+      {/* Large Visually Attractive Placeholder Area */}
+      <div
+        className={`border-2 border-dashed rounded-xs p-10 sm:p-16 max-w-5xl mx-auto text-center transition-all ${
+          isDark
+            ? 'bg-[#1A1A1E]/80 border-white/15'
+            : 'bg-[#FAF9F6] border-[#E7E3DF]'
+        }`}
+      >
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#9F1239]/10 text-[#9F1239] flex items-center justify-center border border-[#9F1239]/30">
+          <Sparkles size={26} />
+        </div>
+        <h3
+          className={`text-xl sm:text-2xl font-bold font-display mb-2 ${
+            isDark ? 'text-white' : 'text-[#111111]'
+          }`}
+        >
+          Photo Archives in Curation
+        </h3>
+        <p
+          className={`text-xs sm:text-sm max-w-xl mx-auto leading-relaxed mb-8 ${
+            isDark ? 'text-gray-400' : 'text-[#686868]'
+          }`}
+        >
+          This section is reserved for an editorial collage featuring mixed-size captures, stage podium moments, weekly sparring rounds, and championship celebrations.
+        </p>
+
+        {/* Editorial collage silhouette outline */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+          {['Opening Speeches', 'Bench Deliberation', 'Rebuttal Duels', 'Award Ceremonies'].map((label, idx) => (
+            <div
+              key={idx}
+              className={`p-6 border rounded-xs flex flex-col items-center justify-center aspect-[4/3] ${
+                isDark ? 'bg-white/5 border-white/10' : 'bg-white border-[#E7E3DF]'
+              }`}
+            >
+              <span className="text-[10px] font-bold font-display uppercase tracking-wider text-gray-400 mb-1">
+                {label}
+              </span>
+              <span className="text-[9px] font-mono text-gray-500 uppercase">
+                Curating Capture
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// 9. PEOPLE BEHIND THE PLATFORM — ACKNOWLEDGEMENT OF WEBSITE ARCHITECTS
+const PlatformTeamSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
+  <section
+    id="platform-team"
+    className={`py-20 border-t transition-colors duration-500 relative z-20 ${
+      isDark ? 'bg-[#101012] border-white/10 text-white' : 'bg-[#FAF9F6] border-[#E7E3DF] text-[#111111]'
+    }`}
+  >
+    {/* Secondary anchor for #people-behind-the-platform */}
+    <span id="people-behind-the-platform" className="sr-only" />
+
+    <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
+          <Sparkles size={13} className="text-[#9F1239]" />
+          <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+            Digital Foundation
+          </span>
+        </div>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3 font-display">
+          People Behind the Platform
+        </h2>
+        <p className={`text-sm md:text-base max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
+          The people helping bring SATURANGLE’s digital presence to life.
+        </p>
+        <div className="w-12 h-0.5 bg-[#9F1239] mx-auto mt-4" />
+      </div>
+
+      {/* Two equal, text-based profile cards: Anushka Tripathi & Nakshatra Chaudhary */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        {PLATFORM_TEAM.map((p, idx) => (
           <div
-            key={item.id}
-            onClick={() => onSelectGallery(item)}
-            className={`${item.spanClass} overflow-hidden image-container relative cursor-pointer border group ${
-              isDark ? 'bg-[#1F1F1F] border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+            key={idx}
+            className={`border rounded-xs p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:border-[#9F1239] ${
+              isDark ? 'bg-[#18181C] border-white/10' : 'bg-white border-[#E7E3DF]'
             }`}
           >
-            <img
-              src={item.img}
-              alt={item.title}
-              className="w-full h-full object-cover image-reveal opacity-90 group-hover:opacity-100 transition-all duration-700"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-end text-white">
-              <span className="text-[10px] tracking-widest uppercase font-bold text-[#9F1239] mb-1">
-                {item.category}
-              </span>
-              <h4 className="text-base font-display font-bold">{item.title}</h4>
-              <p className="text-xs text-gray-300 mt-1">{item.caption}</p>
+            <div className="w-16 h-16 rounded-full border border-dashed border-[#9F1239]/40 bg-[#9F1239]/10 text-[#9F1239] flex items-center justify-center font-display font-bold text-base mb-3 shadow-inner">
+              {p.initials}
             </div>
+            <h3 className="text-lg font-bold font-display mb-1">{p.name}</h3>
+            <span className="text-[10px] text-gray-500 font-mono uppercase tracking-wider">
+              {p.role}
+            </span>
           </div>
         ))}
       </div>
@@ -1871,49 +3122,124 @@ const GallerySection: React.FC<{ isDark: boolean; onSelectGallery: (item: Galler
   </section>
 );
 
-// 10. FOOTER / CONTACT SECTION
+// 10. FOOTER / CONTACT SECTION (Matching 9 Navigation links, branding & credits)
 const Footer: React.FC<{ isDark: boolean }> = ({ isDark }) => (
   <footer
-    id="contact"
-    className={`py-14 border-t transition-colors duration-500 ${
-      isDark ? 'bg-[#0E0E0E] border-white/10 text-white' : 'bg-white border-[#E7E3DF] text-[#111111]'
+    id="footer"
+    className={`py-16 border-t transition-colors duration-500 relative z-20 ${
+      isDark ? 'bg-[#0D0D0F] border-white/10 text-white' : 'bg-white border-[#E7E3DF] text-[#111111]'
     }`}
   >
-    <div className="container mx-auto px-6 max-w-7xl">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-10">
-        <div className="flex items-center space-x-3 mb-6 md:mb-0">
-          <div className="w-10 h-10 border-[3px] border-[#9F1239] flex items-center justify-center bg-white">
-            <div className="w-4 h-4 bg-[#111111]" />
+    <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-gray-500/15">
+        {/* Brand & University Mark */}
+        <div className="md:col-span-5 space-y-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-[#111111] border border-white/15 flex flex-col items-center justify-center border-b-2 border-[#9F1239] rounded-xs shadow-sm">
+              <span className="text-white font-bold text-xs tracking-widest leading-none">GLA</span>
+              <span className="text-white text-[0.45rem] tracking-widest leading-none mt-1 font-semibold">UNIV</span>
+            </div>
+            <div>
+              <span
+                className={`font-bold text-2xl tracking-widest font-display block ${
+                  isDark ? 'text-white' : 'text-[#111111]'
+                }`}
+              >
+                SATURANGLE
+              </span>
+              <span className="text-[9px] uppercase tracking-widest text-[#888888] block">
+                GLA University Official Debate Society &bull; Mathura
+              </span>
+            </div>
           </div>
-          <div>
-            <span className={`font-bold text-2xl tracking-widest font-display block ${isDark ? 'text-white' : 'text-[#111111]'}`}>
-              SATURANGLE
-            </span>
-            <span className="text-[9px] uppercase tracking-widest text-[#888888] block">
-              GLA University Debate Society
-            </span>
+
+          <p className={`text-xs leading-relaxed max-w-sm ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
+            Where opinions are challenged and perspectives are refined. Fostering structured parliamentary discourse, critical inquiry, and competitive debating excellence.
+          </p>
+
+          <div className="text-xs text-gray-500 space-y-1">
+            <p><strong>Campus Address:</strong> GLA University, 17km Stone, NH-19, Mathura, UP 281406</p>
+            <p><strong>Sessions:</strong> Saturdays 4:00 PM onwards &bull; Academic Block Auditorium</p>
           </div>
         </div>
 
-        <div className="flex space-x-6 text-sm font-medium text-[#888888]">
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#9F1239] transition-colors flex items-center gap-1.5">
-            <Instagram size={16} /> Instagram
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-[#9F1239] transition-colors flex items-center gap-1.5">
-            <Linkedin size={16} /> LinkedIn
-          </a>
-          <a href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-[#9F1239] transition-colors flex items-center gap-1.5">
-            <Twitter size={16} /> Twitter / X
-          </a>
-          <a href="mailto:contact@saturangle.com" className="hover:text-[#9F1239] transition-colors flex items-center gap-1.5">
-            <Mail size={16} /> Contact
-          </a>
+        {/* Quick Links (Matching Section Order) */}
+        <div className="md:col-span-3 space-y-3">
+          <h4 className="text-xs font-bold uppercase tracking-widest text-[#9F1239]">
+            Navigation
+          </h4>
+          <ul className="space-y-2 text-xs">
+            {NAV_LINKS.map((link) => (
+              <li key={link.name}>
+                <a
+                  href={link.href}
+                  className={`transition-colors hover:text-[#9F1239] ${
+                    isDark ? 'text-gray-300' : 'text-[#555555]'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contact & Socials */}
+        <div className="md:col-span-4 space-y-3">
+          <h4 className="text-xs font-bold uppercase tracking-widest text-[#9F1239]">
+            Connect With Us
+          </h4>
+          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
+            Have inquiries regarding invitational tournament participation, motion dockets, or society inductions?
+          </p>
+
+          <div className="space-y-2 pt-1 text-xs">
+            <a
+              href="mailto:contact@saturangle.com"
+              className="flex items-center gap-2 hover:text-[#9F1239] transition-colors"
+            >
+              <Mail size={14} className="text-[#9F1239]" />
+              <span>contact@saturangle.com</span>
+            </a>
+          </div>
+
+          <div className="flex flex-wrap gap-4 pt-3 text-xs font-medium text-[#888888]">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-[#9F1239] transition-colors flex items-center gap-1.5"
+            >
+              <Instagram size={15} /> Instagram
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-[#9F1239] transition-colors flex items-center gap-1.5"
+            >
+              <Linkedin size={15} /> LinkedIn
+            </a>
+            <a
+              href="https://x.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-[#9F1239] transition-colors flex items-center gap-1.5"
+            >
+              <Twitter size={15} /> Twitter / X
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className="border-t border-gray-500/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-[#888888] gap-4">
-        <p>&copy; 2026 Saturangle &mdash; The Official Debate Club of GLA University, Mathura. All rights reserved.</p>
-        <p className="font-serif italic">Where Opinions Are Shared, Challenged &amp; Improved.</p>
+      {/* Copyright & Credit Line */}
+      <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-[#888888] gap-4">
+        <p>
+          &copy; 2026 Saturangle &mdash; The Official Debate Club of GLA University, Mathura. All rights reserved.
+        </p>
+        <p className="font-serif italic text-center md:text-right">
+          Where Opinions Are Shared, Challenged &amp; Refined.
+        </p>
       </div>
     </div>
   </footer>
@@ -2120,7 +3446,7 @@ const EventModal: React.FC<{ event: EventItem | null; onClose: () => void; onOpe
         </button>
 
         <span className="inline-block bg-[#111111] text-white text-[10px] font-bold px-3 py-1 mb-3 uppercase tracking-wider">
-          {event.type}
+          {event.category}
         </span>
         <h3 className="text-2xl md:text-3xl font-display font-bold text-[#111111] mb-2 leading-tight">{event.title}</h3>
         <p className="text-xs font-semibold text-[#9F1239] italic mb-5">{event.tagline}</p>
@@ -2171,7 +3497,7 @@ const EventModal: React.FC<{ event: EventItem | null; onClose: () => void; onOpe
               onClick={() => setBooked(true)}
               className="px-6 py-2 bg-[#9F1239] text-white text-xs font-bold tracking-wider hover:bg-[#800e2e] transition-colors"
             >
-              Confirm RSVP ({event.seatsRemaining} Left)
+              Confirm RSVP ({event.seatsRemaining ?? 20} Left)
             </button>
           </div>
         )}
@@ -2180,50 +3506,72 @@ const EventModal: React.FC<{ event: EventItem | null; onClose: () => void; onOpe
   );
 };
 
-const CouncilModal: React.FC<{ member: CouncilMember | null; onClose: () => void }> = ({ member, onClose }) => {
+// Council Member Detail Modal
+const CouncilModal: React.FC<{ member: CouncilMember | null; onClose: () => void }> = ({
+  member,
+  onClose,
+}) => {
   if (!member) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
-      <div className="bg-[#111111] text-white max-w-md w-full border border-white/20 shadow-2xl p-6 relative">
-        <button onClick={onClose} className="absolute top-5 right-5 text-gray-400 hover:text-white p-1" aria-label="Close dialog">
-          <X size={20} />
+      <div className="bg-white max-w-lg w-full border border-[#E7E3DF] shadow-2xl p-6 md:p-8 relative max-h-[90vh] overflow-y-auto animate-in fade-in duration-200">
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 text-gray-400 hover:text-black p-1 transition-colors"
+          aria-label="Close dialog"
+        >
+          <X size={22} />
         </button>
 
-        <div className="aspect-[4/3] w-full overflow-hidden mb-5 bg-[#252525]">
-          <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+        <div className="flex items-center gap-2 mb-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#9F1239]" />
+          <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
+            Council Mandate Docket
+          </span>
         </div>
 
-        <span className="text-[10px] font-bold text-[#9F1239] uppercase tracking-widest">{member.badge}</span>
-        <h3 className="text-2xl font-display font-bold mt-0.5">{member.name}</h3>
-        <p className="text-xs text-gray-400 mb-4">{member.designation}</p>
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 my-6 pt-2 pb-6 border-b border-[#E7E3DF]">
+          <div className="w-24 h-24 rounded-full border-2 border-dashed border-[#9F1239] bg-[#9F1239]/10 text-[#9F1239] flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
+            <span className="text-2xl font-bold font-display tracking-widest">{member.initials}</span>
+            <span className="text-[8px] font-mono uppercase text-gray-500 mt-1">Photo Slot</span>
+          </div>
 
-        <blockquote className="border-l-2 border-[#9F1239] pl-3 py-1 italic text-xs text-gray-300 mb-4">
-          {member.quote}
-        </blockquote>
+          <div className="text-center sm:text-left space-y-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#9F1239] px-2 py-0.5 bg-[#9F1239]/10 rounded-xs inline-block">
+              {member.wing}
+            </span>
+            <h3 className="text-2xl font-bold font-display text-[#111111]">{member.name}</h3>
+            <p className="text-sm font-semibold text-gray-700">{member.position}</p>
+            <p className="text-xs text-gray-500 font-mono">
+              Status: {member.isConfirmed ? 'Appointed Leadership' : 'Designated Portfolio • Confirmation Pending'}
+            </p>
+          </div>
+        </div>
 
-        <p className="text-xs text-gray-400 leading-relaxed">
-          <strong>Mandate:</strong> {member.mandate}
-        </p>
-      </div>
-    </div>
-  );
-};
+        <div className="space-y-4 mb-6 text-xs text-[#686868]">
+          <div>
+            <h4 className="font-bold text-[#111111] uppercase tracking-wider mb-1">
+              Portfolio Responsibilities &amp; Mandate
+            </h4>
+            <p className="leading-relaxed">{member.mandate}</p>
+          </div>
 
-const GalleryLightbox: React.FC<{ item: GalleryItem | null; onClose: () => void }> = ({ item, onClose }) => {
-  if (!item) return null;
+          <div className="p-4 bg-[#FAF9F6] border border-[#E7E3DF] text-xs">
+            <h5 className="font-bold text-[#111111] mb-1">Session Protocols</h5>
+            <p className="text-gray-600 leading-relaxed">
+              Presides during weekly Saturday debate sparring rounds, motion adjudication panels, and inter-university invitational representations.
+            </p>
+          </div>
+        </div>
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-      <div className="relative max-w-3xl w-full bg-[#111111] border border-white/10 p-4">
-        <button onClick={onClose} className="absolute top-6 right-6 text-white hover:text-[#9F1239] p-2" aria-label="Close Lightbox">
-          <X size={24} />
-        </button>
-        <img src={item.img} alt={item.title} className="w-full max-h-[65vh] object-contain mb-4" />
-        <div className="text-white px-2">
-          <span className="text-[10px] text-[#9F1239] font-bold uppercase tracking-widest">{item.category}</span>
-          <h3 className="text-xl font-display font-bold mt-0.5">{item.title}</h3>
-          <p className="text-xs text-gray-300 mt-1">{item.caption}</p>
+        <div className="flex justify-end pt-3 border-t border-[#E7E3DF]">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 bg-[#111111] text-white text-xs font-bold tracking-wider hover:bg-[#9F1239] transition-colors"
+          >
+            Close Docket
+          </button>
         </div>
       </div>
     </div>
@@ -2240,8 +3588,7 @@ export default function App() {
 
   const [isJoinOpen, setIsJoinOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
-  const [selectedCouncil, setSelectedCouncil] = useState<CouncilMember | null>(null);
-  const [selectedGallery, setSelectedGallery] = useState<GalleryItem | null>(null);
+  const [selectedCouncilMember, setSelectedCouncilMember] = useState<CouncilMember | null>(null);
 
   const toggleTheme = () => {
     setIsDarkMode((prev) => {
@@ -2259,32 +3606,38 @@ export default function App() {
         onOpenJoin={() => setIsJoinOpen(true)}
       />
       <main>
-        {/* 1. Home / Hero */}
+        {/* 1. Home / Hero — untouched */}
         <Hero isDark={isDarkMode} onOpenJoin={() => setIsJoinOpen(true)} />
 
-        {/* 2. About Saturangle */}
+        {/* 2. About Saturangle — untouched */}
         <AboutSection isDark={isDarkMode} />
 
-        {/* 3. The Sparring Arena */}
-        <SparringArenaSection isDark={isDarkMode} onOpenJoin={() => setIsJoinOpen(true)} />
-
-        {/* 4. Events */}
+        {/* 3. Events (Youth Parliament, Parley, Battle of Bits, Samvad) */}
         <EventsSection isDark={isDarkMode} onSelectEvent={(evt) => setSelectedEvent(evt)} />
 
-        {/* 5. Achievements */}
+        {/* 4. Achievements (Clean, gallery-like intentional placeholder) */}
         <AchievementsSection isDark={isDarkMode} />
 
-        {/* 6. Meet Our Team */}
+        {/* 5. Our Team — Faculty Mentor */}
         <TeamSection isDark={isDarkMode} />
 
-        {/* 7. Dedicated Core Council Section (Near bottom, before Gallery & Footer) */}
-        <CoreCouncilSection isDark={isDarkMode} onSelectCouncil={(m) => setSelectedCouncil(m)} />
+        {/* 6. Core Council (18 positions single smooth carousel with drag & arrow navigation) */}
+        <CoreCouncilSection
+          isDark={isDarkMode}
+          onSelectMember={(member) => setSelectedCouncilMember(member)}
+        />
 
-        {/* 8. Gallery */}
-        <GallerySection isDark={isDarkMode} onSelectGallery={(item) => setSelectedGallery(item)} />
+        {/* 7. Our Teams (5 Operational Wings: Content & Creative, Event Management, PR, Technical, Research & Debating) */}
+        <OurTeamsSection isDark={isDarkMode} />
+
+        {/* 8. Gallery (Visual Archives Placeholder) */}
+        <GallerySection isDark={isDarkMode} />
+
+        {/* 9. People Behind the Platform (Anushka Tripathi & Nakshatra Chaudhary) */}
+        <PlatformTeamSection isDark={isDarkMode} />
       </main>
 
-      {/* 9. Footer / Contact */}
+      {/* 10. Footer / Contact */}
       <Footer isDark={isDarkMode} />
 
       {/* Interactive Overlays */}
@@ -2294,8 +3647,10 @@ export default function App() {
         onClose={() => setSelectedEvent(null)}
         onOpenJoin={() => setIsJoinOpen(true)}
       />
-      <CouncilModal member={selectedCouncil} onClose={() => setSelectedCouncil(null)} />
-      <GalleryLightbox item={selectedGallery} onClose={() => setSelectedGallery(null)} />
+      <CouncilModal
+        member={selectedCouncilMember}
+        onClose={() => setSelectedCouncilMember(null)}
+      />
     </div>
   );
 }
