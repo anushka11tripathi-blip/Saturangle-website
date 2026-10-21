@@ -99,7 +99,7 @@ export interface GalleryItem {
   spanClass: string;
 }
 
-// 9-item navigation matching requested final section order
+// 8-item navigation matching official sections
 const NAV_LINKS = [
   { name: 'Home', href: '#hero' },
   { name: 'About', href: '#about' },
@@ -109,7 +109,6 @@ const NAV_LINKS = [
   { name: 'Core Council', href: '#core-council' },
   { name: 'Our Teams', href: '#our-teams' },
   { name: 'Gallery', href: '#gallery' },
-  { name: 'Behind the Platform', href: '#platform-team' },
 ];
 
 // Exactly 4 editable event cards with names written exactly as requested:
@@ -189,9 +188,7 @@ const MENTOR_INFO = {
   initials: 'DG',
 };
 
-// Student Core Council: Exactly 18 positions in strict specified order.
-// Only Alumni Coordinator (Nakshatra Chaudhary) & Deputy Alumni Coordinator (Anushka Tripathi) are named;
-// All other positions use professional "To be announced" / "Council Member" placeholders without invented names.
+// Student Core Council: Exactly 7 executive leadership positions
 export interface CouncilMember {
   id: number;
   position: string;
@@ -206,258 +203,234 @@ const CORE_COUNCIL_MEMBERS: CouncilMember[] = [
   {
     id: 1,
     position: 'Advisor',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'AD',
+    name: 'Raghav Gupta',
+    isConfirmed: true,
+    initials: 'RG',
     wing: 'Advisory Board',
     mandate: 'Strategic guidance on university protocol, tournament compliance, and society stewardship.',
   },
   {
     id: 2,
     position: 'President',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'PR',
+    name: 'Yash Upadhyay',
+    isConfirmed: true,
+    initials: 'YU',
     wing: 'Executive Board',
     mandate: 'Overall executive leadership, institutional representation, and strategic society direction.',
   },
   {
     id: 3,
-    position: 'Vice President (VP-1)',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'VP',
+    position: 'Vice President',
+    name: 'Mridul Gaur',
+    isConfirmed: true,
+    initials: 'MG',
     wing: 'Executive Board',
-    mandate: 'Assisting presidential leadership and overseeing parliamentary debating standards.',
+    mandate: 'Assisting presidential leadership and overseeing parliamentary debating standards and circuit delegation.',
   },
   {
     id: 4,
-    position: 'Vice President (VP-2)',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'VP',
+    position: 'Vice President',
+    name: 'Mansi Singh',
+    isConfirmed: true,
+    initials: 'MS',
     wing: 'Executive Board',
-    mandate: 'Supervising internal club affairs, member welfare, and session coordination.',
+    mandate: 'Supervising internal club affairs, member development, and session coordination.',
   },
   {
     id: 5,
-    position: 'General Secretary (GS-1)',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'GS',
+    position: 'General Secretary',
+    name: 'Adwitya',
+    isConfirmed: true,
+    initials: 'AD',
     wing: 'Secretariat',
     mandate: 'Documentation of meeting minutes, society dockets, and official student notifications.',
   },
   {
     id: 6,
-    position: 'General Secretary (GS-2)',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'GS',
+    position: 'General Secretary',
+    name: 'Saksham Sharma',
+    isConfirmed: true,
+    initials: 'SS',
     wing: 'Secretariat',
-    mandate: 'Inter-departmental alignment, attendance archives, and operational reporting.',
+    mandate: 'Inter-departmental coordination, attendance archives, and operational reporting.',
   },
   {
     id: 7,
-    position: 'Alumni Coordinator',
-    name: 'Nakshatra Chaudhary',
-    isConfirmed: true,
-    initials: 'NC',
-    wing: 'Alumni Affairs',
-    mandate: 'Fostering lifelong relationships with graduated debaters and coordinating mentorship sessions.',
-  },
-  {
-    id: 8,
-    position: 'Deputy Alumni Coordinator',
-    name: 'Anushka Tripathi',
-    isConfirmed: true,
-    initials: 'AT',
-    wing: 'Alumni Affairs',
-    mandate: 'Assisting alumni outreach, graduate debate panels, and career networking symposia.',
-  },
-  {
-    id: 9,
     position: 'Treasurer',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'TR',
+    name: 'Aryan Chauhan',
+    isConfirmed: true,
+    initials: 'AC',
     wing: 'Finance Wing',
     mandate: 'Fiscal management, tournament budgeting, expenditure audits, and institutional sponsorship allocation.',
   },
-  {
-    id: 10,
-    position: 'Deputy Treasurer',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'DT',
-    wing: 'Finance Wing',
-    mandate: 'Assisting cash flow management, receipts reconciliation, and logistics requisition processing.',
-  },
-  {
-    id: 11,
-    position: 'Event Management Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'EH',
-    wing: 'Event Operations',
-    mandate: 'Directing stage production, venue acoustics, floor operations, and tournament schedules.',
-  },
-  {
-    id: 12,
-    position: 'Deputy Event Management Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'DH',
-    wing: 'Event Operations',
-    mandate: 'On-ground stage supervision, adjudicator hospitality, and delegate seating arrangements.',
-  },
-  {
-    id: 13,
-    position: 'Content & Creative Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'CH',
-    wing: 'Creative & Editorial',
-    mandate: 'Supervising motion formulation, visual aesthetics, editorial bulletins, and social creative assets.',
-  },
-  {
-    id: 14,
-    position: 'Deputy Content & Creative Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'DC',
-    wing: 'Creative & Editorial',
-    mandate: 'Assisting digital design, promotional poster artwork, and parliamentary motion dossiers.',
-  },
-  {
-    id: 15,
-    position: 'Technical Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'TH',
-    wing: 'Technical Operations',
-    mandate: 'Leading web infrastructure, tabulation systems, stage AV setups, and digital tools.',
-  },
-  {
-    id: 16,
-    position: 'Deputy Technical Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'DT',
-    wing: 'Technical Operations',
-    mandate: 'Supporting website maintenance, scoring software configuration, and live stream setups.',
-  },
-  {
-    id: 17,
-    position: 'Public Relations (PR) Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'PH',
-    wing: 'Public Relations',
-    mandate: 'Managing external society communications, collegiate invitations, press releases, and media presence.',
-  },
-  {
-    id: 18,
-    position: 'Deputy Public Relations (PR) Head',
-    name: 'To be announced',
-    isConfirmed: false,
-    initials: 'DP',
-    wing: 'Public Relations',
-    mandate: 'Assisting delegate communications, campus announcements, and university media coordination.',
-  },
 ];
 
-// Our Teams: Highlighting the club's 5 departments
-export interface DepartmentTeamItem {
-  id: number;
+// --- OUR TEAMS STRUCTURE ---
+export interface TeamLeader {
+  role: string;
+  name: string;
+  initials: string;
+}
+
+export interface TeamDepartment {
+  id: string;
   name: string;
   tagline: string;
   description: string;
-  iconName: 'PenTool' | 'CalendarCheck' | 'Users' | 'Code' | 'BookOpen';
+  iconName: 'GraduationCap' | 'CalendarCheck' | 'PenTool' | 'Code' | 'BookOpen' | 'Users';
+  motifType: 'alumni' | 'events' | 'design' | 'tech' | 'content' | 'pr';
+  head: TeamLeader;
+  deputy: TeamLeader;
   responsibilities: string[];
 }
 
-const CLUB_DEPARTMENTS: DepartmentTeamItem[] = [
-  {
-    id: 1,
-    name: 'Content & Creative',
-    tagline: 'Motion Curation & Visual Rhetoric',
-    description: 'Formulates nuanced debate motions across geopolitics, law, and culture while designing distinctive visual identities and editorial journals for the society.',
-    iconName: 'PenTool',
-    responsibilities: [
-      'Motion dockets & background research briefs',
-      'Society bulletins, essays & editorial copy',
-      'Visual identity, print flyers & digital artwork',
-      'Brand guidelines & social visual media',
-    ],
+// A. Alumni Team: Visible initially with Nakshatra Chaudhary and Anushka Tripathi having equal prominence
+const ALUMNI_TEAM: TeamDepartment = {
+  id: 'alumni',
+  name: 'Alumni Team',
+  tagline: 'Circuit Heritage & Mentorship Network',
+  description: 'Connects SATURANGLE debaters with graduated alumni across premier legal chambers, public policy institutions, and collegiate adjudicators to nurture lifelong debate camaraderie.',
+  iconName: 'GraduationCap',
+  motifType: 'alumni',
+  head: {
+    role: 'Alumni Coordinator',
+    name: 'Nakshatra Chaudhary',
+    initials: 'NC',
   },
-  {
-    id: 2,
-    name: 'Event Management',
-    tagline: 'Tournament Staging & Floor Logistics',
-    description: 'Executes parliamentary rounds and annual flagship conclaves with seamless venue orchestration, timekeeping precision, and adjudicator hosting.',
-    iconName: 'CalendarCheck',
-    responsibilities: [
-      'Auditorium staging & podium technical setup',
-      'Delegate hospitality & venue access logistics',
-      'Adjudication docket distribution & timekeeping',
-      'Flagship festival & symposium coordination',
-    ],
-  },
-  {
-    id: 3,
-    name: 'Public Relations (PR)',
-    tagline: 'External Circuit Outreach & Media',
-    description: 'Expands SATURANGLE’s voice across the Indian collegiate circuit, fostering institutional collaborations, media releases, and audience engagement.',
-    iconName: 'Users',
-    responsibilities: [
-      'Inter-university invitations & circuit relations',
-      'Press notices & university communications',
-      'Official social media campaigns & announcements',
-      'Audience moderation & cohort outreach',
-    ],
-  },
-  {
-    id: 4,
-    name: 'Technical',
-    tagline: 'Digital Infrastructure & Tabulation Systems',
-    description: 'Architects and maintains the official SATURANGLE web experience, digital registration pipelines, and tournament tabulation algorithms.',
-    iconName: 'Code',
-    responsibilities: [
-      'Full-stack website engineering & maintenance',
-      'Debate adjudication & tabulation software',
-      'Registration databases & attendee check-in tools',
-      'Audiovisual systems & multimedia coordination',
-    ],
-  },
-  {
-    id: 5,
-    name: 'Research & Debating',
-    tagline: 'Policy Deep-Dives & Sparring Clinics',
-    description: 'Grounds the club’s speakers in robust empirical argumentation through policy archives, analytical workshops, and weekly sparring clinics.',
-    iconName: 'BookOpen',
-    responsibilities: [
-      'Policy dossiers & motion fact-checking kits',
-      'Weekly sparring sessions & mock debates',
-      'Adjudication training & rebuttal workshops',
-      'Mentorship for novice and junior debaters',
-    ],
-  },
-];
-
-// People Behind the Platform: 2 equal text-based profiles recognizing student developers
-const PLATFORM_TEAM = [
-  {
+  deputy: {
+    role: 'Deputy Alumni Coordinator',
     name: 'Anushka Tripathi',
-    role: 'Website Architecture & Engineering',
-    tagline: 'Frontend system architecture, 3D interactive stage implementation, and interface design.',
     initials: 'AT',
   },
+  responsibilities: [
+    'Fostering lifelong relationships with graduated debaters',
+    'Coordinating mentorship masterclasses and career symposiums',
+    'Organizing alumni guest adjudicator panels and varsity exchanges',
+    'Archiving institutional debate legacy, trophies, and orator histories',
+  ],
+};
+
+// B-F. Remaining Departmental Teams: Revealed smoothly via "More Teams"
+const DEPARTMENTAL_TEAMS: TeamDepartment[] = [
   {
-    name: 'Nakshatra Chaudhary',
-    role: 'Digital Strategy & Platform Architecture',
-    tagline: 'Platform structuring, content workflow design, and digital systems coordination.',
-    initials: 'NC',
+    id: 'events',
+    name: 'Events Team',
+    tagline: 'Tournament Staging & Floor Orchestration',
+    description: 'Executes parliamentary rounds, turncoat face-offs, and annual flagship conclaves with precision floor scheduling, stage production, and adjudicator hosting.',
+    iconName: 'CalendarCheck',
+    motifType: 'events',
+    head: {
+      role: 'Event Head',
+      name: 'Deepak Singh',
+      initials: 'DS',
+    },
+    deputy: {
+      role: 'Deputy Event Head',
+      name: 'Mehak Sethi',
+      initials: 'MS',
+    },
+    responsibilities: [
+      'Auditorium staging, podium acoustics, and floor logistics',
+      'Parliamentary motion schedule and match-up allocation',
+      'Adjudication docket distribution and timing protocol',
+      'Guest delegate hospitality and conclave stage supervision',
+    ],
+  },
+  {
+    id: 'design',
+    name: 'Design Team',
+    tagline: 'Visual Rhetoric & Creative Aesthetics',
+    description: 'Architects the society’s visual language, tournament identity packages, motion briefs, typography systems, and promotional artwork.',
+    iconName: 'PenTool',
+    motifType: 'design',
+    head: {
+      role: 'Design Team Head',
+      name: 'Vanshika Agarwal',
+      initials: 'VA',
+    },
+    deputy: {
+      role: 'Deputy Design Team Head',
+      name: 'Krishna Yadav',
+      initials: 'KY',
+    },
+    responsibilities: [
+      'Visual identity guidelines, typography systems, and color palettes',
+      'Tournament stage backdrops, print flyers, and motion dossiers',
+      'Digital social media creative assets and announcements',
+      'Editorial publication layouts and society brochures',
+    ],
+  },
+  {
+    id: 'technical',
+    name: 'Technical Team',
+    tagline: 'Digital Infrastructure & Tabulation Systems',
+    description: 'Engineers and maintains the official SATURANGLE web experience, interactive 3D debate stages, registration databases, and tabulation scoring software.',
+    iconName: 'Code',
+    motifType: 'tech',
+    head: {
+      role: 'Technical Team Head',
+      name: 'Bhaavya Tilhari',
+      initials: 'BT',
+    },
+    deputy: {
+      role: 'Deputy Technical Team Head',
+      name: 'Saloni Kumari',
+      initials: 'SK',
+    },
+    responsibilities: [
+      'Full-stack website engineering, hosting, and performance',
+      'Debate adjudication and speaker scoring software',
+      'Delegate registration portals and check-in workflows',
+      'Audiovisual systems, stage tech, and digital dockets',
+    ],
+  },
+  {
+    id: 'content',
+    name: 'Content Team',
+    tagline: 'Motion Formulation & Intellectual Discourse',
+    description: 'Formulates provocative, balanced debate motions across geopolitics, law, and culture while authoring research briefs and publications.',
+    iconName: 'BookOpen',
+    motifType: 'content',
+    head: {
+      role: 'Content Team Head',
+      name: 'Shivangi Sharma',
+      initials: 'SS',
+    },
+    deputy: {
+      role: 'Deputy Content Team Head',
+      name: 'Riddhima Khatri',
+      initials: 'RK',
+    },
+    responsibilities: [
+      'Debate motion curation and balanced motion dossier framing',
+      'Background research papers and fact-checking kits',
+      'Society newsletters, essays, and editorial bulletins',
+      'Adjudication rubrics, speaker briefing guides, and rules',
+    ],
+  },
+  {
+    id: 'pr',
+    name: 'Public Relations Team',
+    tagline: 'Collegiate Circuit Outreach & Communications',
+    description: 'Expands SATURANGLE’s presence across the national university circuit, orchestrating inter-varsity invitations, official press releases, and media engagement.',
+    iconName: 'Users',
+    motifType: 'pr',
+    head: {
+      role: 'Public Relations Officer',
+      name: 'Richa Singh',
+      initials: 'RS',
+    },
+    deputy: {
+      role: 'Deputy Public Relations Officer',
+      name: 'Rishika Gupta',
+      initials: 'RG',
+    },
+    responsibilities: [
+      'Inter-university circuit relations and tournament invitations',
+      'Official press communiqués and institutional representation',
+      'Audience outreach, campus announcements, and orientations',
+      'Sponsorship outreach, partner coordination, and cohort relations',
+    ],
   },
 ];
 
@@ -1869,7 +1842,6 @@ const Header: React.FC<{
         { id: 'core-council', name: 'Core Council' },
         { id: 'our-teams', name: 'Our Teams' },
         { id: 'gallery', name: 'Gallery' },
-        { id: 'platform-team', name: 'Behind the Platform' },
       ];
 
       const curPos = window.scrollY + 220;
@@ -2532,8 +2504,65 @@ const AchievementsSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
   </section>
 );
 
-// 5. OUR TEAM — FACULTY MENTOR (Static, clean neutral profile placeholder, no invented biography)
-const TeamSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
+// Reusable Member Avatar with Photo Support & Interactive Upload Trigger
+const MemberAvatar: React.FC<{
+  name: string;
+  initials: string;
+  photoUrl?: string;
+  sizeClass?: string;
+  badgeLabel?: string;
+  isDark: boolean;
+  onEditPhoto?: () => void;
+}> = ({
+  name,
+  initials,
+  photoUrl,
+  sizeClass = 'w-24 h-24',
+  badgeLabel = 'Photo Slot',
+  isDark,
+  onEditPhoto,
+}) => (
+  <div
+    className="relative group/avatar cursor-pointer"
+    onClick={(e) => {
+      e.stopPropagation();
+      onEditPhoto?.();
+    }}
+    title={`Click to set or change portrait for ${name}`}
+  >
+    <div
+      className={`${sizeClass} rounded-full border-2 border-dashed flex flex-col items-center justify-center relative overflow-hidden transition-all duration-300 group-hover/avatar:scale-105 group-hover/avatar:border-[#9F1239] shadow-inner ${
+        photoUrl
+          ? 'border-[#9F1239] bg-black/5'
+          : isDark
+          ? 'border-white/20 bg-white/5 text-gray-300 group-hover/avatar:text-[#9F1239]'
+          : 'border-[#E7E3DF] bg-[#FAF9F6] text-gray-600 group-hover/avatar:text-[#9F1239]'
+      }`}
+    >
+      {photoUrl ? (
+        <img
+          src={photoUrl}
+          alt={name}
+          className="w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+      ) : (
+        <span className="text-xl sm:text-2xl font-bold font-display tracking-widest">{initials}</span>
+      )}
+    </div>
+    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-[8px] font-mono uppercase bg-[#111111] text-white border border-white/20 flex items-center gap-1 shadow-sm whitespace-nowrap group-hover/avatar:bg-[#9F1239] transition-colors">
+      <Camera size={9} />
+      <span>{photoUrl ? 'Change' : badgeLabel}</span>
+    </div>
+  </div>
+);
+
+// 5. OUR TEAM — FACULTY MENTOR (Static, clean neutral profile placeholder with photo upload support)
+const TeamSection: React.FC<{
+  isDark: boolean;
+  photoUrl?: string;
+  onEditPhoto: (name: string) => void;
+}> = ({ isDark, photoUrl, onEditPhoto }) => (
   <section
     id="team"
     className={`py-24 border-t transition-colors duration-500 relative z-20 ${
@@ -2564,11 +2593,16 @@ const TeamSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
               : 'bg-white border-[#9F1239]/40'
           }`}
         >
-          {/* Neutral Profile Placeholder / Abstract Avatar */}
-          <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-dashed border-[#9F1239] bg-[#9F1239]/10 text-[#9F1239] flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
-            <span className="text-2xl font-bold font-display tracking-widest">{MENTOR_INFO.initials}</span>
-            <span className="text-[9px] font-mono uppercase tracking-widest text-gray-500 mt-1">Profile Slot</span>
-          </div>
+          {/* Faculty Mentor Avatar with photo upload capability */}
+          <MemberAvatar
+            name={MENTOR_INFO.name}
+            initials={MENTOR_INFO.initials}
+            photoUrl={photoUrl}
+            sizeClass="w-28 h-28 sm:w-32 sm:h-32"
+            badgeLabel="Profile Slot"
+            isDark={isDark}
+            onEditPhoto={() => onEditPhoto(MENTOR_INFO.name)}
+          />
 
           <div className="text-center sm:text-left space-y-2">
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#9F1239] px-2.5 py-1 bg-[#9F1239]/10 rounded-xs inline-block">
@@ -2594,11 +2628,13 @@ const TeamSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
   </section>
 );
 
-// 6. CORE COUNCIL CAROUSEL — 18 POSITIONS IN STRICT SPECIFIED SEQUENCE WITH DRAG & ARROW CONTROLS
+// 6. CORE COUNCIL CAROUSEL — 7 POSITIONS IN STRICT SPECIFIED SEQUENCE WITH DRAG & ARROW CONTROLS
 const CoreCouncilSection: React.FC<{
   isDark: boolean;
+  userPhotos: Record<string, string>;
   onSelectMember: (member: CouncilMember) => void;
-}> = ({ isDark, onSelectMember }) => {
+  onEditPhoto: (name: string) => void;
+}> = ({ isDark, userPhotos, onSelectMember, onEditPhoto }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -2666,7 +2702,7 @@ const CoreCouncilSection: React.FC<{
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
               <Shield size={13} className="text-[#9F1239]" />
               <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
-                Student Governance &bull; 18 Key Portfolios
+                Student Governance &bull; 7 Executive Portfolios
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight font-display">
@@ -2681,7 +2717,7 @@ const CoreCouncilSection: React.FC<{
           {/* Navigation Controls */}
           <div className="flex items-center gap-3">
             <span className="text-xs font-mono uppercase tracking-wider text-gray-500 mr-2 hidden sm:inline-block">
-              Scroll Portfolios ({CORE_COUNCIL_MEMBERS.length})
+              Executive Portfolios ({CORE_COUNCIL_MEMBERS.length})
             </span>
             <button
               onClick={handleScrollLeft}
@@ -2742,7 +2778,7 @@ const CoreCouncilSection: React.FC<{
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <span className="text-[10px] font-mono tracking-widest text-[#9F1239] font-bold">
-                    #{String(index + 1).padStart(2, '0')} / 18
+                    #{String(index + 1).padStart(2, '0')} / {String(CORE_COUNCIL_MEMBERS.length).padStart(2, '0')}
                   </span>
                   <span
                     className={`text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-xs border font-medium ${
@@ -2753,27 +2789,21 @@ const CoreCouncilSection: React.FC<{
                         : 'border-gray-200 text-gray-500 bg-gray-50'
                     }`}
                   >
-                    {member.isConfirmed ? 'Appointed' : 'Designated'}
+                    Appointed
                   </span>
                 </div>
 
-                {/* Abstract Avatar / Editable Photo Placeholder Slot */}
+                {/* Member Avatar with Photo Support & Upload Modal */}
                 <div className="flex flex-col items-center mb-6">
-                  <div
-                    className={`w-24 h-24 rounded-full border-2 border-dashed flex flex-col items-center justify-center relative transition-all duration-300 group-hover:scale-105 ${
-                      member.isConfirmed
-                        ? 'border-[#9F1239] bg-[#9F1239]/10 text-[#9F1239]'
-                        : isDark
-                        ? 'border-white/20 bg-white/5 text-gray-400 group-hover:border-[#9F1239] group-hover:text-[#9F1239]'
-                        : 'border-[#E7E3DF] bg-[#FAF9F6] text-gray-500 group-hover:border-[#9F1239] group-hover:text-[#9F1239]'
-                    }`}
-                  >
-                    <span className="text-2xl font-bold font-display tracking-widest">{member.initials}</span>
-                    <div className="absolute -bottom-2 px-2 py-0.5 rounded-full text-[8px] font-mono uppercase bg-[#111111] text-white border border-white/20 flex items-center gap-1">
-                      <Camera size={9} />
-                      <span>Photo Slot</span>
-                    </div>
-                  </div>
+                  <MemberAvatar
+                    name={member.name}
+                    initials={member.initials}
+                    photoUrl={userPhotos[member.name]}
+                    sizeClass="w-24 h-24"
+                    badgeLabel="Photo Slot"
+                    isDark={isDark}
+                    onEditPhoto={() => onEditPhoto(member.name)}
+                  />
                 </div>
 
                 {/* Position Title & Member Name */}
@@ -2824,12 +2854,12 @@ const CoreCouncilSection: React.FC<{
           <div className="w-full sm:max-w-md bg-gray-500/20 h-1 rounded-full overflow-hidden">
             <div
               className="bg-[#9F1239] h-full transition-all duration-150"
-              style={{ width: `${Math.max(10, scrollProgress)}%` }}
+              style={{ width: `${Math.max(14, scrollProgress)}%` }}
             />
           </div>
           <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
             <span>Drag horizontally or use arrow buttons</span>
-            <span className="text-[#9F1239] font-bold">18 Core Portfolios</span>
+            <span className="text-[#9F1239] font-bold">7 Executive Portfolios</span>
           </div>
         </div>
       </div>
@@ -2837,20 +2867,111 @@ const CoreCouncilSection: React.FC<{
   );
 };
 
-// 7. OUR TEAMS SECTION — 5 OPERATIONAL DEPARTMENTAL WINGS OF SATURANGLE
-const OurTeamsSection: React.FC<{ isDark: boolean }> = ({ isDark }) => {
-  const getDepartmentIcon = (iconName: string) => {
+// Creative Graphic Motifs for Departmental Wings
+const TeamMotif: React.FC<{ type: TeamDepartment['motifType']; className?: string }> = ({ type, className = '' }) => {
+  switch (type) {
+    case 'alumni':
+      return (
+        <svg className={`pointer-events-none select-none ${className}`} viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="80" cy="35" r="14" stroke="#9F1239" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.4" />
+          <path d="M52 35 L80 20 L108 35 L80 50 Z" stroke="#9F1239" strokeWidth="1.5" opacity="0.5" />
+          <path d="M98 42 V58 C98 58 90 64 80 64 C70 64 62 58 62 58 V42" stroke="#9F1239" strokeWidth="1.3" opacity="0.4" />
+          <circle cx="36" cy="78" r="4" fill="#9F1239" opacity="0.35" />
+          <circle cx="124" cy="78" r="4" fill="#9F1239" opacity="0.35" />
+          <circle cx="80" cy="88" r="4" fill="#9F1239" opacity="0.35" />
+          <line x1="62" y1="58" x2="36" y2="78" stroke="#9F1239" strokeWidth="1" strokeDasharray="2 2" opacity="0.3" />
+          <line x1="98" y1="58" x2="124" y2="78" stroke="#9F1239" strokeWidth="1" strokeDasharray="2 2" opacity="0.3" />
+          <line x1="80" y1="64" x2="80" y2="88" stroke="#9F1239" strokeWidth="1" strokeDasharray="2 2" opacity="0.3" />
+        </svg>
+      );
+    case 'events':
+      return (
+        <svg className={`pointer-events-none select-none ${className}`} viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="35" y="20" width="90" height="60" rx="3" stroke="#9F1239" strokeWidth="1.2" opacity="0.3" />
+          <line x1="35" y1="36" x2="125" y2="36" stroke="#9F1239" strokeWidth="1.2" opacity="0.4" />
+          <line x1="65" y1="36" x2="65" y2="80" stroke="#9F1239" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.25" />
+          <line x1="95" y1="36" x2="95" y2="80" stroke="#9F1239" strokeWidth="0.8" strokeDasharray="2 2" opacity="0.25" />
+          <path d="M16 35 C10 44 10 56 16 65" stroke="#9F1239" strokeWidth="1.5" opacity="0.35" />
+          <path d="M144 35 C150 44 150 56 144 65" stroke="#9F1239" strokeWidth="1.5" opacity="0.35" />
+          <path d="M22 42 C18 47 18 53 22 58" stroke="#9F1239" strokeWidth="1.2" opacity="0.25" />
+          <path d="M138 42 C142 47 142 53 138 58" stroke="#9F1239" strokeWidth="1.2" opacity="0.25" />
+        </svg>
+      );
+    case 'design':
+      return (
+        <svg className={`pointer-events-none select-none ${className}`} viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 75 C45 15 105 85 138 25" stroke="#9F1239" strokeWidth="1.5" opacity="0.4" />
+          <circle cx="20" cy="75" r="3.5" fill="#9F1239" opacity="0.5" />
+          <circle cx="138" cy="25" r="3.5" fill="#9F1239" opacity="0.5" />
+          <circle cx="80" cy="50" r="20" stroke="#9F1239" strokeWidth="1" strokeDasharray="3 3" opacity="0.3" />
+          <line x1="80" y1="15" x2="80" y2="85" stroke="#9F1239" strokeWidth="0.8" opacity="0.2" />
+          <line x1="45" y1="50" x2="115" y2="50" stroke="#9F1239" strokeWidth="0.8" opacity="0.2" />
+          <rect x="74" y="44" width="12" height="12" stroke="#9F1239" strokeWidth="1.2" opacity="0.35" />
+        </svg>
+      );
+    case 'tech':
+      return (
+        <svg className={`pointer-events-none select-none ${className}`} viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M25 50 L48 50 L62 26 L98 26 L112 50 L135 50" stroke="#9F1239" strokeWidth="1.3" opacity="0.35" />
+          <path d="M48 50 L62 74 L98 74 L112 50" stroke="#9F1239" strokeWidth="1.3" opacity="0.35" />
+          <circle cx="25" cy="50" r="3.5" fill="#9F1239" opacity="0.45" />
+          <circle cx="135" cy="50" r="3.5" fill="#9F1239" opacity="0.45" />
+          <circle cx="80" cy="26" r="3" fill="#9F1239" opacity="0.45" />
+          <circle cx="80" cy="74" r="3" fill="#9F1239" opacity="0.45" />
+          <text x="80" y="54" textAnchor="middle" fill="#9F1239" fontSize="12" fontFamily="monospace" fontWeight="bold" opacity="0.45">&lt; / &gt;</text>
+        </svg>
+      );
+    case 'content':
+      return (
+        <svg className={`pointer-events-none select-none ${className}`} viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="42" y="16" width="76" height="68" rx="2" stroke="#9F1239" strokeWidth="1.2" opacity="0.3" />
+          <line x1="56" y1="32" x2="104" y2="32" stroke="#9F1239" strokeWidth="1.2" opacity="0.35" />
+          <line x1="56" y1="44" x2="104" y2="44" stroke="#9F1239" strokeWidth="1.2" opacity="0.35" />
+          <line x1="56" y1="56" x2="94" y2="56" stroke="#9F1239" strokeWidth="1.2" opacity="0.35" />
+          <line x1="56" y1="68" x2="82" y2="68" stroke="#9F1239" strokeWidth="1.2" opacity="0.35" />
+          <text x="122" y="38" fill="#9F1239" fontSize="24" fontFamily="Georgia, serif" fontWeight="bold" opacity="0.35">&ldquo;</text>
+        </svg>
+      );
+    case 'pr':
+      return (
+        <svg className={`pointer-events-none select-none ${className}`} viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="80" cy="50" r="14" stroke="#9F1239" strokeWidth="1.2" opacity="0.25" />
+          <circle cx="80" cy="50" r="28" stroke="#9F1239" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.3" />
+          <circle cx="80" cy="50" r="42" stroke="#9F1239" strokeWidth="1" strokeDasharray="2 4" opacity="0.25" />
+          <circle cx="56" cy="42" r="7" fill="#9F1239" opacity="0.3" />
+          <circle cx="104" cy="42" r="7" fill="#9F1239" opacity="0.3" />
+          <circle cx="80" cy="65" r="8" fill="#9F1239" opacity="0.35" />
+          <line x1="56" y1="42" x2="80" y2="65" stroke="#9F1239" strokeWidth="1" opacity="0.35" />
+          <line x1="104" y1="42" x2="80" y2="65" stroke="#9F1239" strokeWidth="1" opacity="0.35" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
+
+// 7. OUR TEAMS SECTION — 6 SPECIALIZED OPERATIONAL WINGS OF SATURANGLE
+const OurTeamsSection: React.FC<{
+  isDark: boolean;
+  userPhotos: Record<string, string>;
+  onEditPhoto: (name: string) => void;
+}> = ({ isDark, userPhotos, onEditPhoto }) => {
+  const [showMoreTeams, setShowMoreTeams] = useState(false);
+
+  const getTeamIcon = (iconName: string) => {
     switch (iconName) {
-      case 'PenTool':
-        return <PenTool size={22} className="text-[#9F1239]" />;
+      case 'GraduationCap':
+        return <GraduationCap size={22} className="text-[#9F1239]" />;
       case 'CalendarCheck':
         return <CalendarCheck size={22} className="text-[#9F1239]" />;
-      case 'Users':
-        return <Users size={22} className="text-[#9F1239]" />;
+      case 'PenTool':
+        return <PenTool size={22} className="text-[#9F1239]" />;
       case 'Code':
         return <Code size={22} className="text-[#9F1239]" />;
       case 'BookOpen':
         return <BookOpen size={22} className="text-[#9F1239]" />;
+      case 'Users':
+        return <Users size={22} className="text-[#9F1239]" />;
       default:
         return <Shield size={22} className="text-[#9F1239]" />;
     }
@@ -2864,12 +2985,12 @@ const OurTeamsSection: React.FC<{ isDark: boolean }> = ({ isDark }) => {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
-        {/* Header */}
+        {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
             <Users size={13} className="text-[#9F1239]" />
             <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
-              Departmental Wings
+              Operational Divisions &bull; 6 Specialized Wings
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 font-display">
@@ -2880,115 +3001,355 @@ const OurTeamsSection: React.FC<{ isDark: boolean }> = ({ isDark }) => {
               isDark ? 'text-gray-400' : 'text-[#686868]'
             }`}
           >
-            Explore the five specialized operational divisions powering SATURANGLE&rsquo;s intellectual assemblies, competitive tournaments, and digital presence.
+            Explore the specialized operational divisions and student leadership powering SATURANGLE&rsquo;s intellectual assemblies, competitive tournaments, and digital presence.
           </p>
           <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
         </div>
 
-        {/* 5 Distinct Departmental Cards in Clean Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {CLUB_DEPARTMENTS.map((dept, index) => (
-            <div
-              key={dept.id}
-              className={`border rounded-xs p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:border-[#9F1239] group ${
-                index === 4 ? 'md:col-span-2 lg:col-span-1' : ''
-              } ${
-                isDark ? 'bg-[#18181C] border-white/10' : 'bg-white border-[#E7E3DF]'
-              }`}
-            >
-              <div>
-                {/* Top Graphic Placeholder & Icon */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 rounded-xs bg-[#9F1239]/10 border border-[#9F1239]/30 flex items-center justify-center group-hover:scale-105 transition-transform">
-                    {getDepartmentIcon(dept.iconName)}
+        {/* --- A. FEATURED ALUMNI TEAM (Prominently Visible Initially) --- */}
+        <div className="mb-14">
+          <div
+            className={`border rounded-xs p-8 sm:p-10 relative overflow-hidden transition-all duration-300 shadow-md ${
+              isDark
+                ? 'bg-[#18181C] border-[#9F1239]/40'
+                : 'bg-white border-[#9F1239]/35'
+            }`}
+          >
+            {/* Top decorative subtle motif in corner */}
+            <div className="absolute top-2 right-2 w-44 h-28 opacity-60 hidden sm:block">
+              <TeamMotif type="alumni" />
+            </div>
+
+            <div className="relative z-10">
+              {/* Header Badge & Title */}
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xs bg-[#9F1239]/10 border border-[#9F1239]/30 flex items-center justify-center">
+                    {getTeamIcon(ALUMNI_TEAM.iconName)}
                   </div>
-                  <span className="text-[10px] font-mono tracking-widest text-gray-500 uppercase">
-                    Wing {String(dept.id).padStart(2, '0')}
-                  </span>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-xs bg-[#9F1239]/10 text-[#9F1239]">
+                        Featured Wing
+                      </span>
+                      <span className="text-[10px] font-mono tracking-widest text-gray-500 uppercase">
+                        Wing 01
+                      </span>
+                    </div>
+                    <h3 className={`text-2xl sm:text-3xl font-bold font-display mt-0.5 ${isDark ? 'text-white' : 'text-[#111111]'}`}>
+                      {ALUMNI_TEAM.name}
+                    </h3>
+                  </div>
+                </div>
+                <span className="text-xs font-semibold text-[#9F1239] uppercase tracking-wider hidden md:inline-block">
+                  {ALUMNI_TEAM.tagline}
+                </span>
+              </div>
+
+              <p className={`text-sm leading-relaxed max-w-3xl mb-8 ${isDark ? 'text-gray-300' : 'text-[#555555]'}`}>
+                {ALUMNI_TEAM.description}
+              </p>
+
+              {/* Both Alumni Leaders with Equal Visual Prominence */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                {/* 1. Alumni Coordinator — Nakshatra Chaudhary */}
+                <div
+                  className={`border rounded-xs p-6 flex flex-col sm:flex-row items-center text-center sm:text-left gap-5 transition-all duration-300 hover:shadow-lg hover:border-[#9F1239] group ${
+                    isDark ? 'bg-[#1F1F24] border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+                  }`}
+                >
+                  <MemberAvatar
+                    name={ALUMNI_TEAM.head.name}
+                    initials={ALUMNI_TEAM.head.initials}
+                    photoUrl={userPhotos[ALUMNI_TEAM.head.name]}
+                    sizeClass="w-20 h-20"
+                    badgeLabel="Alumni Slot"
+                    isDark={isDark}
+                    onEditPhoto={() => onEditPhoto(ALUMNI_TEAM.head.name)}
+                  />
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#9F1239] px-2 py-0.5 bg-[#9F1239]/10 rounded-xs inline-block">
+                      {ALUMNI_TEAM.head.role}
+                    </span>
+                    <h4 className={`text-xl font-bold font-display ${isDark ? 'text-white' : 'text-[#111111]'}`}>
+                      {ALUMNI_TEAM.head.name}
+                    </h4>
+                    <p className="text-xs text-gray-500">
+                      Senior Executive Lead &bull; Alumni Liaison
+                    </p>
+                  </div>
                 </div>
 
-                {/* Team Name & Tagline */}
-                <h3
-                  className={`text-2xl font-bold font-display mb-1.5 group-hover:text-[#9F1239] transition-colors ${
-                    isDark ? 'text-white' : 'text-[#111111]'
-                  }`}
-                >
-                  {dept.name}
-                </h3>
-                <span className="text-[11px] font-semibold text-[#9F1239] uppercase tracking-wider block mb-4">
-                  {dept.tagline}
-                </span>
-
-                {/* Neutral Description */}
-                <p
-                  className={`text-xs sm:text-sm leading-relaxed mb-6 ${
-                    isDark ? 'text-gray-300' : 'text-[#555555]'
-                  }`}
-                >
-                  {dept.description}
-                </p>
-
-                {/* Editable Graphic / Visual Placeholder Slot */}
+                {/* 2. Deputy Alumni Coordinator — Anushka Tripathi */}
                 <div
-                  className={`border border-dashed rounded-xs p-4 mb-6 text-center ${
-                    isDark ? 'bg-white/5 border-white/15' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+                  className={`border rounded-xs p-6 flex flex-col sm:flex-row items-center text-center sm:text-left gap-5 transition-all duration-300 hover:shadow-lg hover:border-[#9F1239] group ${
+                    isDark ? 'bg-[#1F1F24] border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
                   }`}
                 >
-                  <div className="flex items-center justify-center gap-2 text-[#9F1239] mb-1">
-                    <Camera size={14} />
-                    <span className="text-[10px] font-bold uppercase tracking-wider">
-                      Department Banner Slot
+                  <MemberAvatar
+                    name={ALUMNI_TEAM.deputy.name}
+                    initials={ALUMNI_TEAM.deputy.initials}
+                    photoUrl={userPhotos[ALUMNI_TEAM.deputy.name]}
+                    sizeClass="w-20 h-20"
+                    badgeLabel="Alumni Slot"
+                    isDark={isDark}
+                    onEditPhoto={() => onEditPhoto(ALUMNI_TEAM.deputy.name)}
+                  />
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#9F1239] px-2 py-0.5 bg-[#9F1239]/10 rounded-xs inline-block">
+                      {ALUMNI_TEAM.deputy.role}
+                    </span>
+                    <h4 className={`text-xl font-bold font-display ${isDark ? 'text-white' : 'text-[#111111]'}`}>
+                      {ALUMNI_TEAM.deputy.name}
+                    </h4>
+                    <p className="text-xs text-gray-500">
+                      Executive Associate &bull; Network Stewardship
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Alumni Mandates */}
+              <div className="pt-4 border-t border-gray-500/15">
+                <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">
+                  Key Mandates &bull; Alumni Affairs:
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {ALUMNI_TEAM.responsibilities.map((resp, idx) => (
+                    <div
+                      key={idx}
+                      className={`text-xs p-3 rounded-xs border flex items-start gap-2 ${
+                        isDark ? 'bg-white/5 border-white/10 text-gray-300' : 'bg-white border-[#E7E3DF] text-[#686868]'
+                      }`}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#9F1239] mt-1.5 flex-shrink-0" />
+                      <span>{resp}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* More Teams Toggle Button */}
+        <div className="text-center mb-12">
+          <button
+            onClick={() => setShowMoreTeams(!showMoreTeams)}
+            className={`inline-flex items-center gap-3 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md ${
+              showMoreTeams
+                ? isDark
+                  ? 'bg-white/10 text-white border border-white/20 hover:bg-white/15'
+                  : 'bg-white text-[#111111] border border-[#111111] hover:bg-gray-50'
+                : 'bg-[#9F1239] text-white hover:bg-[#800E2E] shadow-[#9F1239]/25 hover:shadow-lg'
+            }`}
+          >
+            <span>
+              {showMoreTeams
+                ? 'Show Fewer Teams'
+                : 'More Teams (Events, Design, Technical, Content, PR)'}
+            </span>
+            {showMoreTeams ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          </button>
+          <p className="text-[11px] text-gray-500 font-mono mt-2">
+            {showMoreTeams
+              ? 'Showing all 6 operational teams'
+              : 'Click to explore the 5 additional operational divisions'}
+          </p>
+        </div>
+
+        {/* --- B-F. REMAINING 5 DEPARTMENTAL TEAMS (Revealed via More Teams without duplicates) --- */}
+        {showMoreTeams && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in slide-in-from-top-4 duration-300">
+            {DEPARTMENTAL_TEAMS.map((dept, index) => (
+              <div
+                key={dept.id}
+                className={`border rounded-xs p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-[#9F1239] group ${
+                  index === 4 ? 'lg:col-span-2 max-w-3xl mx-auto w-full' : ''
+                } ${
+                  isDark ? 'bg-[#18181C] border-white/10' : 'bg-white border-[#E7E3DF]'
+                }`}
+              >
+                {/* Visual Motif Watermark */}
+                <div className="absolute top-2 right-2 w-36 h-24 opacity-40 group-hover:opacity-75 transition-opacity pointer-events-none">
+                  <TeamMotif type={dept.motifType} />
+                </div>
+
+                <div className="relative z-10">
+                  {/* Top Header */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-12 h-12 rounded-xs bg-[#9F1239]/10 border border-[#9F1239]/30 flex items-center justify-center group-hover:scale-105 transition-transform">
+                      {getTeamIcon(dept.iconName)}
+                    </div>
+                    <span className="text-[10px] font-mono tracking-widest text-gray-500 uppercase">
+                      Wing 0{index + 2}
                     </span>
                   </div>
-                  <span className="text-[9px] text-gray-500 font-mono block">
-                    Upload official department poster or team collage
-                  </span>
-                </div>
 
-                {/* Key Responsibilities */}
-                <div>
-                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">
-                    Core Mandates &amp; Activities:
-                  </h4>
-                  <ul className="space-y-2">
+                  {/* Team Title & Tagline */}
+                  <h3
+                    className={`text-2xl font-bold font-display mb-1 group-hover:text-[#9F1239] transition-colors ${
+                      isDark ? 'text-white' : 'text-[#111111]'
+                    }`}
+                  >
+                    {dept.name}
+                  </h3>
+                  <span className="text-[11px] font-semibold text-[#9F1239] uppercase tracking-wider block mb-3">
+                    {dept.tagline}
+                  </span>
+
+                  <p className={`text-xs sm:text-sm leading-relaxed mb-6 ${isDark ? 'text-gray-300' : 'text-[#555555]'}`}>
+                    {dept.description}
+                  </p>
+
+                  {/* Head & Deputy Head Cards with Consistent Formatting and Photo Slots */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    {/* Head */}
+                    <div
+                      className={`p-4 border rounded-xs flex items-center gap-3 transition-colors ${
+                        isDark ? 'bg-white/5 border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+                      }`}
+                    >
+                      <MemberAvatar
+                        name={dept.head.name}
+                        initials={dept.head.initials}
+                        photoUrl={userPhotos[dept.head.name]}
+                        sizeClass="w-14 h-14"
+                        badgeLabel="Photo"
+                        isDark={isDark}
+                        onEditPhoto={() => onEditPhoto(dept.head.name)}
+                      />
+                      <div>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-[#9F1239] block">
+                          {dept.head.role}
+                        </span>
+                        <h4 className={`text-sm font-bold font-display ${isDark ? 'text-white' : 'text-[#111111]'}`}>
+                          {dept.head.name}
+                        </h4>
+                      </div>
+                    </div>
+
+                    {/* Deputy Head */}
+                    <div
+                      className={`p-4 border rounded-xs flex items-center gap-3 transition-colors ${
+                        isDark ? 'bg-white/5 border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+                      }`}
+                    >
+                      <MemberAvatar
+                        name={dept.deputy.name}
+                        initials={dept.deputy.initials}
+                        photoUrl={userPhotos[dept.deputy.name]}
+                        sizeClass="w-14 h-14"
+                        badgeLabel="Photo"
+                        isDark={isDark}
+                        onEditPhoto={() => onEditPhoto(dept.deputy.name)}
+                      />
+                      <div>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-[#9F1239] block">
+                          {dept.deputy.role}
+                        </span>
+                        <h4 className={`text-sm font-bold font-display ${isDark ? 'text-white' : 'text-[#111111]'}`}>
+                          {dept.deputy.name}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mandates */}
+                  <div className="space-y-1.5 pt-2 border-t border-gray-500/15">
+                    <h5 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">
+                      Key Responsibilities &amp; Operations:
+                    </h5>
                     {dept.responsibilities.map((resp, rIdx) => (
-                      <li
+                      <div
                         key={rIdx}
-                        className={`text-xs flex items-start gap-2.5 ${
+                        className={`text-xs flex items-start gap-2 ${
                           isDark ? 'text-gray-300' : 'text-[#686868]'
                         }`}
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-[#9F1239] mt-1.5 flex-shrink-0" />
                         <span>{resp}</span>
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
+                </div>
+
+                {/* Card Footer */}
+                <div
+                  className={`mt-6 pt-4 border-t flex items-center justify-between text-xs ${
+                    isDark ? 'border-white/10 text-gray-400' : 'border-[#E7E3DF] text-gray-500'
+                  }`}
+                >
+                  <span className="text-[10px] uppercase tracking-widest font-mono">
+                    SATURANGLE OPERATIONS
+                  </span>
+                  <span className="text-xs font-semibold text-[#9F1239]">
+                    Inductions Open
+                  </span>
                 </div>
               </div>
-
-              {/* Card Footer */}
-              <div
-                className={`mt-8 pt-5 border-t flex items-center justify-between text-xs ${
-                  isDark ? 'border-white/10 text-gray-400' : 'border-[#E7E3DF] text-gray-500'
-                }`}
-              >
-                <span className="text-[10px] uppercase tracking-widest font-mono">
-                  SATURANGLE OPERATIONS
-                </span>
-                <span className="text-xs font-semibold text-[#9F1239]">
-                  Inductions Open
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
-// 8. GALLERY SECTION — INTENTIONAL POLISHED PLACEHOLDER FOR FUTURE EDITORIAL COLLAGE
-const GallerySection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
+// 8. GALLERY SECTION — OFFICIAL VISUAL ARCHIVES OF SATURANGLE DEBATES
+export interface GalleryPhoto {
+  id: number;
+  title: string;
+  category: string;
+  date: string;
+  src: string;
+  caption: string;
+  aspectClass: string;
+}
+
+const GALLERY_PHOTOS: GalleryPhoto[] = [
+  {
+    id: 1,
+    title: 'Opening Speeches',
+    category: 'Parliamentary Debate',
+    date: 'Flagship Plenary',
+    src: '/src/assets/images/gallery_opening_speeches_1792598042044.jpg',
+    caption: 'Student orator delivering the opening address from the rostrum during the parliamentary plenary session at the university auditorium.',
+    aspectClass: 'md:col-span-2 aspect-[16/10]',
+  },
+  {
+    id: 2,
+    title: 'Bench Deliberation',
+    category: 'Adjudication',
+    date: 'Championship Round',
+    src: '/src/assets/images/gallery_bench_deliberation_1792598043309.jpg',
+    caption: 'Panel of student adjudicators cross-examining argumentation rubrics, substantive matter, and speaker scoresheets.',
+    aspectClass: 'aspect-[4/3]',
+  },
+  {
+    id: 3,
+    title: 'Rebuttal Duels',
+    category: 'Sparring Clinics',
+    date: 'Weekly Circuit',
+    src: '/src/assets/images/gallery_rebuttal_duels_1792598044852.jpg',
+    caption: 'Spontaneous floor clash and high-energy point-of-information rebuttal during inter-faculty debate sparring.',
+    aspectClass: 'aspect-[4/3]',
+  },
+  {
+    id: 4,
+    title: 'Award Ceremonies',
+    category: 'Valedictory',
+    date: 'Annual Conclave',
+    src: '/src/assets/images/gallery_award_ceremonies_1792598043851.jpg',
+    caption: 'Winning delegation celebrated on stage with official trophies, gavels, and certificates of oratorical excellence.',
+    aspectClass: 'md:col-span-2 aspect-[16/10]',
+  },
+];
+
+const GallerySection: React.FC<{
+  isDark: boolean;
+  onSelectPhoto: (photo: GalleryPhoto) => void;
+}> = ({ isDark, onSelectPhoto }) => (
   <section
     id="gallery"
     className={`py-24 border-t transition-colors duration-500 relative z-20 ${
@@ -2997,11 +3358,11 @@ const GallerySection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
   >
     <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
       {/* Header */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-14">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
-          <Sparkles size={13} className="text-[#9F1239]" />
+          <Camera size={13} className="text-[#9F1239]" />
           <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
-            Visual Archives
+            Visual Archives &bull; 4 Flagship Captures
           </span>
         </div>
         <h2
@@ -3016,113 +3377,71 @@ const GallerySection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
             isDark ? 'text-gray-400' : 'text-[#686868]'
           }`}
         >
-          Memories, moments and milestones &mdash; coming soon.
+          Memories, moments and milestones &mdash; captures from the debating floor, adjudication benches, and championship stages.
         </p>
         <div className="w-16 h-1 bg-[#9F1239] mx-auto mt-6" />
       </div>
 
-      {/* Large Visually Attractive Placeholder Area */}
-      <div
-        className={`border-2 border-dashed rounded-xs p-10 sm:p-16 max-w-5xl mx-auto text-center transition-all ${
-          isDark
-            ? 'bg-[#1A1A1E]/80 border-white/15'
-            : 'bg-[#FAF9F6] border-[#E7E3DF]'
-        }`}
-      >
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#9F1239]/10 text-[#9F1239] flex items-center justify-center border border-[#9F1239]/30">
-          <Sparkles size={26} />
-        </div>
-        <h3
-          className={`text-xl sm:text-2xl font-bold font-display mb-2 ${
-            isDark ? 'text-white' : 'text-[#111111]'
-          }`}
-        >
-          Photo Archives in Curation
-        </h3>
-        <p
-          className={`text-xs sm:text-sm max-w-xl mx-auto leading-relaxed mb-8 ${
-            isDark ? 'text-gray-400' : 'text-[#686868]'
-          }`}
-        >
-          This section is reserved for an editorial collage featuring mixed-size captures, stage podium moments, weekly sparring rounds, and championship celebrations.
-        </p>
-
-        {/* Editorial collage silhouette outline */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-          {['Opening Speeches', 'Bench Deliberation', 'Rebuttal Duels', 'Award Ceremonies'].map((label, idx) => (
-            <div
-              key={idx}
-              className={`p-6 border rounded-xs flex flex-col items-center justify-center aspect-[4/3] ${
-                isDark ? 'bg-white/5 border-white/10' : 'bg-white border-[#E7E3DF]'
-              }`}
-            >
-              <span className="text-[10px] font-bold font-display uppercase tracking-wider text-gray-400 mb-1">
-                {label}
-              </span>
-              <span className="text-[9px] font-mono text-gray-500 uppercase">
-                Curating Capture
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-// 9. PEOPLE BEHIND THE PLATFORM — ACKNOWLEDGEMENT OF WEBSITE ARCHITECTS
-const PlatformTeamSection: React.FC<{ isDark: boolean }> = ({ isDark }) => (
-  <section
-    id="platform-team"
-    className={`py-20 border-t transition-colors duration-500 relative z-20 ${
-      isDark ? 'bg-[#101012] border-white/10 text-white' : 'bg-[#FAF9F6] border-[#E7E3DF] text-[#111111]'
-    }`}
-  >
-    {/* Secondary anchor for #people-behind-the-platform */}
-    <span id="people-behind-the-platform" className="sr-only" />
-
-    <div className="container mx-auto px-4 sm:px-6 md:px-10 max-w-7xl">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9F1239]/20 bg-[#9F1239]/5 mb-3">
-          <Sparkles size={13} className="text-[#9F1239]" />
-          <span className="text-[11px] font-bold tracking-widest text-[#9F1239] uppercase">
-            Digital Foundation
-          </span>
-        </div>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3 font-display">
-          People Behind the Platform
-        </h2>
-        <p className={`text-sm md:text-base max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
-          The people helping bring SATURANGLE’s digital presence to life.
-        </p>
-        <div className="w-12 h-0.5 bg-[#9F1239] mx-auto mt-4" />
-      </div>
-
-      {/* Two equal, text-based profile cards: Anushka Tripathi & Nakshatra Chaudhary */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-        {PLATFORM_TEAM.map((p, idx) => (
+      {/* Editorial Photo Collage Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+        {GALLERY_PHOTOS.map((photo) => (
           <div
-            key={idx}
-            className={`border rounded-xs p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:border-[#9F1239] ${
-              isDark ? 'bg-[#18181C] border-white/10' : 'bg-white border-[#E7E3DF]'
-            }`}
+            key={photo.id}
+            onClick={() => onSelectPhoto(photo)}
+            className={`group relative rounded-xs overflow-hidden border cursor-pointer transition-all duration-500 hover:shadow-2xl hover:border-[#9F1239] ${
+              isDark ? 'bg-[#1A1A1E] border-white/10' : 'bg-[#FAF9F6] border-[#E7E3DF]'
+            } ${photo.aspectClass}`}
           >
-            <div className="w-16 h-16 rounded-full border border-dashed border-[#9F1239]/40 bg-[#9F1239]/10 text-[#9F1239] flex items-center justify-center font-display font-bold text-base mb-3 shadow-inner">
-              {p.initials}
+            <img
+              src={photo.src}
+              alt={photo.title}
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+
+            {/* Gradient Overlay for Legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+
+            {/* Top Badges */}
+            <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
+              <span className="px-2.5 py-1 rounded-xs text-[10px] font-bold uppercase tracking-wider bg-[#9F1239] text-white shadow-sm">
+                {photo.category}
+              </span>
+              <span className="px-2 py-0.5 rounded-xs text-[10px] font-mono text-white/90 bg-black/50 backdrop-blur-xs border border-white/15">
+                {photo.date}
+              </span>
             </div>
-            <h3 className="text-lg font-bold font-display mb-1">{p.name}</h3>
-            <span className="text-[10px] text-gray-500 font-mono uppercase tracking-wider">
-              {p.role}
-            </span>
+
+            {/* Bottom Caption and Title */}
+            <div className="absolute bottom-4 left-4 right-4 z-10 text-white">
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="text-xl sm:text-2xl font-bold font-display group-hover:text-[#F43F5E] transition-colors">
+                  {photo.title}
+                </h3>
+                <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#9F1239] flex items-center justify-center transition-colors">
+                  <ExternalLink size={14} className="text-white" />
+                </div>
+              </div>
+              <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
+                {photo.caption}
+              </p>
+            </div>
           </div>
         ))}
       </div>
+
+      {/* Curation Footer Bar */}
+      <div className="mt-10 text-center flex flex-col sm:flex-row items-center justify-center gap-4 text-xs font-mono text-gray-500">
+        <div className="flex items-center gap-2">
+          <Sparkles size={14} className="text-[#9F1239]" />
+          <span>Click any photograph to view high-resolution capture and session details</span>
+        </div>
+      </div>
     </div>
   </section>
 );
 
-// 10. FOOTER / CONTACT SECTION (Matching 9 Navigation links, branding & credits)
+// 9. FOOTER / CONTACT SECTION (Matching Navigation links, branding & website credits)
 const Footer: React.FC<{ isDark: boolean }> = ({ isDark }) => (
   <footer
     id="footer"
@@ -3148,7 +3467,7 @@ const Footer: React.FC<{ isDark: boolean }> = ({ isDark }) => (
                 SATURANGLE
               </span>
               <span className="text-[9px] uppercase tracking-widest text-[#888888] block">
-                GLA University Official Debate Society &bull; Mathura
+                The Official Debate Club of GLA University, Mathura
               </span>
             </div>
           </div>
@@ -3156,6 +3475,21 @@ const Footer: React.FC<{ isDark: boolean }> = ({ isDark }) => (
           <p className={`text-xs leading-relaxed max-w-sm ${isDark ? 'text-gray-400' : 'text-[#686868]'}`}>
             Where opinions are challenged and perspectives are refined. Fostering structured parliamentary discourse, critical inquiry, and competitive debating excellence.
           </p>
+
+          {/* Website Credits */}
+          <div className="pt-3 mt-1 border-t border-gray-500/15 max-w-sm">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#9F1239] block mb-1.5">
+              Website Credits
+            </span>
+            <div className="space-y-1 text-xs">
+              <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                Main Website &amp; Frontend &mdash; <strong className={isDark ? 'text-white' : 'text-[#111111]'}>Anushka Tripathi</strong>
+              </p>
+              <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                Website Collaboration &mdash; <strong className={isDark ? 'text-white' : 'text-[#111111]'}>Nakshatra Chaudhary</strong>
+              </p>
+            </div>
+          </div>
 
           <div className="text-xs text-gray-500 space-y-1">
             <p><strong>Campus Address:</strong> GLA University, 17km Stone, NH-19, Mathura, UP 281406</p>
@@ -3507,10 +3841,12 @@ const EventModal: React.FC<{ event: EventItem | null; onClose: () => void; onOpe
 };
 
 // Council Member Detail Modal
-const CouncilModal: React.FC<{ member: CouncilMember | null; onClose: () => void }> = ({
-  member,
-  onClose,
-}) => {
+const CouncilModal: React.FC<{
+  member: CouncilMember | null;
+  photoUrl?: string;
+  onClose: () => void;
+  onEditPhoto?: () => void;
+}> = ({ member, photoUrl, onClose, onEditPhoto }) => {
   if (!member) return null;
 
   return (
@@ -3532,9 +3868,27 @@ const CouncilModal: React.FC<{ member: CouncilMember | null; onClose: () => void
         </div>
 
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 my-6 pt-2 pb-6 border-b border-[#E7E3DF]">
-          <div className="w-24 h-24 rounded-full border-2 border-dashed border-[#9F1239] bg-[#9F1239]/10 text-[#9F1239] flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
-            <span className="text-2xl font-bold font-display tracking-widest">{member.initials}</span>
-            <span className="text-[8px] font-mono uppercase text-gray-500 mt-1">Photo Slot</span>
+          <div
+            onClick={onEditPhoto}
+            className="w-24 h-24 rounded-full border-2 border-dashed border-[#9F1239] bg-[#9F1239]/10 text-[#9F1239] flex flex-col items-center justify-center flex-shrink-0 shadow-inner overflow-hidden relative cursor-pointer group"
+            title="Click to change photo"
+          >
+            {photoUrl ? (
+              <img
+                src={photoUrl}
+                alt={member.name}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <>
+                <span className="text-2xl font-bold font-display tracking-widest">{member.initials}</span>
+                <span className="text-[8px] font-mono uppercase text-gray-500 mt-1">Photo Slot</span>
+              </>
+            )}
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white text-[9px] font-bold uppercase">
+              Edit
+            </div>
           </div>
 
           <div className="text-center sm:text-left space-y-1">
@@ -3578,6 +3932,280 @@ const CouncilModal: React.FC<{ member: CouncilMember | null; onClose: () => void
   );
 };
 
+// Photo Lightbox Modal for Gallery Images
+const PhotoLightboxModal: React.FC<{
+  photo: GalleryPhoto | null;
+  onClose: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
+}> = ({ photo, onClose, onPrev, onNext }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft' && onPrev) onPrev();
+      if (e.key === 'ArrowRight' && onNext) onNext();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose, onPrev, onNext]);
+
+  if (!photo) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={onClose}
+    >
+      <div
+        className="relative max-w-5xl w-full bg-[#141416] border border-white/15 text-white rounded-xs shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#0E0E10]">
+          <div className="flex items-center gap-3">
+            <span className="px-2.5 py-0.5 rounded-xs text-[10px] font-bold uppercase tracking-wider bg-[#9F1239] text-white">
+              {photo.category}
+            </span>
+            <span className="text-xs font-mono text-gray-400">
+              {photo.date}
+            </span>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+            aria-label="Close photo viewer"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Image Display */}
+        <div className="relative flex-1 bg-black/60 flex items-center justify-center overflow-hidden min-h-[300px] max-h-[60vh]">
+          <img
+            src={photo.src}
+            alt={photo.title}
+            referrerPolicy="no-referrer"
+            className="max-h-[60vh] max-w-full object-contain select-none"
+          />
+
+          {onPrev && (
+            <button
+              onClick={onPrev}
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#9F1239] text-white border border-white/15 transition-all"
+              aria-label="Previous photo"
+            >
+              <ChevronLeft size={20} />
+            </button>
+          )}
+
+          {onNext && (
+            <button
+              onClick={onNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#9F1239] text-white border border-white/15 transition-all"
+              aria-label="Next photo"
+            >
+              <ChevronRight size={20} />
+            </button>
+          )}
+        </div>
+
+        {/* Caption & Metadata Footer */}
+        <div className="p-6 bg-[#18181C] border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <h3 className="text-xl font-bold font-display text-white">
+              {photo.title}
+            </h3>
+            <p className="text-xs text-gray-300 leading-relaxed">
+              {photo.caption}
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-mono text-gray-400">
+            <span>Official Saturangle Archives</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Photo Upload / Setting Modal for Council & Team Members
+const PhotoUploadModal: React.FC<{
+  isOpen: boolean;
+  memberName: string;
+  currentPhoto?: string;
+  onClose: () => void;
+  onSave: (photoUrl: string) => void;
+  onRemove: () => void;
+}> = ({ isOpen, memberName, currentPhoto, onClose, onSave, onRemove }) => {
+  const [photoInput, setPhotoInput] = useState('');
+  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setPhotoInput(currentPhoto || '');
+      setPreview(currentPhoto || null);
+    }
+  }, [isOpen, currentPhoto]);
+
+  if (!isOpen) return null;
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB. Please choose a smaller image.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        setPreview(result);
+        setPhotoInput(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSave = () => {
+    if (preview) {
+      onSave(preview);
+    }
+    onClose();
+  };
+
+  const handleClear = () => {
+    onRemove();
+    setPreview(null);
+    setPhotoInput('');
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white max-w-md w-full border border-[#E7E3DF] shadow-2xl p-6 relative">
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 text-gray-400 hover:text-black p-1 transition-colors"
+          aria-label="Close dialog"
+        >
+          <X size={20} />
+        </button>
+
+        <div className="flex items-center gap-2 mb-2">
+          <Camera size={14} className="text-[#9F1239]" />
+          <span className="text-[10px] font-bold tracking-widest text-[#9F1239] uppercase">
+            Member Portrait
+          </span>
+        </div>
+
+        <h3 className="text-xl font-bold font-display text-[#111111] mb-1">
+          {memberName}
+        </h3>
+        <p className="text-xs text-gray-500 mb-5">
+          Upload an official member portrait or supply an image link. Stored locally in your session.
+        </p>
+
+        {/* Preview circle */}
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-24 h-24 rounded-full border-2 border-dashed border-[#9F1239] overflow-hidden bg-gray-50 flex items-center justify-center shadow-inner relative group">
+            {preview ? (
+              <img
+                src={preview}
+                alt={memberName}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <span className="text-2xl font-bold font-display text-gray-400">
+                {memberName.split(' ').map((n) => n[0]).join('')}
+              </span>
+            )}
+          </div>
+          {preview && (
+            <span className="text-[10px] font-mono text-emerald-600 mt-2 font-semibold">
+              Ready to Apply
+            </span>
+          )}
+        </div>
+
+        {/* Input Methods */}
+        <div className="space-y-4 mb-6">
+          <div>
+            <label className="block text-xs font-semibold text-gray-700 mb-1">
+              Option 1: Upload from Device
+            </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileUpload}
+              className="text-xs text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xs file:border-0 file:text-xs file:font-semibold file:bg-[#9F1239]/10 file:text-[#9F1239] hover:file:bg-[#9F1239]/20 cursor-pointer w-full"
+            />
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200" />
+            </div>
+            <div className="relative flex justify-center text-[10px] uppercase">
+              <span className="bg-white px-2 text-gray-400 font-mono">or</span>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-gray-700 mb-1">
+              Option 2: Image URL
+            </label>
+            <input
+              type="url"
+              placeholder="https://example.com/portrait.jpg"
+              value={photoInput.startsWith('data:') ? '' : photoInput}
+              onChange={(e) => {
+                setPhotoInput(e.target.value);
+                setPreview(e.target.value.trim() ? e.target.value.trim() : null);
+              }}
+              className="w-full px-3 py-2 border border-[#E7E3DF] text-xs focus:outline-none focus:border-[#9F1239]"
+            />
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between pt-4 border-t border-[#E7E3DF]">
+          {currentPhoto ? (
+            <button
+              onClick={handleClear}
+              className="text-xs text-rose-600 hover:text-rose-800 font-medium"
+            >
+              Reset to Initials
+            </button>
+          ) : <div />}
+
+          <div className="flex gap-2">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 text-xs text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={!preview}
+              className={`px-5 py-2 text-xs font-bold tracking-wider transition-colors ${
+                preview
+                  ? 'bg-[#9F1239] text-white hover:bg-[#800E2E]'
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              Apply Photo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- MAIN APPLICATION EXPORT ---
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -3589,6 +4217,48 @@ export default function App() {
   const [isJoinOpen, setIsJoinOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [selectedCouncilMember, setSelectedCouncilMember] = useState<CouncilMember | null>(null);
+
+  // Custom User Photos for Club Members & Mentors with local persistence
+  const [userPhotos, setUserPhotos] = useState<Record<string, string>>(() => {
+    try {
+      const saved = localStorage.getItem('saturangle_member_photos');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const handleSavePhoto = (memberName: string, photoUrl: string) => {
+    setUserPhotos((prev) => {
+      const next = { ...prev, [memberName]: photoUrl };
+      try {
+        localStorage.setItem('saturangle_member_photos', JSON.stringify(next));
+      } catch (e) {
+        console.error('Failed to save photo to localStorage', e);
+      }
+      return next;
+    });
+  };
+
+  const handleRemovePhoto = (memberName: string) => {
+    setUserPhotos((prev) => {
+      const next = { ...prev };
+      delete next[memberName];
+      try {
+        localStorage.setItem('saturangle_member_photos', JSON.stringify(next));
+      } catch (e) {
+        console.error('Failed to remove photo from localStorage', e);
+      }
+      return next;
+    });
+  };
+
+  const [activePhotoModal, setActivePhotoModal] = useState<{
+    isOpen: boolean;
+    memberName: string;
+  }>({ isOpen: false, memberName: '' });
+
+  const [selectedGalleryPhoto, setSelectedGalleryPhoto] = useState<GalleryPhoto | null>(null);
 
   const toggleTheme = () => {
     setIsDarkMode((prev) => {
@@ -3619,25 +4289,35 @@ export default function App() {
         <AchievementsSection isDark={isDarkMode} />
 
         {/* 5. Our Team — Faculty Mentor */}
-        <TeamSection isDark={isDarkMode} />
-
-        {/* 6. Core Council (18 positions single smooth carousel with drag & arrow navigation) */}
-        <CoreCouncilSection
+        <TeamSection
           isDark={isDarkMode}
-          onSelectMember={(member) => setSelectedCouncilMember(member)}
+          photoUrl={userPhotos[MENTOR_INFO.name]}
+          onEditPhoto={(name) => setActivePhotoModal({ isOpen: true, memberName: name })}
         />
 
-        {/* 7. Our Teams (5 Operational Wings: Content & Creative, Event Management, PR, Technical, Research & Debating) */}
-        <OurTeamsSection isDark={isDarkMode} />
+        {/* 6. Core Council (7 executive leadership portfolios) */}
+        <CoreCouncilSection
+          isDark={isDarkMode}
+          userPhotos={userPhotos}
+          onSelectMember={(member) => setSelectedCouncilMember(member)}
+          onEditPhoto={(name) => setActivePhotoModal({ isOpen: true, memberName: name })}
+        />
 
-        {/* 8. Gallery (Visual Archives Placeholder) */}
-        <GallerySection isDark={isDarkMode} />
+        {/* 7. Our Teams (6 Operational Wings: Alumni Team featured + 5 Departmental Teams) */}
+        <OurTeamsSection
+          isDark={isDarkMode}
+          userPhotos={userPhotos}
+          onEditPhoto={(name) => setActivePhotoModal({ isOpen: true, memberName: name })}
+        />
 
-        {/* 9. People Behind the Platform (Anushka Tripathi & Nakshatra Chaudhary) */}
-        <PlatformTeamSection isDark={isDarkMode} />
+        {/* 8. Gallery (Visual Archives with authentic debate photography) */}
+        <GallerySection
+          isDark={isDarkMode}
+          onSelectPhoto={(photo) => setSelectedGalleryPhoto(photo)}
+        />
       </main>
 
-      {/* 10. Footer / Contact */}
+      {/* 9. Footer / Contact (with Website Credits) */}
       <Footer isDark={isDarkMode} />
 
       {/* Interactive Overlays */}
@@ -3649,7 +4329,41 @@ export default function App() {
       />
       <CouncilModal
         member={selectedCouncilMember}
+        photoUrl={selectedCouncilMember ? userPhotos[selectedCouncilMember.name] : undefined}
         onClose={() => setSelectedCouncilMember(null)}
+        onEditPhoto={() => {
+          if (selectedCouncilMember) {
+            setActivePhotoModal({ isOpen: true, memberName: selectedCouncilMember.name });
+          }
+        }}
+      />
+
+      {/* Photo Lightbox for Gallery */}
+      <PhotoLightboxModal
+        photo={selectedGalleryPhoto}
+        onClose={() => setSelectedGalleryPhoto(null)}
+        onPrev={() => {
+          if (!selectedGalleryPhoto) return;
+          const idx = GALLERY_PHOTOS.findIndex((p) => p.id === selectedGalleryPhoto.id);
+          const prevIdx = (idx - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length;
+          setSelectedGalleryPhoto(GALLERY_PHOTOS[prevIdx]);
+        }}
+        onNext={() => {
+          if (!selectedGalleryPhoto) return;
+          const idx = GALLERY_PHOTOS.findIndex((p) => p.id === selectedGalleryPhoto.id);
+          const nextIdx = (idx + 1) % GALLERY_PHOTOS.length;
+          setSelectedGalleryPhoto(GALLERY_PHOTOS[nextIdx]);
+        }}
+      />
+
+      {/* Photo Upload & Change Modal for Team & Council Members */}
+      <PhotoUploadModal
+        isOpen={activePhotoModal.isOpen}
+        memberName={activePhotoModal.memberName}
+        currentPhoto={userPhotos[activePhotoModal.memberName]}
+        onClose={() => setActivePhotoModal({ isOpen: false, memberName: '' })}
+        onSave={(url) => handleSavePhoto(activePhotoModal.memberName, url)}
+        onRemove={() => handleRemovePhoto(activePhotoModal.memberName)}
       />
     </div>
   );
